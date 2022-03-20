@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale-1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/74e2dc450b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>TEAM BCD - Male faction</title>
+</head>
+
+<body>
+    <!-----------------------------------Header------------------------------------------------------------>
+    <header>
+        <!-------------------Headertop------------------------------------------------>
+        <div class="headertop">
+            <div>
+                <h1>TEAM BCD</h1>
+            </div>
+            <div class="toolsupport">
+                <li><a href="">SIGN IN</a></li>
+                <li><a href="">FAQS</a></li>
+                <div class="unitmoney"><a class="unitmoney" href="">USD</a>
+                    <span class="selectunitmoney">&#8964;</span>
+                    <ul class="selectunit">
+                        <li><a href="">USD</a></li>
+                        <li><a href="">EUR</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-------------------Headerbottom--------------------------------------------->
+        <div class="headerbottom">
+            <div class="logo">
+                <a href=""><img src="images/logo.png"></a>
+            </div>
+            <div class="menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="">Pages</a>
+                    <ul class="dropdown">
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">Shop Details</a></li>
+                        <li><a href="">Shopping Cart</a></li>
+                        <li><a href="">Check out</a></li>
+                        <li><a href="">Blog Details</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Blog</a></li>
+                <li><a href="">Contacts</a></li>
+            </div>
+            <!-------------------Orther------------------------------------------------>
+            <div class="orther">
+                <li>
+                    <a href="#"><img src="images/icon/search.png"></a>
+                </li>
+                <li>
+                    <a href="#"><img src="images/icon/heart.png"></a>
+                </li>
+                <li class="quantity">
+                    <p class="quantity__product">0</p><img src="images/icon/cart.png">
+                </li>
+                <div class="price">$0.00</div>
+            </div>
+        </div>
+    </header>
+    <!-------------------------Poster----------------------------------------------------------------------->
+    <section id="Slider">
+        <div class="aspect-ratio-169">
+            <img src="images/hero/hero-1.jpg">
+            <img src="images/hero/hero-2.jpg">
+            <div class="hero-text">
+                <h6>SUMMER COLLECTION</h6>
+                <h2>Fall - Winter Collections 2030</h2>
+                <p>A specialist label creating luxury essentials. Ethically crafted with an un wavering commitment to exceptional quality.</p>
+                <a class="Slider__button" href="">SHOP NOW<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                <div class="Slider__toolkit">
+                    <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                    <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="dot-container">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+        </div>
+    </section>
+
+    <!-------------------------Footer----------------------------------------------------------------------->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__row">
+                <div class="footer__about">
+                    <div class="footer__logo">
+                        <a href=""><img src="images/footer-logo.png" alt=""></a>
+                    </div>
+                    <p>The customer is at the heart of our unique business model, which includes design.</p>
+                    <div class="footer__payment">
+                        <a href=""><img src="images/payment.png" </a>
+                    </div>
+                </div>
+                <div class="footer__widget">
+                    <b>SHOPPING</b>
+                    <ul>
+                        <li><a href="">Clothing Store</a></li>
+                        <li><a href="">Trending Shoes</a></li>
+                        <li><a href="">Accessories</a></li>
+                        <li><a href="">Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer__widget">
+                    <b>SHOPPING</b>
+                    <ul>
+                        <li><a href="">Contact Us</a></li>
+                        <li><a href="">Payment Methods</a></li>
+                        <li><a href="">Delivary</a></li>
+                        <li><a href="">Return & Exchanges</a></li>
+                    </ul>
+                </div>
+                <div class="footer__widget">
+                    <b>NEWLETTER</b>
+                    <p>Be the first to know about new arrivals. look books, sales & promos!</p>
+                    <form action="">
+                        <input type="email" placeholder="Your email">
+                        <button type="submit"><i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer__copyright">
+                <p>Copyright © 20222020 All rights reserved | This template is made with
+                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/"> Colorlib</a></p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    const imgPosition = document.querySelectorAll(".aspect-ratio-169 img")
+    const imgContainer = document.querySelector(".aspect-ratio-169")
+    const dotItem = document.querySelectorAll(".dot")
+    const textHero = document.querySelector(".hero-text")
+    let imgNumber = imgPosition.length
+    let index = 0;
+
+    imgPosition.forEach(function(image, index) {
+        /*console.log(image, index)*/
+        image.style.left = index * 100 + "%";
+        dotItem[index].addEventListener("click", function() {
+            slider(index);
+        })
+    })
+
+    function imgSlide() {
+        index++;
+        if (index >= imgNumber) {
+            index = 0;
+        }
+        slider(index);
+    }
+
+    function slider(index) {
+        imgContainer.style.left = "-" + index * 100 + "%";
+        textHero.style.left = "+" + index * 100 + "%";
+        const dotActive = document.querySelector(".active");
+        dotActive.classList.remove("active");
+        dotItem[index].classList.add("active");
+    }
+
+    setInterval(imgSlide, 5000)
+</script>
+
+</html>
