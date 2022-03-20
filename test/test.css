@@ -1,0 +1,49 @@
+div {
+    width: 100px;
+    height: 30px;
+}
+
+input {
+    position: absolute;
+    visibility: hidden;
+}
+
+label {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-bottom: 0;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    z-index: 999;
+}
+
+label.blu {
+    background-color: blue;
+}
+
+label.black {
+    background-color: black;
+}
+
+label.gray {
+    background-color: gray;
+}
+
+label::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    border: 1px solid black;
+    opacity: 0;
+}
+
+label.active::after {
+    opacity: 1;
+}
