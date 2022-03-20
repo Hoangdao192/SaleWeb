@@ -416,20 +416,32 @@ li:hover .dropdown {
 /*---------------------------- ---------------------------------------*/
 
 
+/*--Chia thành 2 dãy: 1 dãy cho slilebar + 1 dãy show sản phẩm
+-------updercategory-------
+-left-------------right----------
+||||||---------upder-right-------
+||||||---------right-content-item
+||||||---------------------------
+
+right-content-item = toolhover + item_text
+
+*/
+
+
 /*
 .container {
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
+width: 100%;
+padding-right: 15px;
+padding-left: 15px;
+margin-right: auto;
+margin-left: auto;
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+display: flex;
+flex-wrap: wrap;
+margin-right: -15px;
+margin-left: -15px;
 }
 */
 
@@ -467,17 +479,17 @@ li:hover .dropdown {
 
 /*
 .category {
-    padding: 100px 0 0;
+padding: 100px 0 0;
 }
 
 .category__left {
-    width: 20%;
-    margin: 10px;
+width: 20%;
+margin: 10px;
 }
 
 .category__right {
-    width: 80%;
-    margin: 10px;
+width: 80%;
+margin: 10px;
 }
 
 .category__right__up {}
@@ -501,7 +513,6 @@ li:hover .dropdown {
 .category__right__up {
     display: flex;
     flex-wrap: wrap;
-    border: 2px solid black;
     padding: 0 30px;
     justify-content: space-between;
 }
@@ -512,12 +523,149 @@ li:hover .dropdown {
     justify-content: space-around;
 }
 
-.category__right__up p {}
+.category__right__up p {
+    font-size: 1vw;
+}
+
+.category__right__up__select_current {
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.category__right__up__select_current::after {
+    content: "\A0\2228";
+}
 
 .category__right__up__select {
     display: none;
 }
 
+.category__right__content {
+    margin-top: 30px;
+}
+
+.category__right__content_item {
+    position: relative;
+    width: calc(25% - 10px);
+    overflow: hidden;
+}
+
+.category__right__content_item img {
+    width: 100%;
+}
+
+.category__right__content_item h6,
+.category__right__content_item h6 span {
+    font-size: 1vw;
+}
+
+.category__right__content_item p {
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+.category__right__content_item__toolhover {
+    position: absolute;
+    width: 17%;
+    height: 40%;
+    top: 5%;
+    right: -50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.category__right__content_item:hover .category__right__content_item__toolhover {
+    right: 5%;
+    transition: all, 0.8s;
+}
+
+.category__right__content_item__toolhover li {
+    cursor: pointer;
+    background: #fff;
+    padding: 10px 7px 7px;
+    margin: 10%;
+}
+
 .category__right__content_item span::after {
     content: "\2729\2729\2729\2729\2729";
+}
+
+.category__right__content_item_text {
+    position: relative;
+}
+
+.category__right__content_item_text a {
+    position: absolute;
+    font-size: 1vw;
+    font-weight: bold;
+    color: transparent;
+    background-color: transparent;
+    width: 100%;
+    top: -10%;
+    cursor: pointer;
+}
+
+.category__right__content_item:hover .category__right__content_item_text a {
+    top: 0;
+    color: #E53637;
+    background-color: white;
+    transition: all, 0.3s;
+}
+
+.category__right__content_item_text>div {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.category__right__content_item:hover .category__right__content_item_text>div {
+    visibility: visible;
+    transition: all, 0.8s;
+}
+
+.category__right__content_item_text>div label {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-bottom: 0;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.category__right__content_item_text>div label::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    border: 1px solid black;
+    opacity: 0;
+}
+
+.category__right__content_item_text>div label.active::after {
+    opacity: 1;
+}
+
+.category__right__content_item_text>div .label__blue {
+    background-color: blue;
+}
+
+.category__right__content_item_text>div .label__black {
+    background-color: black;
+}
+
+.category__right__content_item_text>div .label__gray {
+    background-color: gray;
+}
+
+.category__right__content_item_text>div label>input {
+    position: absolute;
+    visibility: hidden;
 }
