@@ -512,8 +512,6 @@ li:hover .dropdown {
     justify-content: space-around;
 }
 
-.category__right__up p {}
-
 .category__right__up__select {
     display: none;
 }
