@@ -84,40 +84,55 @@
         <div class="category__left">
             <form action="">
                 <input type="search" placeholder="Search...">
-                <button><span></span></button>
+                <button><i class="fa fa-search fa-flip-horizontal" aria-hidden="true"></i></button>
             </form>
-            <a href="">CATEGORIES</a>
-            <div class="category__left__content">
-                <li><a href="">Bag(20)</a></li>
-                <li><a href="">Clothing(20)</a></li>
-                <li><a href="">Shoes(20)</a></li>
-                <li><a href="">Accessories(20)</a></li>
-                <li><a href="">Kids(20)</a></li>
+            <div class="category__left__head">
+                <a href="#">CATEGORIES</a>
             </div>
-            <a href="">SIZE</a>
             <div class="category__left__content">
-                <label for="">XS</label>
-                <label for="">S</label>
-                <label for="">M</label>
-                <label for="">XL</label>
-                <label for="">2XL</label>
-                <label for="">XXl</label>
-                <label for="">3XL</label>
-                <label for="">4XL</label>
+                <ul>
+                    <li><a href="">Bag(20)</a></li>
+                    <li><a href="">Clothing(20)</a></li>
+                    <li><a href="">Shoes(20)</a></li>
+                    <li><a href="">Accessories(20)</a></li>
+                    <li><a href="">Kids(20)</a></li>
+                </ul>
+            </div>
+            <div class="category__left__head">
+                <a href="#">SIZE</a>
+            </div>
+            <div class="category__left__content">
+                <div class="category__left__content__size">
+                    <ul>
+                        <label for="">XS</label>
+                        <label for="">S</label>
+                        <label for="">M</label>
+                        <label for="">XL</label>
+                        <label for="">2XL</label>
+                        <label for="">XXl</label>
+                        <label for="">3XL</label>
+                        <label for="">4XL</label>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <div class="categoty__right">
             <div class="category__right__up">
                 <p>Showing 1-12 of 126 results</p>
-                <p>Sort by Price: <span class="category__right__up__select_current">Low To Hight</span></p>
                 <div class="category__right__up__select">
-                    <span></span>
-                    <ul>
+                    <p>Sort by Price: </p>
+                    <!-- <span class="category__right__up__select_current">Low To Hight</span></p> -->
+                    <select>
+                        <option>Low To Hight</option>
+                        <option>$0 - $55</option>
+                        <option>$55 - $100</option>
+                    </select>
+                    <!-- <ul>
                         <li>Low To Hight</li>
                         <li>$0 - $55</li>
                         <li>$55 - $100</li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <div class="category__right__content">

@@ -351,7 +351,7 @@ li:hover .dropdown {
 
 .footer__widget {
     max-width: 24%;
-    min-width: 350px;
+    min-width: 320px;
     margin-bottom: 30px;
     margin-left: 10px;
     margin-right: -40px;
@@ -445,6 +445,9 @@ margin-left: -15px;
 }
 */
 
+
+/*----------------------------------------upder__category__left---------------------------*/
+
 .upder-category {
     font: var(--main-text-font);
     background: #f3f2ee;
@@ -495,59 +498,177 @@ margin: 10px;
 .category__right__up {}
 */
 
+
+/*----------------------------------------category--------------------------*/
+
 .category {
+    position: relative;
     width: 100%;
     padding: 100px;
 }
 
+
+/*----------------------------------------category__left---------------------------*/
+
 .category__left {
+    position: relative;
+    width: calc(20%);
     float: left;
-    width: 20%;
     overflow: hidden;
+    padding: 0 12px 0 0;
 }
 
-.category__right {
-    width: 80%;
+.category__left form {
+    position: relative;
 }
+
+.category__left form input {
+    width: 100%;
+    padding: 3% 7%;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+}
+
+.category__left form button {
+    position: absolute;
+    width: 15%;
+    height: 50%;
+    right: 3%;
+    top: 5%;
+    padding: -10%;
+    border: none;
+    background: white;
+    cursor: pointer;
+    /* border: 1px solid; */
+}
+
+.category__left__head {
+    display: relative;
+    width: 100%;
+    /* border: 2px solid red; */
+}
+
+.category__left__head::after {
+    position: absolute;
+    right: 10%;
+    content: "";
+    width: 5px;
+    height: 5px;
+    border: 3px solid;
+    border-color: transparent black black transparent;
+    border-radius: 25%;
+    transform: rotate(45deg) translateY(25%);
+}
+
+.category__left .category__left__head>a {
+    position: relative;
+    font-size: 1vw;
+    font-weight: bolder;
+    color: #111;
+    width: 100%;
+    /* border: 1px solid black; */
+}
+
+.category__left form button i {
+    color: #B7B7B7;
+}
+
+.category__left__content {
+    display: none;
+    margin: 20px 0px 15px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #B7B7B7;
+}
+
+.category__left__content li {
+    margin: 10px 0;
+}
+
+.category__left__content li a:hover {
+    color: #111;
+}
+
+.category__left__content li a {
+    color: #b7b7b7;
+    font-size: 0.9vw;
+}
+
+.category__left__content__size .select__size {
+    background: black;
+    color: white;
+}
+
+.category__left__content__size label {
+    border: 1px solid #b7b7b7;
+    font-size: 0.9vw;
+    font-weight: bold;
+    color: #111;
+    padding: 6px 25px;
+    margin: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.category__left .action {
+    transition: 0.8s;
+    display: block;
+}
+
+
+/*----------------------------------------category__right---------------------------*/
+
+.category__right {
+    width: calc(80%-12px);
+    float: right;
+}
+
+
+/*----------------------------------------category__right__up-------------------*/
 
 .category__right__up {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 30px;
-    justify-content: space-between;
+    padding: 0 0 0 00px;
+    /* border: 1px solid black; */
 }
+
+.category__right__up>p {
+    font-size: 1vw;
+    flex: 3;
+}
+
+.category__right__up div {
+    display: flex;
+}
+
+.category__right__up div p {
+    font-size: 1vw;
+}
+
+.category__right__up div select {
+    font-size: 1vw;
+    border: none;
+    top: -30%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/*----------------------------------------category__right__content-------------------*/
 
 .category__right__content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.category__right__up p {
-    font-size: 1vw;
-}
-
-.category__right__up__select_current {
-    font-weight: bolder;
-    cursor: pointer;
-}
-
-.category__right__up__select_current::after {
-    content: "\A0\2228";
-}
-
-.category__right__up__select {
-    display: none;
-}
-
-.category__right__content {
     margin-top: 30px;
+    justify-content: space-around;
 }
 
 .category__right__content_item {
     position: relative;
     width: calc(25% - 10px);
     overflow: hidden;
+    padding: 0 0 30px 0;
+    transition: all, 0.8s;
 }
 
 .category__right__content_item img {
