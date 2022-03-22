@@ -46,6 +46,13 @@ a {
     font-weight: 600;
 }
 
+.menu a:hover {
+    text-decoration: underline;
+    text-decoration-color: #E53637;
+    text-underline-offset: 7px;
+    text-decoration-thickness: 3px;
+}
+
 .menu > li {
     padding: 0 30px;
 }
@@ -109,10 +116,6 @@ a {
 
 .content-left {
     flex: 1;
-}
-
-.content-right {
-    flex: 3
 }
 
 /*---------------------content-left--------------------*/
@@ -190,12 +193,122 @@ a {
 
 /*---------------------content-right--------------------*/
 .content-right {
+    flex: 3;
+}
+
+/*head*/
+.content-right-head {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.content-right-head p {
+    display: inline;
+}
+
+.content-right-head select {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/*content(body)*/
+.content-right-content {
     display: flex;
     justify-content: space-between;
 }
 
+.product-item {
+    width: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-color {
+    margin-top: 20px;
+}
+
+.product-color-item {
+    content: "";
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    background-color: #0d0d0d;
+    margin-right: 5px;
+}
+
+.product-name {
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    margin-top:15px;
+    width: 100%;
+    color: #AF3989;
+    cursor: pointer;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    color: #3E3E3F;
+    margin-top: 15px;
+    align-self: flex-end;
+}
+
+.product-price span {
+    font-weight: bold;
+    font-size: 17px;
+}
+
 .product-item img {
-    width: 300px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.product-item > button {
+    background-color: #221F20;
+    outline: none;
+    border: none;
+    color: white;
+    margin-top: 10px;
+    width: 12%;
+    padding: 6px 0;
+    padding-bottom: 8px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid #221F20;
+    cursor: pointer;
+}
+
+.product-item > button:hover {
+    background-color: transparent;
+    color: #221F20;
+    border: 1px solid #221F20;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/*bottom*/
+.content-right-bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.content-right-bottom span {
+    margin: 0 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.content-right-bottom span:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
 }
 
 /*---------------------------- footer---------------------------------*/
