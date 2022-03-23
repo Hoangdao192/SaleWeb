@@ -1,5 +1,5 @@
 <?php
-    include_once "database_config.php";
+    include_once "DatabaseConfig.php";
 
     class Database {
         public $host = DB_HOST;

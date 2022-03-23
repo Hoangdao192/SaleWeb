@@ -1,5 +1,5 @@
 <?php
-include_once "php/product_class.php";
+include_once "admin/Product.php";
 
 $product = new product;
 $product_show = $product->show_product();
@@ -144,8 +144,8 @@ $product_show = $product->show_product();
                 </div>
             </div>
             <div class="footer__copyright">
-                <p>Copyright © 20222020 All rights reserved | This template is made with
-                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/"> Colorlib</a>
+                <p>Copyright © 2022 All rights reserved | This website is made with
+                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/">Team BCD</a>
                 </p>
             </div>
         </div>
