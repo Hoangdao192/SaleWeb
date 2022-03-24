@@ -55,8 +55,8 @@
                         <option value=""></option>
                     </select>
                     <br>
-                    <input required name="<? echo $columnProductTypeNameTitle?>" type="text" placeholder="Nhập tên loại sản phẩm" value="<?php echo $productTypeResult[$columnProductTypeNameTitle]?>">
-                    <button type="submit" class="submitbtn">Sửa</button>
+                    <input class="input-template" required name="<? echo $columnProductTypeNameTitle?>" type="text" placeholder="Nhập tên loại sản phẩm" value="<?php echo $productTypeResult[$columnProductTypeNameTitle]?>">
+                    <button type="button-template submit" class="submitbtn">Sửa</button>
                 </form>
             </div>
         </div>

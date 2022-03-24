@@ -28,8 +28,8 @@
             <div class="admin-content-right-cartegory-add">
                 <h1>Sửa danh mục</h1>
                 <form action="" method="POST" class="submit_form">
-                    <input required name="<?php echo $category->COLUMN_CATEGORY_NAME?>" type="text" placeholder="Nhập tên danh mục" value="<?php echo $categoryResult[$category->COLUMN_CATEGORY_NAME]?>">
-                    <button class="submitbtn" type="submit">Sửa</button>
+                    <input class="input-template" required name="<?php echo $category->COLUMN_CATEGORY_NAME?>" type="text" placeholder="Nhập tên danh mục" value="<?php echo $categoryResult[$category->COLUMN_CATEGORY_NAME]?>">
+                    <button class="button-template submitbtn" type="submit">Sửa</button>
                 </form>
             </div>
         </div>

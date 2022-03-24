@@ -41,11 +41,11 @@
                         }
                         ?>
                     </select><br>
-                    <input required name="ten_sanpham" type="text" placeholder="Nhập tên sản phẩm"><br>
-                    <input required name="giatien" type="number" placeholder="Nhập giá tiền"><br>
-                    <input required name="mau" type="text" placeholder="Nhập tên màu"><br>
-                    <input required name="hinhanh" type="text" placeholder="Nhập đường dẫn hình ảnh">
-                    <button class="submitbtn" type="submit">Thêm</button>
+                    <input class="input-template" required name="ten_sanpham" type="text" placeholder="Nhập tên sản phẩm"><br>
+                    <input class="input-template" required name="giatien" type="number" placeholder="Nhập giá tiền"><br>
+                    <input class="input-template" required name="mau" type="text" placeholder="Nhập tên màu"><br>
+                    <input class="input-template" required name="hinhanh" type="text" placeholder="Nhập đường dẫn hình ảnh">
+                    <button class="button-template submitbtn" type="submit">Thêm</button>
                 </form>
             </div>
         </div>
