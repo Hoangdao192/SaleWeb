@@ -25,10 +25,10 @@
 
 <div class="admin-content-right">
             <div class="admin-content-right-cartegory-add">
-                <h1>Thêm sản phẩm</h1>
+                <h1 class="content-title">Thêm sản phẩm</h1>
                 <form action="" method="POST" class="submit_form">
                     <select required name="id_loaisanpham" id="loaisp">
-                        <option value="#">Chọn danh mục</option>
+                        <option value="#">Chọn loại sản phẩm</option>
                         <?php
                         $productType = new ProductType;
                         $showProductType = $productType->show_product_type();

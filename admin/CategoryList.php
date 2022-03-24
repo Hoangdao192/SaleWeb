@@ -6,7 +6,7 @@ include_once "Category.php";
 
 <div class="admin-content-right">
     <div class="admin-content-right-cartegory-list">
-        <h1>Danh sách danh mục</h1>
+        <h1 class="content-title">Danh sách danh mục</h1>
         <table class="content-table">
             <thead class="table-head">
                 <tr>

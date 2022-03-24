@@ -22,7 +22,7 @@
 
 <div class="admin-content-right">
             <div class="admin-content-right-cartegory-add">
-                <h1>Thêm loại sản phẩm</h1>
+                <h1 class="content-title">Thêm loại sản phẩm</h1>
                 <form action="" method="POST" class="submit_form">
                     <select name="<?php echo $columnIdTitle?>" id="danhmuc">
                         <option value="#">Chọn danh mục</option>
