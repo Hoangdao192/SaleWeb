@@ -5,8 +5,10 @@ include_once "ProductType.php";
 ?>
 
 <?php
-$productType = new ProductType;
-$showProductType = $productType->show_product_type();
+    $productType = new ProductType;
+    $columnProductTypeIdTitle = $productType->COLUMN_PRODUCT_TYPE_ID;
+    $columnCategoryIdTitle = $productType->COLUMN_CATEGORY_ID;
+    $columnProductTypeNameTitle = $productType->COLUMN_PRODUCT_TYPE_NAME;
 ?>
 
 <div class="admin-content-right">
@@ -21,6 +23,7 @@ $showProductType = $productType->show_product_type();
                 <th>Tùy chọn</th>
             </tr>
             <?php
+            $showProductType = $productType->show_product_type();
             if ($showProductType) {
                 $i = 0;
                 while ($result = $showProductType->fetch_assoc()) {
@@ -28,10 +31,12 @@ $showProductType = $productType->show_product_type();
                 ?>
                     <tr>
                         <td><?php echo $i ?></td>
-                        <td><?php echo $result['id_loaisanpham']?></td>
-                        <td><?php echo $result['id_danhmuc']?></td>
-                        <td><?php echo $result['ten_loaisanpham']?></td>
-                        <td><a href="ProductTypeEdit.php?id_loaisanpham=<?php echo $result['id_loaisanpham']?>">Sửa</a>|<a href="ProductTypeDelete.php?id_loaisanpham=<?php echo $result['id_loaisanpham']?>">Xóa</a></td>
+                        <td><?php echo $result[$columnProductTypeIdTitle]?></td>
+                        <td><?php echo $result[$columnCategoryIdTitle]?></td>
+                        <td><?php echo $result[$columnProductTypeNameTitle]?></td>
+                        <td><a href="ProductTypeEdit.php?<?php echo $columnProductTypeIdTitle?>=<?php echo $result[$columnProductTypeIdTitle]?>">Sửa</a>
+                            |<a href="ProductTypeDelete.php?<?php echo $columnProductTypeIdTitle?>=<?php echo $result[$columnProductTypeIdTitle]?>">Xóa</a>
+                        </td>
                     </tr>
                 <?php
                 }

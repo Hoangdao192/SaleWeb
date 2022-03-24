@@ -8,11 +8,19 @@
 <?php 
     //  Lấy id loại sản phẩm được truyền đến
     $productType = new ProductType;
-    if (!isset($_GET['id_loaisanpham']) || $_GET['id_loaisanpham'] == NULL) {
+    $columnProductTypeIdTitle = $productType->COLUMN_PRODUCT_TYPE_ID;
+    $columnProductTypeNameTitle = $productType->COLUMN_PRODUCT_TYPE_NAME;
+
+    $category = new category;
+    $columnCategoryIdTitle = $category->COLUMN_CATEGORY_ID;
+    $columnCategoryNameTitle = $category->COLUMN_CATEGORY_NAME;
+    $showCategory = $category->show_category();
+
+    if (!isset($_GET[$columnProductTypeIdTitle]) || $_GET[$columnProductTypeIdTitle] == NULL) {
         echo "Không nhận được id loại sản phẩm";
         return;
     } else {
-        $productTypeId = $_GET['id_loaisanpham'];
+        $productTypeId = $_GET[$columnProductTypeIdTitle];
     }
     $getProductType = $productType->get_product_type($productTypeId);
     if ($getProductType) {
@@ -22,8 +30,8 @@
 
 <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $id_danhmuc = $_POST['id_danhmuc'];
-        $ten_loaisanpham = $_POST['ten_loaisanpham'];
+        $id_danhmuc = $_POST[$columnCategoryIdTitle];
+        $ten_loaisanpham = $_POST[$columnProductTypeNameTitle];
         $insertProductType = $productType->update_product_type($productTypeId, $id_danhmuc, $ten_loaisanpham);
         header('Location:ProductTypeList.php');
     }
@@ -33,15 +41,13 @@
             <div class="admin-content-right-cartegory-add">
                 <h1>Sửa loại sản phẩm</h1>
                 <form action="" method="POST" class="submit_form">
-                    <select name="id_danhmuc" id="danhmuc">
+                    <select name="<?php echo $columnCategoryIdTitle?>" id="danhmuc">
                         <option value="#">Chọn danh mục</option>
                         <?php
-                            $category = new category;
-                            $showCategory = $category->show_category();
                             if ($showCategory) {
                                 while ($result = $showCategory->fetch_assoc()) {
                             ?>
-                        <option value="<?php echo $result['id_danhmuc']?>"><?php echo $result['ten_danhmuc']?></option>
+                        <option value="<?php echo $result[$columnCategoryIdTitle]?>"><?php echo $result[$columnCategoryNameTitle]?></option>
                         <?php
                                 }
                             }
@@ -49,7 +55,7 @@
                         <option value=""></option>
                     </select>
                     <br>
-                    <input required name="ten_loaisanpham" type="text" placeholder="Nhập tên loại sản phẩm" value="<?php echo $productTypeResult['ten_loaisanpham']?>">
+                    <input required name="<? echo $columnProductTypeNameTitle?>" type="text" placeholder="Nhập tên loại sản phẩm" value="<?php echo $productTypeResult[$columnProductTypeNameTitle]?>">
                     <button type="submit" class="submitbtn">Sửa</button>
                 </form>
             </div>
@@ -61,7 +67,7 @@
     var selector = document.getElementById('danhmuc');
     //  Đặt giá trị hiện tại cho selector
     for(var i, j = 0; i = selector.options[j]; j++) {
-        if(i.value == <?php echo $productTypeResult['id_danhmuc']?>) {
+        if(i.value == <?php echo $productTypeResult[$columnCategoryIdTitle]?>) {
             selector.selectedIndex = j;
             break;
         }

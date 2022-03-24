@@ -4,6 +4,10 @@
 
 <?php
 class Category {
+    public $CATEGORY_TABLE_NAME = 'productcategory';
+    public $COLUMN_CATEGORY_ID = 'categoryId';
+    public $COLUMN_CATEGORY_NAME = 'categoryName';
+
     private $database;
 
     public function __construct()
@@ -12,34 +16,34 @@ class Category {
     }
 
     public function show_category() {
-        $query = "SELECT * FROM danhmucsanpham ORDER BY id_danhmuc";
+        $query = "SELECT * FROM $this->CATEGORY_TABLE_NAME ORDER BY $this->COLUMN_CATEGORY_ID";
         $result = $this->database->query($query);
         return $result;
     }
 
-    public function insert_category($ten_danhmuc) {
-        $query = "INSERT INTO danhmucsanpham(ten_danhmuc) VALUES('$ten_danhmuc')";
+    public function insert_category($categoryName) {
+        $query = "INSERT INTO $this->CATEGORY_TABLE_NAME ($this->COLUMN_CATEGORY_NAME) VALUES('$categoryName')";
         $result = $this->database->query($query);
         return $result;
     }
 
-    public function get_category($id_danhmuc) {
-        $query = "SELECT * FROM danhmucsanpham WHERE id_danhmuc = $id_danhmuc";
+    public function get_category($categoryId) {
+        $query = "SELECT * FROM $this->CATEGORY_TABLE_NAME WHERE $this->COLUMN_CATEGORY_ID = $categoryId";
         $result = $this->database->query($query);
         return $result;
     }
 
-    public function update_category($id_danhmuc, $ten_danhmuc) {
+    public function update_category($categoryId, $categoryName) {
         $query = 
-                "UPDATE danhmucsanpham 
-                SET ten_danhmuc = '$ten_danhmuc' 
-                WHERE id_danhmuc = $id_danhmuc";
+                "UPDATE $this->CATEGORY_TABLE_NAME 
+                SET $this->COLUMN_CATEGORY_NAME = '$categoryName'
+                WHERE $this->COLUMN_CATEGORY_ID = $categoryId";
         $result = $this->database->query($query);
         return $result;
     }
 
-    public function delete_category($id_danhmuc) {
-        $query = "DELETE FROM danhmucsanpham WHERE id_danhmuc = $id_danhmuc";
+    public function delete_category($categoryId) {
+        $query = "DELETE FROM $this->CATEGORY_TABLE_NAME WHERE $this->COLUMN_CATEGORY_ID = $categoryId";
         $result = $this->database->query($query);
         return $result;
     }

@@ -5,10 +5,10 @@
 ?>
 <?php 
     $category = new Category;
-    if (!isset($_GET['id_danhmuc']) || $_GET['id_danhmuc'] == NULL) {
+    if (!isset($_GET[$category->COLUMN_CATEGORY_ID]) || $_GET[$category->COLUMN_CATEGORY_ID] == NULL) {
         echo "<script>window.location = 'listcategory.php'</script>";
     } else {
-        $categoryId = $_GET['id_danhmuc'];
+        $categoryId = $_GET[$category->COLUMN_CATEGORY_ID];
     }
     $getCategory = $category->get_category($categoryId);
     if ($getCategory) {
@@ -18,7 +18,7 @@
 
 <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $ten_danhmuc = $_POST['ten_danhmuc'];
+        $ten_danhmuc = $_POST[$category->COLUMN_CATEGORY_NAME];
         $insertCategory = $category->update_category($categoryId, $ten_danhmuc);
         header('Location:CategoryList.php');
     }
@@ -28,7 +28,7 @@
             <div class="admin-content-right-cartegory-add">
                 <h1>Sửa danh mục</h1>
                 <form action="" method="POST" class="submit_form">
-                    <input required name="ten_danhmuc" type="text" placeholder="Nhập tên danh mục" value="<?php echo $categoryResult['ten_danhmuc']?>">
+                    <input required name="<?php echo $category->COLUMN_CATEGORY_NAME?>" type="text" placeholder="Nhập tên danh mục" value="<?php echo $categoryResult[$category->COLUMN_CATEGORY_NAME]?>">
                     <button class="submitbtn" type="submit">Sửa</button>
                 </form>
             </div>

@@ -1,0 +1,11 @@
+const moreButtons = document.querySelectorAll(".more");
+const subMenus = document.querySelectorAll(".content-left-sub-menu");
+console.log(moreButtons.length);
+console.log(subMenus.length);
+for (let i = 0; i < moreButtons.length; i++) {
+    moreButtons[i].addEventListener("click", function() {
+        console.log(i);
+        moreButtons[i].classList.toggle("content-left-item-arrow-rotate");
+        subMenus[i].classList.toggle("show-sub-menu");
+    });
+}

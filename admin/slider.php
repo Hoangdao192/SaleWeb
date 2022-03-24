@@ -1,23 +1,31 @@
 <section class="admin-content">
         <div class="admin-content-left">
-            <ul>
-                <li><a href="#">Danh mục</a>
-                    <ul>
-                        <li><a href="CategoryAdd.php">Thêm danh mục</a></li>
-                        <li><a href="CategoryList.php">Danh sách danh mục</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Loại sản phẩm</a>
-                    <ul>
-                        <li><a href="ProductTypeAdd.php">Thêm loại sản phẩm</a></li>
-                        <li><a href="ProductTypeList.php">Danh sách loại sản phẩm</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Sản phẩm</a>
-                    <ul>
-                        <li><a href="ProductAdd.php">Thêm sản phẩm</a></li>
-                        <li><a href="ProductList.php">Danh sách sản phẩm</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <div class="content-left-item category">
+                <img src="../images/categories.png" alt="">
+                <span>Danh mục</span>
+                <i class="fa-xs fa-solid fa-chevron-right more"></i>
+                <div class="content-left-sub-menu category-sub-menu">
+                    <li><a href="CategoryAdd.php">Thêm mới</a></li>
+                    <li><a href="CategoryList.php">Xem tất cả</a></li>
+                </div>
+            </div>
+            <div class="content-left-item product_type">
+                <img src="../images/menu.png" alt="">
+                <span>Loại sản phẩm</span>
+                <i class="fa-xs fa-solid fa-chevron-right more"></i>
+                <div class="content-left-sub-menu">
+                    <li><a href="ProductTypeAdd.php">Thêm mới</a></li>
+                    <li><a href="ProductTypeList.php">Xem tất cả</a></li>
+                </div>
+            </div>
+            <div class="content-left-item product">
+                <img src="../images/shopping-bag.png" alt="">
+                <span>Sản phẩm</span>
+                <i class="fa-xs fa-solid fa-chevron-right more"></i>
+                <div class="content-left-sub-menu">
+                    <li><a href="ProductAdd.php">Thêm mới</a></li>
+                    <li><a href="ProductList.php">Xem tất cả</a></li>
+                </div>
+            </div>
         </div>
+        <script src="../javascript/slider.js"></script>

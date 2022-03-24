@@ -5,8 +5,7 @@ include_once "Category.php";
 ?>
 
 <?php
-$category = new Category;
-$showCategory = $category->show_category();
+
 ?>
 
 <div class="admin-content-right">
@@ -20,6 +19,8 @@ $showCategory = $category->show_category();
                 <th>Tùy chọn</th>
             </tr>
             <?php
+            $category = new Category;
+            $showCategory = $category->show_category();
             if ($showCategory) {
                 $i = 0;
                 while ($result = $showCategory->fetch_assoc()) {
@@ -27,9 +28,11 @@ $showCategory = $category->show_category();
                 ?>
                     <tr>
                         <td><?php echo $i ?></td>
-                        <td><?php echo $result['id_danhmuc']?></td>
-                        <td><?php echo $result['ten_danhmuc']?></td>
-                        <td><a href="CategoryEdit.php?id_danhmuc=<?php echo $result['id_danhmuc']?>">Sửa</a>|<a href="CategoryDelete.php?id_danhmuc=<?php echo $result['id_danhmuc']?>">Xóa</a></td>
+                        <td><?php echo $result[$category->COLUMN_CATEGORY_ID]?></td>
+                        <td><?php echo $result[$category->COLUMN_CATEGORY_NAME]?></td>
+                        <td><a href="CategoryEdit.php?<?php echo $category->COLUMN_CATEGORY_ID?>=<?php echo $result[$category->COLUMN_CATEGORY_ID]?>">Sửa</a>
+                            |<a href="CategoryDelete.php?<?php echo $category->COLUMN_CATEGORY_ID?>=<?php echo $result[$category->COLUMN_CATEGORY_ID]?>">Xóa</a>
+                        </td>
                     </tr>
                 <?php
                 }
