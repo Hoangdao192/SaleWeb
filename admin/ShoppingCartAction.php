@@ -9,7 +9,7 @@
     if ($action == 'add') {
         $productId = $_POST['productId'];
         $shoppingCart->addToCart($productId);
-        echo ($_SESSION);
+        echo count($_SESSION['cart']);
         exit();
     }
 

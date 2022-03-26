@@ -78,19 +78,15 @@ a {
 	top: 4px;
 }*/
 
-.other li {
+.other div {
     flex: 1;
     padding: 0 12px;
     margin: 0 2px;
 }
 
-.other li:last-child {
+.other div:last-child {
     margin-left: 0;
     padding-left: 0;
-}
-
-.quantity {
-    align-items: center;
 }
 
 .quantity a {
@@ -99,11 +95,11 @@ a {
 
 .quantity a span {
     position: absolute;
-    text-align: center;
-    top: 13%;
-    left: 10%;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
     font-size: 11px;
-    color: red;
 }
 
 /*---------------------DIRECTORY--------------------*/
@@ -235,6 +231,7 @@ a {
 }
 
 .product-item {
+    position: relative;
     width: 30%;
     display: flex;
     flex-wrap: wrap;
@@ -252,7 +249,14 @@ a {
     height: 18px;
     background-color: #0d0d0d;
     margin-right: 5px;
+    cursor: pointer;
 }
+
+.product-color-item-radio:not(:checked) {
+    width: 100px;
+    background-color: yellow;
+}
+
 
 .product-name {
     font-size: 15px;
@@ -287,7 +291,33 @@ a {
     width: 12%;
 }
 
+.product-size-sub-menu {
+    background-color: white;
+    border: 1px solid black;
+    position: absolute;
+    color: black;
+    bottom: -1px;
+    right: -1px;
+    width: 200%;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #221F20;
+    border: 1px solid #221F20;
+    color: white;
+    display: none;
+}
+
+.product-size-sub-menu p {
+    margin: 10px 0;
+}
+
+.product-size-sub-menu p:hover {
+    text-decoration: underline;
+}
+
 .add-to-cart {
+    position: relative;
     background-color: #221F20;
     outline: none;
     border: none;
@@ -302,13 +332,18 @@ a {
     cursor: pointer;
 }
 
-.add-to-cart:hover {
+.add-to-cart:hover .product-size-sub-menu {
+    display: block;
+}
+
+
+/* .add-to-cart:hover {
     background-color: transparent;
     color: #221F20;
     border: 1px solid #221F20;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
-}
+} */
 
 /*bottom*/
 .content-right-bottom {

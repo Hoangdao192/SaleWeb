@@ -24,7 +24,7 @@ $product_show = $product->show_product();
     <link rel="stylesheet" href="css/shop.css">
     <link rel="stylesheet" href="css/font.css">
     <title>SHOP</title>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function() {
             $.ajax({
                 type: 'post',
@@ -49,11 +49,11 @@ $product_show = $product->show_product();
                     productId: productId
                 },
                 success: function(response) {
-                    console.log(response)
+                    document.getElementById("cart-product-number").innerHTML = response;
                 }
             });
         }
-    </script>
+    </script> -->
 </head>
 
 <body>
@@ -68,16 +68,16 @@ $product_show = $product->show_product();
             <li><a href="#">Liên lạc</a></li>
         </div>
         <div class="other">
-            <li>
+            <div>
                 <a href="#"><img src="images/icon/search.png"></a>
-            </li>
-            <li>
+            </div>
+            <div>
                 <a href="#"><img src="images/icon/heart.png"></a>
-            </li>
-            <li class="quantity">
-                <a href="#"><img src="images/icon/cart.png"><span id="cart-product-number">15</span></a>
-            </li>
-            <li class="price">$0.00</li>
+            </div>
+            <div class="quantity">
+                <a href="#"><img src="images/icon/cart.png"><span id="cart-product-number">10</span></a>
+            </div>
+            <div class="price">$0.00</div>
         </div>
     </section>
     <section class="directory">
@@ -120,13 +120,23 @@ $product_show = $product->show_product();
                             <var></var>
                             <img src="admin/database/<?php echo $result['productImagePath'] ?>">
                             <div class="product-color">
+                                <input type="radio" name="color" class="product-color-item-radio">
                                 <div class="product-color-item"></div>
                             </div>
                             <p class="product-name"><?php echo $result['productName'] ?></p>
                             <p class="product-price"><?php echo $result['productPrice'] ?><span>đ</span></p>
                             <input style="display: none;" type="text" name="insert" value="insert" />
                             <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId'] ?>" />
-                            <button class="add-to-cart" onclick="addToCart(<?php echo $result['productId'] ?>)"><i class="fa-xl fa-thin fa-plus"></i></button>
+                            <button class="add-to-cart" onclick="addToCart(<?php echo $result['productId'] ?>)">
+                                <i class="fa-xl fa-thin fa-plus"></i>
+                                <div class="product-size-sub-menu">
+                                    <p>S</p>
+                                    <p>M</p>
+                                    <p>L</p>
+                                    <p>XL</p>
+                                    <p>XXL</p>
+                                </div>
+                            </button>
                         </div>
                 <?php
                     }
