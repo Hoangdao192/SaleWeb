@@ -24,7 +24,7 @@ $product_show = $product->show_product();
     <link rel="stylesheet" href="css/shop.css">
     <link rel="stylesheet" href="css/font.css">
     <title>SHOP</title>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
             $.ajax({
                 type: 'post',
@@ -53,7 +53,7 @@ $product_show = $product->show_product();
                 }
             });
         }
-    </script> -->
+    </script>
 </head>
 
 <body>
