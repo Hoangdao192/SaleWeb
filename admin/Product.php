@@ -29,14 +29,24 @@ class Product {
 
     //  Insert new product to database
     public function insert_product($productTypeId, $productName, $productColor, $productPrice, $productImagePath) {
+        $imagePath = $_FILES['productImage']['name'];
         $query = "INSERT INTO $this->PRODUCT_TABLE_NAME (
                 $this->COLUMN_PRODUCT_TYPE_ID, 
                 $this->COLUMN_PRODUCT_NAME, 
                 $this->COLUMN_PRODUCT_COLOR, 
                 $this->COLUMN_PRODUCT_PRICE, 
                 $this->COLUMN_PRODUCT_IMAGE_PATH)
-        VALUES($productTypeId, '$productName', '$productColor', $productPrice, '$productImagePath')";
+        VALUES($productTypeId, '$productName', '$productColor', $productPrice, '$imagePath');";
         $result = $this->database->query($query);
+        $lastId = $this->database->link->insert_id;
+        move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$lastId);
+
+        $query = 
+        "UPDATE $this->PRODUCT_TABLE_NAME 
+        SET $this->COLUMN_PRODUCT_IMAGE_PATH = '$lastId' 
+        WHERE $this->COLUMN_PRODUCT_ID = $lastId";
+        $this->database->query($query);
+
         return $result;
     }
 
@@ -49,13 +59,15 @@ class Product {
 
     //  Update a product's information
     public function update_product($productId, $productTypeId, $productName, $productColor, $productPrice, $productImagePath) {
+        $imagePath = $_FILES['productImage']['name'];
+        move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$productId);
         $query = 
                 "UPDATE $this->PRODUCT_TABLE_NAME 
                 SET $this->COLUMN_PRODUCT_TYPE_ID = $productTypeId, 
                     $this->COLUMN_PRODUCT_NAME = '$productName',
                     $this->COLUMN_PRODUCT_COLOR = '$productColor',
                     $this->COLUMN_PRODUCT_PRICE = $productPrice,
-                    $this->COLUMN_PRODUCT_IMAGE_PATH = '$productImagePath' 
+                    $this->COLUMN_PRODUCT_IMAGE_PATH = '$imagePath' 
                 WHERE $this->COLUMN_PRODUCT_ID = $productId";
         $result = $this->database->query($query);
         return $result;

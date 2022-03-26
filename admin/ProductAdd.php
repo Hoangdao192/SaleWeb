@@ -18,7 +18,8 @@
             $ten_sanpham,
             $mau, 
             $giatien,
-            $hinhanh
+            $hinhanh,
+            $_FILES
         );
     }
 ?>
@@ -26,7 +27,7 @@
 <div class="admin-content-right">
             <div class="admin-content-right-cartegory-add">
                 <h1 class="content-title">Thêm sản phẩm</h1>
-                <form action="" method="POST" class="submit_form">
+                <form action="" method="POST" enctype="multipart/form-data" class="submit_form">
                     <select required name="id_loaisanpham" id="loaisp">
                         <option value="#">Chọn loại sản phẩm</option>
                         <?php
@@ -35,7 +36,7 @@
                         if ($showProductType) {
                             while ($result = $showProductType->fetch_assoc()) {
                         ?>
-                        <option value="<?php echo $result['id_loaisanpham']?>"><?php echo $result['ten_loaisanpham']?></option>
+                        <option value="<?php echo $result['productTypeId']?>"><?php echo $result['productTypeName']?></option>
                         <?php
                             }
                         }
@@ -45,6 +46,7 @@
                     <input class="input-template" required name="giatien" type="number" placeholder="Nhập giá tiền"><br>
                     <input class="input-template" required name="mau" type="text" placeholder="Nhập tên màu"><br>
                     <input class="input-template" required name="hinhanh" type="text" placeholder="Nhập đường dẫn hình ảnh">
+                    <input type="file" required name="productImage" placeholder="Tải ảnh lên">
                     <button class="button-template submitbtn" type="submit">Thêm</button>
                 </form>
             </div>

@@ -1,8 +1,10 @@
 <?php
 include_once "admin/Product.php";
+include_once "admin/ShoppingCart.php";
 
 $product = new product;
 $product_show = $product->show_product();
+$shoppingCart = new ShopingCart;
 ?>
 
 <!DOCTYPE html>
@@ -85,13 +87,17 @@ $product_show = $product->show_product();
                     while ($result = $product_show->fetch_assoc()) {
                 ?>
                     <div class="product-item">
-                        <img src="<?php echo $result['hinhanh'] ?>">
+                        <var></var>
+                        <img src="admin/database/<?php echo $result['productImagePath'] ?>">
                         <div class="product-color">
                             <div class="product-color-item"></div>
                         </div>
-                        <p class="product-name"><?php echo $result['ten_sanpham'] ?></p>
-                        <p class="product-price"><?php echo $result['giatien'] ?><span>đ</span></p>
-                        <button><i class="fa-xl fa-thin fa-plus"></i></button>
+                        <p class="product-name"><?php echo $result['productName'] ?></p>
+                        <p class="product-price"><?php echo $result['productPrice'] ?><span>đ</span></p>
+                        <form action="admin/ShoppingCartAction.php" method="POST">
+                            <button class="add-to-cart"><i class="fa-xl fa-thin fa-plus"></i></button>
+                            
+                        </form>
                     </div>
                 <?php
                     }
@@ -152,5 +158,13 @@ $product_show = $product->show_product();
     </footer>
 </body>
 <script src="javascript/shop.js"></script>
+<script>
+    const buttonAddToCart = document.querySelectorAll(".add-to-cart");
+    for (let i = 0; i < buttonAddToCart; i++) {
+        buttonAddToCart[i].addEventListener("click", function() {
+
+        });
+    }
+</script>
 
 </html>

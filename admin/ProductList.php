@@ -34,13 +34,13 @@ $showProduct = $product->show_product();
                 ?>
                         <tr>
                             <td><?php echo $i ?></td>
-                            <td><?php echo $result['id_sanpham'] ?></td>
-                            <td><?php echo $result['id_loaisanpham'] ?></td>
-                            <td><?php echo $result['ten_sanpham'] ?></td>
-                            <td><?php echo $result['mau'] ?></td>
-                            <td><?php echo $result['giatien'] ?></td>
-                            <td><?php echo $result['hinhanh'] ?></td>
-                            <td><a href="ProductEdit.php?id_sanpham=<?php echo $result['id_sanpham'] ?>">Sửa</a>|<a href="ProductDelete.php?id_sanpham=<?php echo $result['id_sanpham'] ?>">Xóa</a></td>
+                            <td><?php echo $result['productId'] ?></td>
+                            <td><?php echo $result['productTypeId'] ?></td>
+                            <td><?php echo $result['productName'] ?></td>
+                            <td><?php echo $result['productColor'] ?></td>
+                            <td><?php echo $result['productPrice'] ?></td>
+                            <td><?php echo $result['productImagePath'] ?></td>
+                            <td><a href="ProductEdit.php?productId=<?php echo $result['productId'] ?>">Sửa</a>|<a href="ProductDelete.php?productId=<?php echo $result['productId'] ?>">Xóa</a></td>
                         </tr>
                 <?php
                     }

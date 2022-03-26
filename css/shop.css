@@ -270,7 +270,7 @@ a {
     cursor: pointer;
 }
 
-.product-item > button {
+.art-to-cart {
     background-color: #221F20;
     outline: none;
     border: none;
@@ -285,7 +285,7 @@ a {
     cursor: pointer;
 }
 
-.product-item > button:hover {
+.add-to-cart:hover {
     background-color: transparent;
     color: #221F20;
     border: 1px solid #221F20;
