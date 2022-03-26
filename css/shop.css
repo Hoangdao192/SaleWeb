@@ -69,14 +69,14 @@ a {
     display: inline-block;
 	position: relative;
 }
-
+/*
 .other a span {
     color: #0d0d0d;
 	font-size: 11px;
 	position: absolute;
 	left: 5px;
 	top: 4px;
-}
+}*/
 
 .other li {
     flex: 1;
@@ -90,7 +90,20 @@ a {
 }
 
 .quantity {
-    align-items: baseline;
+    align-items: center;
+}
+
+.quantity a {
+    position: relative;
+}
+
+.quantity a span {
+    position: absolute;
+    text-align: center;
+    top: 13%;
+    left: 10%;
+    font-size: 11px;
+    color: red;
 }
 
 /*---------------------DIRECTORY--------------------*/
@@ -280,7 +293,7 @@ a {
     border: none;
     color: white;
     margin-top: 10px;
-    width: 100%;
+    width: 12%;
     padding: 6px 0;
     padding-bottom: 8px;
     border-top-left-radius: 10px;

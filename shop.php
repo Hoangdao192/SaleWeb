@@ -24,17 +24,32 @@ $product_show = $product->show_product();
     <link rel="stylesheet" href="css/shop.css">
     <link rel="stylesheet" href="css/font.css">
     <title>SHOP</title>
-    <script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                type: 'post',
+                url: 'admin/ShoppingCartAction.php',
+                data: {
+                    action: 'count'
+                },
+                success: function(data) {
+                    console.log(data);
+                    document.getElementById("cart-product-number").innerHTML = data;
+                }
+            });
+        });
+
         function addToCart(productId) {
             console.log(productId);
             $.ajax({
                 type: 'post',
                 url: 'admin/ShoppingCartAction.php',
                 data: {
+                    action: 'add',
                     productId: productId
                 },
                 success: function(response) {
-                    console.log("DONE")
+                    console.log(response)
                 }
             });
         }
@@ -60,7 +75,7 @@ $product_show = $product->show_product();
                 <a href="#"><img src="images/icon/heart.png"></a>
             </li>
             <li class="quantity">
-                <a href="#"><img src="images/icon/cart.png"><span>0</span></a>
+                <a href="#"><img src="images/icon/cart.png"><span id="cart-product-number">15</span></a>
             </li>
             <li class="price">$0.00</li>
         </div>
@@ -109,12 +124,9 @@ $product_show = $product->show_product();
                             </div>
                             <p class="product-name"><?php echo $result['productName'] ?></p>
                             <p class="product-price"><?php echo $result['productPrice'] ?><span>đ</span></p>
-                            <form action="admin/ShoppingCartAction.php" method="POST">
-                                <input type="text" name="hi">
-                                <input style="display: none;" type="text" name="insert" value="insert" />
-                                <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId'] ?>" />
-                                <button class="add-to-cart" type="submit"><i class="fa-xl fa-thin fa-plus"></i></button>
-                            </form>
+                            <input style="display: none;" type="text" name="insert" value="insert" />
+                            <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId'] ?>" />
+                            <button class="add-to-cart" onclick="addToCart(<?php echo $result['productId'] ?>)"><i class="fa-xl fa-thin fa-plus"></i></button>
                         </div>
                 <?php
                     }

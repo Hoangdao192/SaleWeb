@@ -10,6 +10,21 @@
         public function __construct()
         {
             $this->database = new Database;
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
+            }
+        }
+
+        public function addToCart($productId) {
+            $product = [$productId];
+            $_SESSION['cart'][] = $product;
+        }
+
+        public function countInCart() {
+            return count($_SESSION['cart']);
         }
 
         //  Get all product in shopping cart table

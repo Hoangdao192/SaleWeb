@@ -4,11 +4,19 @@
     session_start();
     $shoppingCart = new ShopingCart;
 
-    var_dump($GLOBALS);
-    if (isset($_POST['productId'])) {
+    $action = $_POST['action'];
+
+    if ($action == 'add') {
         $productId = $_POST['productId'];
-        $shoppingCart->insert_product($productId);
-    } else {
-        echo "ERROR";
+        $shoppingCart->addToCart($productId);
+        echo ($_SESSION);
+        exit();
     }
+
+    if ($action == 'count') {
+        //echo $shoppingCart->countInCart();
+        echo count($_SESSION['cart']);
+        exit();
+    }
+    
 ?>
