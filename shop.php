@@ -1,9 +1,9 @@
 <?php
-    include_once "admin/Product.php";
-    include_once "admin/ShoppingCart.php";
+include_once "admin/Product.php";
+include_once "admin/ShoppingCart.php";
 
-    $product = new product;
-    $product_show = $product->show_product();
+$product = new product;
+$product_show = $product->show_product();
 ?>
 
 <!DOCTYPE html>
@@ -25,19 +25,20 @@
     <link rel="stylesheet" href="css/font.css">
     <title>SHOP</title>
     <script>
-    function addToCart(productId) {
-        $.ajax({
-            type: 'post',
-            url: 'admin/ShoppingCartAction.php',
-            data: {
-                productId:productId
-            },
-            success: function(response) {
-                console.log("DONE")
-            }
-        });
-    }
-</script>
+        function addToCart(productId) {
+            console.log(productId);
+            $.ajax({
+                type: 'post',
+                url: 'admin/ShoppingCartAction.php',
+                data: {
+                    productId: productId
+                },
+                success: function(response) {
+                    console.log("DONE")
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -100,20 +101,21 @@
                     $i = 0;
                     while ($result = $product_show->fetch_assoc()) {
                 ?>
-                    <div class="product-item">
-                        <var></var>
-                        <img src="admin/database/<?php echo $result['productImagePath'] ?>">
-                        <div class="product-color">
-                            <div class="product-color-item"></div>
+                        <div class="product-item">
+                            <var></var>
+                            <img src="admin/database/<?php echo $result['productImagePath'] ?>">
+                            <div class="product-color">
+                                <div class="product-color-item"></div>
+                            </div>
+                            <p class="product-name"><?php echo $result['productName'] ?></p>
+                            <p class="product-price"><?php echo $result['productPrice'] ?><span>đ</span></p>
+                            <form action="admin/ShoppingCartAction.php" method="POST">
+                                <input type="text" name="hi">
+                                <input style="display: none;" type="text" name="insert" value="insert" />
+                                <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId'] ?>" />
+                                <button class="add-to-cart" type="submit"><i class="fa-xl fa-thin fa-plus"></i></button>
+                            </form>
                         </div>
-                        <p class="product-name"><?php echo $result['productName'] ?></p>
-                        <p class="product-price"><?php echo $result['productPrice'] ?><span>đ</span></p>
-                        
-                            <input style="display: none;" type="text" name="insert" value="insert" />
-                            <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>" />
-                            <button class="add-to-cart" onclick="addToCart(<?php echo $result['productId']?>)"><i class="fa-xl fa-thin fa-plus"></i></button>
-                        
-                    </div>
                 <?php
                     }
                 }

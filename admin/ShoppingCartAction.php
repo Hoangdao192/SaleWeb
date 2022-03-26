@@ -4,10 +4,11 @@
     session_start();
     $shoppingCart = new ShopingCart;
 
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
+    var_dump($GLOBALS);
+    if (isset($_POST['productId'])) {
         $productId = $_POST['productId'];
         $shoppingCart->insert_product($productId);
     } else {
-        echo $_SERVER['REQUEST_METHOD'];
-    } 
+        echo "ERROR";
+    }
 ?>
