@@ -270,13 +270,17 @@ a {
     cursor: pointer;
 }
 
-.art-to-cart {
+.add-form {
+    width: 12%;
+}
+
+.add-to-cart {
     background-color: #221F20;
     outline: none;
     border: none;
     color: white;
     margin-top: 10px;
-    width: 12%;
+    width: 100%;
     padding: 6px 0;
     padding-bottom: 8px;
     border-top-left-radius: 10px;
