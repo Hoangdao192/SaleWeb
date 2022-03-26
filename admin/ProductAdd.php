@@ -12,13 +12,11 @@
         $ten_sanpham = $_POST['ten_sanpham'];
         $mau = $_POST['mau'];
         $giatien = $_POST['giatien'];
-        $hinhanh = $_POST['hinhanh'];
         $insert_product = $product->insert_product(
             $id_loaisanpham, 
             $ten_sanpham,
             $mau, 
             $giatien,
-            $hinhanh,
             $_FILES
         );
     }
@@ -45,7 +43,6 @@
                     <input class="input-template" required name="ten_sanpham" type="text" placeholder="Nhập tên sản phẩm"><br>
                     <input class="input-template" required name="giatien" type="number" placeholder="Nhập giá tiền"><br>
                     <input class="input-template" required name="mau" type="text" placeholder="Nhập tên màu"><br>
-                    <input class="input-template" required name="hinhanh" type="text" placeholder="Nhập đường dẫn hình ảnh">
                     <input type="file" required name="productImage" placeholder="Tải ảnh lên">
                     <button class="button-template submitbtn" type="submit">Thêm</button>
                 </form>
