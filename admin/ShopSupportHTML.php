@@ -7,32 +7,35 @@
     if (isset($_GET['id'])) {
         $categoryId = $_GET['id'];
         $allResult = $product->show_product_by_category($categoryId);
-        showDataToHTML($allResult);
+        showDataToHTML($allResult, 1);
         exit();
     }
 
     if (isset($_GET['productTypeId'])) {
         $productTypeId = $_GET['productTypeId'];
+        $page = $_GET['page'];
         $result = $product->show_product_by_type($productTypeId);
-        showDataToHTML($result);
+        showDataToHTML($result, $page);
         exit();
     }
 
     //  Show data in HTML
     //  Data is mysqli querry result
-    function showDataToHTML($data) {
+    function showDataToHTML($data, $page) {
         if ($data) {
-            $j = 0;
+            $j = ($page - 1) * 12;
             while ($result = $data->fetch_assoc()) {
                 $j++;
+                if ($j > 12) break;
                 $divProductItemStyle = "";
+                $radioGroupId = "product-color" . $result['productId'];
                 if (fmod($j,3) != 0 || $j == 0) {
                     $divProductItemStyle = "margin-right:4.7%";
                 }
 
                 echo    "<div style=\"" . $divProductItemStyle . "\"class=\"product-item\">";
                 echo        "<img src=\"admin/database/" . $result['productImagePath'] . "\">";
-                echo        "<div class=\"product-color\">";
+                echo        "<div id=\"" . $radioGroupId . "\" class=\"product-color\">";
 
                 $colorArray = $result['productColor'];
                 $splitRegex = "/,/";
@@ -46,7 +49,7 @@
                         $radioChecked = "checked";
                     }
                     echo        "<div class=\"product-color-item\">";
-                    echo            "<input type=\"radio\" class=\"radio\" name=\"" . $radioButtonName . "\" " . $radioChecked . " id=\"" . $radioButtonId . "\">";
+                    echo            "<input value=\"" . $splitResult[$i] . "\" type=\"radio\" class=\"radio\" name=\"" . $radioButtonName . "\" " . $radioChecked . " id=\"" . $radioButtonId . "\">";
                     echo                "<label style=\"background-color:" . $splitResult[$i] . "\" for=\"" . $radioButtonId . "\" class=\"radio-label\">";
                     echo                    "<i class=\"fa-xs fa-solid fa-check\"></i>";
                     echo                "</label>";
@@ -58,14 +61,14 @@
                 echo        "<p class=\"product-price\">" . number_format($result['productPrice'], 0, ',', '.') . "<span>đ</span></p>";
                 echo        "<input style=\"display: none;\" type=\"text\" name=\"insert\" value=\"insert\"/>";
                 echo        "<input style=\"display: none;\" class=\"product-id-input\" name=\"productId\" value=\"" . $result['productId'] . "\" />";
-                echo        "<button class=\"add-to-cart\" onclick=\"addToCart(" . $result['productId'] . ")\">";
+                echo        "<button class=\"add-to-cart\">";
                 echo            "<i class=\"fa-xl fa-thin fa-plus\"></i>";
                 echo            "<div class=\"product-size-sub-menu\">";
-                echo                "<p>S</p>";
-                echo                "<p>M</p>";
-                echo                "<p>L</p>";
-                echo                "<p>XL</p>";
-                echo                "<p>XXL</p>";
+                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'S','" . $radioGroupId . "')\">S</p>";
+                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'M','" . $radioGroupId . "')\">M</p>";
+                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'L','" . $radioGroupId . "')\">L</p>";
+                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'XL','" . $radioGroupId . "')\">XL</p>";
+                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'XXL','" . $radioGroupId . "')\">XXL</p>";
                 echo            "</div>";
                 echo        "</button>";
                 echo    "</div>";

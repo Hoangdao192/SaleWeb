@@ -44,7 +44,6 @@ if (isset($_GET['categoryId'])) {
                     action: 'count'
                 },
                 success: function(data) {
-                    console.log(data);
                     document.getElementById("cart-product-number").innerHTML = data;
                 }
             });
@@ -59,7 +58,6 @@ if (isset($_GET['categoryId'])) {
                     id: <?php echo $categoryId?>
                 },
                 success: function(response) {
-                    console.log(response);
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
                     contentRight.innerHTML = response;
                 }
@@ -77,24 +75,40 @@ if (isset($_GET['categoryId'])) {
                 type: 'get',
                 url: 'admin/ShopSupportHTML.php',
                 data: {
-                    productTypeId: productTypeId
+                    productTypeId: productTypeId,
+                    page: 1
                 },
                 success: function(response) {
-                    console.log(response);
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
                     contentRight.innerHTML = response;
                 }
             });
         }
 
-        function addToCart(productId) {
+        function addToCart(productId, productSize, colorRadioGroupId, colorArray) {
             console.log(productId);
+
+            //  Get selected color
+            var radioGroup = document.getElementById(colorRadioGroupId);
+            console.log(radioGroup);
+            var radioArray = radioGroup.querySelectorAll(".radio");
+            console.log(radioArray);
+            var productColor;
+            for (let i = 0; i < radioArray.length; i++) {
+                if (radioArray[i].checked) {
+                    productColor = radioArray[i].value;
+                }
+            }
+
+            console.log(productId + " " + productSize + " " + productColor);
             $.ajax({
                 type: 'post',
                 url: 'admin/ShoppingCartAction.php',
                 data: {
                     action: 'add',
-                    productId: productId
+                    productId: productId,
+                    productSize: productSize,
+                    productColor: productColor
                 },
                 success: function(response) {
                     document.getElementById("cart-product-number").innerHTML = response;
@@ -103,9 +117,11 @@ if (isset($_GET['categoryId'])) {
         }
     </script>
 </head>
-
 <body>
-    <section class="header">
+    <?php 
+        include "php/header.php";
+    ?>
+    <!-- <section class="header">
         <div class="logo">
             <a href=""><img src="images/logo.png"></a>
         </div>
@@ -127,7 +143,7 @@ if (isset($_GET['categoryId'])) {
             </div>
             <div class="price">$0.00</div>
         </div>
-    </section>
+    </section> -->
     <section class="directory">
         <h1>Shop</h1>
         <p>Home &nbsp;<span></span>&nbsp; Shop</p>
@@ -146,11 +162,11 @@ if (isset($_GET['categoryId'])) {
                     $showCategory = $category->show_category();
                     while ($result = $showCategory->fetch_assoc()) {
                     ?>
-                        <input style="display: none;" type="number" name="categoryId" value="<?php echo $result['categoryId'] ?>">
-                        <br>
-                        <a style="<?php if ($categoryId == $result['categoryId']) echo "color:black" ?>" href="shop.php?categoryId=<?php echo $result['categoryId'] ?>">
-                            <?php echo $result['categoryName'] ?>
-                        </a>
+                    <input style="display: none;" type="number" name="categoryId" value="<?php echo $result['categoryId'] ?>">
+                    <br>
+                    <a style="<?php if ($categoryId == $result['categoryId']) echo "color:black" ?>" href="shop.php?categoryId=<?php echo $result['categoryId'] ?>">
+                        <?php echo $result['categoryName'] ?>
+                    </a>
                     <?php
                     }
                     ?>
@@ -168,7 +184,7 @@ if (isset($_GET['categoryId'])) {
                         $productTypeId = $typeResult['productTypeId'];
                         $productTypeName = $typeResult['productTypeName'];
                     ?>
-                        <option value="<?php echo $productTypeId?>"><?php echo $productTypeName?></option>
+                    <option value="<?php echo $productTypeId?>"><?php echo $productTypeName?></option>
                     <?php
                     }
                     ?>
@@ -184,63 +200,18 @@ if (isset($_GET['categoryId'])) {
                 </div>
             </div>
             <div class="content-right-content">
-
+                <!--------------------Content will be add by ajax------------------->
             </div>
-            <!-- <div class="content-right-content">
-                <?php
-                $product_show = $product->show_product();
-                if ($product_show) {
-                    $i = 0;
-                    while ($result = $product_show->fetch_assoc()) {
-                ?>
-                        <div style="<?php if (fmod($i, 3) != 0 || $i == 0) echo "margin-right:4.7%" ?>" class="product-item">
-                            <img src="admin/database/<?php echo $result['productImagePath'] ?>">
-                            <div class="product-color">
-                                <?php
-                                $colorArray = $result['productColor'];
-                                $splitRegex = "/,/";
-                                $splitResult = preg_split($splitRegex, $colorArray);
-                                for ($i = 0; $i < sizeof($splitResult); $i++) {
-                                    $radioButtonName = "color" . $result['productId'];
-                                    $radioButtonId = "color" . $result['productId'] . "-" . $i;
-                                ?>
-                                    <div class="product-color-item">
-                                        <input type="radio" class="radio" name="<?php echo $radioButtonName ?>" <?php if ($i == 0) echo "checked" ?> id="<?php echo $radioButtonId ?>">
-                                        <label style="background-color:<?php echo $splitResult[$i] ?>" for="<?php echo $radioButtonId ?>" class="radio-label">
-                                            <i class="fa-xs fa-solid fa-check"></i>
-                                        </label>
-                                    </div>
-                                <?php
-                                }
-                                ?>
-                            </div>
-                            <p class="product-name"><?php echo $result['productName'] ?></p>
-                            <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.'); ?><span>đ</span></p>
-                            <input style="display: none;" type="text" name="insert" value="insert" />
-                            <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId'] ?>" />
-                            <button class="add-to-cart" onclick="addToCart(<?php echo $result['productId'] ?>)">
-                                <i class="fa-xl fa-thin fa-plus"></i>
-                                <div class="product-size-sub-menu">
-                                    <p>S</p>
-                                    <p>M</p>
-                                    <p>L</p>
-                                    <p>XL</p>
-                                    <p>XXL</p>
-                                </div>
-                            </button>
-                        </div>
-                <?php
-                    }
-                }
-                ?>
-            </div> -->
             <div class="content-right-bottom">
                 <p><span>1</span><span>2</span><span>3</span></p>
             </div>
         </div>
     </section>
     <!---------------------FOOTER------------------------->
-    <footer class="footer">
+    <?php 
+    include "php/footer.php"
+    ?>
+    <!-- <footer class="footer">
         <div class="footer__container">
             <div class="footer__row">
                 <div class="footer__about">
@@ -285,8 +256,7 @@ if (isset($_GET['categoryId'])) {
                 </p>
             </div>
         </div>
-    </footer>
+    </footer> -->
 </body>
 <script src="javascript/shop.js"></script>
-
 </html>
