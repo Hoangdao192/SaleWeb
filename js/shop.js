@@ -1,11 +1,11 @@
-// Color item
+// Color item-----------------------------------------------------------------------------------------------------------------------
 
 const labelItem = document.querySelectorAll(".category__right__content_item_text label")
-const inputIteam = document.querySelectorAll(".category__right__content_item_text input")
+const inputItem = document.querySelectorAll(".category__right__content_item_text input")
 let index = 0
 
 labelItem.forEach(function(label, index) {
-    inputIteam[index].addEventListener("click", function() {
+    inputItem[index].addEventListener("click", function() {
         selectColor(index)
     })
 })
@@ -18,7 +18,7 @@ function selectColor(index) {
     labelItem[index].classList.add("active")
 }
 
-// display category__right
+// display category__right--------------------------------------------------------------------------------------------------------
 
 const contenCategotyItem = document.querySelectorAll(".category__left__content")
 const headCategotyItem = document.querySelectorAll(".category__left__head")
@@ -46,7 +46,7 @@ function diplayContent(index) {
     }
 }
 
-// select__size--------------------------------------------------------------------------------------
+// select__size-----------------------------------------------------------------------------------------------------------------
 
 const labelSizeItem = document.querySelectorAll(".category__left__content__size label")
 let indexSize = 0
