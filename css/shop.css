@@ -208,13 +208,12 @@ a {
 /*head*/
 .content-right-head {
     display: flex;
-    justify-content: right;
     align-items: center;
-    margin-bottom: 40px;
+    justify-content: space-between;
 }
 
 .content-right-head p {
-    display: inline;
+    position: relative;
 }
 
 .content-right-head select {
@@ -224,13 +223,19 @@ a {
     font-weight: bold;
 }
 
+.content-right-head-sort {
+    display: flex;
+    justify-content: right;
+}
+
 /*content(body)*/
 .content-right-content {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .product-item {
+    margin-top: 40px;
     position: relative;
     width: 30%;
     display: flex;
@@ -240,23 +245,59 @@ a {
 
 .product-color {
     margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .product-color-item {
-    content: "";
+    position: relative;
     border-radius: 50%;
     width: 18px;
     height: 18px;
-    background-color: #0d0d0d;
-    margin-right: 5px;
+    margin-right: 17px;
     cursor: pointer;
 }
 
-.product-color-item-radio:not(:checked) {
-    width: 100px;
-    background-color: yellow;
+[type="radio"]:checked,
+[type="radio"]:not(:checked){
+	visibility: hidden;
+    display: none;
 }
 
+.radio-label {
+    box-sizing: border-box;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 50%;
+    padding: 25%;
+}
+
+.radio-label i {
+    z-index: 1;
+    color: white;
+    box-sizing: border-box;
+    position: relative;
+    top: -50%;
+}
+
+.radio:not(:checked) + label,
+.radio:checked + label {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 50%;
+    align-items: center;
+    padding: 25%;
+}
+
+.radio:not(:checked) + label i {
+    color: white;
+    visibility: hidden;
+}
 
 .product-name {
     font-size: 15px;

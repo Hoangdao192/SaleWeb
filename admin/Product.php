@@ -6,6 +6,7 @@
 class Product {
 
     public $PRODUCT_TABLE_NAME = "product";
+    public $COLUMN_CATEGORY_ID = "categoryId";
     public $COLUMN_PRODUCT_ID = "productId";
     public $COLUMN_PRODUCT_TYPE_ID = "productTypeId";
     public $COLUMN_PRODUCT_NAME = "productName";
@@ -27,8 +28,24 @@ class Product {
         return $result;
     }
 
+    //  Get all product have category id equal $categoryId
+    public function show_product_by_category($categoryId) {
+        $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME WHERE $this->COLUMN_CATEGORY_ID = $categoryId
+                ORDER BY $this->COLUMN_PRODUCT_ID";
+        $result = $this->database->query($query);
+        return $result;
+    }
+
+    //  Get all product have product type id equal
+    public function show_product_by_type($productTypeId) {
+        $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME WHERE $this->COLUMN_PRODUCT_TYPE_ID = $productTypeId
+                ORDER BY $this->COLUMN_PRODUCT_ID";
+        $result = $this->database->query($query);
+        return $result;
+    }
+
     //  Insert new product to database
-    public function insert_product($productTypeId, $productName, $productColor, $productPrice, $productImagePath) {
+    public function insert_product($productTypeId, $productName, $productColor, $productPrice) {
         $imagePath = $_FILES['productImage']['name'];
         $query = "INSERT INTO $this->PRODUCT_TABLE_NAME (
                 $this->COLUMN_PRODUCT_TYPE_ID, 
@@ -41,6 +58,7 @@ class Product {
         $lastId = $this->database->link->insert_id;
         move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$lastId);
 
+        //  Change image file's name to productId so it easy to find and cannot be replaced
         $query = 
         "UPDATE $this->PRODUCT_TABLE_NAME 
         SET $this->COLUMN_PRODUCT_IMAGE_PATH = '$lastId' 
@@ -58,7 +76,7 @@ class Product {
     }
 
     //  Update a product's information
-    public function update_product($productId, $productTypeId, $productName, $productColor, $productPrice, $productImagePath) {
+    public function update_product($productId, $productTypeId, $productName, $productColor, $productPrice) {
         $imagePath = $_FILES['productImage']['name'];
         move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$productId);
         $query = 
@@ -70,6 +88,14 @@ class Product {
                     $this->COLUMN_PRODUCT_IMAGE_PATH = '$imagePath' 
                 WHERE $this->COLUMN_PRODUCT_ID = $productId";
         $result = $this->database->query($query);
+
+        //  Change image file's name to productId so it easy to find and cannot be replaced
+        $query = 
+        "UPDATE $this->PRODUCT_TABLE_NAME 
+        SET $this->COLUMN_PRODUCT_IMAGE_PATH = '$productId' 
+        WHERE $this->COLUMN_PRODUCT_ID = $productId";
+        $this->database->query($query);
+
         return $result;
     }
 

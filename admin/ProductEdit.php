@@ -24,14 +24,12 @@
         $ten_sanpham = $_POST['ten_sanpham'];
         $mau = $_POST['mau'];
         $giatien = $_POST['giatien'];
-        $hinhanh = $_POST['hinhanh'];
         $insertProduct = $product->update_product(
             $productId,
             $id_loaisanpham, 
             $ten_sanpham,
             $mau, 
             $giatien,
-            $hinhanh,
             $_FILES
         );
         header('Location:ProductList.php');
@@ -59,7 +57,6 @@
                     <input class="input-template" required name="ten_sanpham" type="text" placeholder="Nhập tên sản phẩm" value="<?php echo $productResult['productName']?>"><br>
                     <input class="input-template" required name="giatien" type="number" placeholder="Nhập giá tiền" value="<?php echo $productResult['productPrice']?>"><br>
                     <input class="input-template" required name="mau" type="text" placeholder="Nhập tên màu" value="<?php echo $productResult['productColor']?>"><br>
-                    <input class="input-template" required name="hinhanh" type="text" placeholder="Nhập đường dẫn hình ảnh" value="<?php echo $productResult['productImagePath']?>">
                     <input type="file" required name="productImage" placeholder="Tải ảnh lên">
                     <button class="button-template submitbtn" type="submit">Sửa</button>
                 </form>
