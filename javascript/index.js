@@ -110,7 +110,7 @@ const second = document.getElementById("ss");
 var time = 0;
 
 function countdown() {
-    console.log(++time);
+    ++time;
     count -= 1;
     if (count == 0) {
         count = 2592000;
