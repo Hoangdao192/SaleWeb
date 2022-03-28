@@ -1,8 +1,8 @@
 <?php
     include "header.php";
     include "slider.php";
-    include "Product.php";
-    include "ProductType.php";
+    include_once "Product.php";
+    include_once "ProductType.php";
 ?>
 <?php 
     $product = new Product;

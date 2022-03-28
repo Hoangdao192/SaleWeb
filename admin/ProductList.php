@@ -1,7 +1,9 @@
 <?php
 include "header.php";
 include "slider.php";
-include "Product.php";
+include_once "Product.php";
+include_once "ProductType.php";
+include_once "Category.php";
 ?>
 
 <?php
@@ -17,6 +19,7 @@ $showProduct = $product->show_product();
                 <tr>
                     <th>STT</th>
                     <th>ID</th>
+                    <th>Danh mục</th>
                     <th>Loại sản phẩm</th>
                     <th>Tên sản phẩm</th>
                     <th>Màu</th>
@@ -31,11 +34,20 @@ $showProduct = $product->show_product();
                     $i = 0;
                     while ($result = $showProduct->fetch_assoc()) {
                         $i++;
+                        $productTypeId = $result['productTypeId'];
+                        $productType = new ProductType;
+                        $thisProductType = $productType->get_product_type($productTypeId)->fetch_assoc();
+
+                        $categoryId = $thisProductType[$productType->COLUMN_CATEGORY_ID];
+                        $category = new Category;
+                        $thisCategory = $category->get_category($categoryId)->fetch_assoc();
+
                 ?>
                         <tr>
                             <td><?php echo $i ?></td>
                             <td><?php echo $result['productId'] ?></td>
-                            <td><?php echo $result['productTypeId'] ?></td>
+                            <td><?php echo $thisCategory[$category->COLUMN_CATEGORY_NAME]?></td>
+                            <td><?php echo $thisProductType[$productType->COLUMN_PRODUCT_TYPE_NAME]?></td>
                             <td><?php echo $result['productName'] ?></td>
                             <td><?php echo $result['productColor'] ?></td>
                             <td><?php echo $result['productPrice'] ?></td>
