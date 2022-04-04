@@ -1,3 +1,13 @@
+<?php
+include_once "admin/Product.php";
+
+$product = new Product;
+$showProduct = $product->show_product_limit(0, 8);
+$showNewProduct = $product->show_new_product_limit(0, 8);
+$hotSaleProduct = $product->show_product_limit(0,8);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,11 +15,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/74e2dc450b.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a914f93d25.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/product.css">
     <title>TEAM BCD - Male faction</title>
     <script>
         $(document).ready(function() {
@@ -24,11 +40,41 @@
                 }
             });
         });
+        function addToCart(productId, productSize, colorRadioGroupId, colorArray) {
+            console.log(productId);
+
+            //  Get selected color
+            var radioGroup = document.getElementById(colorRadioGroupId);
+            console.log(radioGroup);
+            var radioArray = radioGroup.querySelectorAll(".radio");
+            console.log(radioArray);
+            var productColor;
+            for (let i = 0; i < radioArray.length; i++) {
+                if (radioArray[i].checked) {
+                    productColor = radioArray[i].value;
+                }
+            }
+
+            console.log(productId + " " + productSize + " " + productColor);
+            $.ajax({
+                type: 'post',
+                url: 'admin/ShoppingCartAction.php',
+                data: {
+                    action: 'add',
+                    productId: productId,
+                    productSize: productSize,
+                    productColor: productColor
+                },
+                success: function(response) {
+                    document.getElementById("cart-product-number").innerHTML = response;
+                }
+            });
+        }
     </script>
 </head>
 
 <body>
-    <?php 
+    <?php
     include "php/header.php"
     ?>
 
@@ -103,7 +149,173 @@
             <li id="hot-sales">Hot Sales</li>
         </div>
         <div class="product-content">
+            <div id="product-content-best-seller">
+                <?php
+                $j = 0;
+                while ($result = $showProduct->fetch_assoc()) {
+                    $j++;
+                    $divProductItemStyle = "";
+                    $radioGroupId = "product-color" . $result['productId'];
+                    if (fmod($j, 4) != 0 || $j == 0) {
+                        $divProductItemStyle = "margin-right:10px";
+                    }
+                ?>
+                <div class="product-item">
+                    <img src="admin/database/<?php echo $result['productImagePath']?>">
+                    <div id="<?php echo $radioGroupId?>" class="product-color">
+                    <?php
+                    $colorArray = $result['productColor'];
+                    $splitRegex = "/,/";
+                    $splitResult = preg_split($splitRegex, $colorArray);
+                    for ($i = 0; $i < sizeof($splitResult); $i++) {
+                        $radioButtonName = "2color" . $result['productId'];
+                        $radioButtonId = "2color" . $result['productId'] . "-" . $i;
+                        $radioChecked = "";
+                        if ($i == 0) {
+                            $radioChecked = "checked";
+                        }
+                    ?>
+                        <div class="product-color-item">
+                            <input value="<?php echo $splitResult[$i]?>" type="radio" class="radio" name="<?php echo $radioButtonName?>" <?php echo $radioChecked?>  id="<?php echo $radioButtonId?>">
+                                <label style="background-color: <?php echo $splitResult[$i]?>" for="<?php echo $radioButtonId?>" class="radio-label">
+                                    <i class="fa-xs fa-solid fa-check"></i>
+                                </label>
+                        </div>
+                    <?php
+                        }
+                    ?>
+                    </div>
+                    <p class="product-name"><?php echo $result['productName']?></p>
+                    <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.')?><span>đ</span></p>
+                    <input style="display: none;" type="text" name="insert" value="insert"/>
+                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>"/>
+                    <button class="add-to-cart">
+                        <i class="fa-xl fa-thin fa-plus"></i>
+                        <div class="product-size-sub-menu">
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">S</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">M</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">L</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XL</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XXL</p>
+                        </div>
+                    </button>
+                </div>
+                <?php
+                    }
+                ?>
+            </div>
+            <div id="product-content-new-product">
+                <?php
+                $j = 0;
+                while ($result = $showNewProduct->fetch_assoc()) {
+                    $j++;
+                    $divProductItemStyle = "";
+                    $radioGroupId = "product-color" . $result['productId'];
+                    if (fmod($j, 4) != 0 || $j == 0) {
+                        $divProductItemStyle = "margin-right:10px";
+                    }
+                ?>
+                <div class="product-item">
+                    <img src="admin/database/<?php echo $result['productImagePath']?>">
+                    <div id="<?php echo $radioGroupId?>" class="product-color">
+                    <?php
+                    $colorArray = $result['productColor'];
+                    $splitRegex = "/,/";
+                    $splitResult = preg_split($splitRegex, $colorArray);
+                    for ($i = 0; $i < sizeof($splitResult); $i++) {
+                        $radioButtonName = "color" . $result['productId'];
+                        $radioButtonId = "color" . $result['productId'] . "-" . $i;
+                        $radioChecked = "";
+                        if ($i == 0) {
+                            $radioChecked = "checked";
+                        }
+                    ?>
+                        <div class="product-color-item">
+                            <input value="<?php echo $splitResult[$i]?>" type="radio" class="radio" name="<?php echo $radioButtonName?>" <?php echo $radioChecked?>  id="<?php echo $radioButtonId?>">
+                                <label style="background-color: <?php echo $splitResult[$i]?>" for="<?php echo $radioButtonId?>" class="radio-label">
+                                    <i class="fa-xs fa-solid fa-check"></i>
+                                </label>
+                        </div>
+                    <?php
+                        }
+                    ?>
+                    </div>
+                    <p class="product-name"><?php echo $result['productName']?></p>
+                    <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.')?><span>đ</span></p>
+                    <input style="display: none;" type="text" name="insert" value="insert"/>
+                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>"/>
+                    <button class="add-to-cart">
+                        <i class="fa-xl fa-thin fa-plus"></i>
+                        <div class="product-size-sub-menu">
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">S</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">M</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">L</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XL</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XXL</p>
+                        </div>
+                    </button>
+                </div>
+                <?php
+                    }
+                ?>
+            </div>
+            <div id="product-content-hot-sales">
+                <?php
+                $j = 0;
+                while ($result = $hotSaleProduct->fetch_assoc()) {
+                    $j++;
+                    $divProductItemStyle = "";
+                    $radioGroupId = "product-color" . $result['productId'];
+                    if (fmod($j, 4) != 0 || $j == 0) {
+                        $divProductItemStyle = "margin-right:10px";
+                    }
+                ?>
+                <div class="product-item">
+                    <img src="admin/database/<?php echo $result['productImagePath']?>">
+                    <div id="<?php echo $radioGroupId?>" class="product-color">
+                    <?php
+                    $colorArray = $result['productColor'];
+                    $splitRegex = "/,/";
+                    $splitResult = preg_split($splitRegex, $colorArray);
+                    for ($i = 0; $i < sizeof($splitResult); $i++) {
+                        $radioButtonName = "3color" . $result['productId'];
+                        $radioButtonId = "3color" . $result['productId'] . "-" . $i;
+                        $radioChecked = "";
+                        if ($i == 0) {
+                            $radioChecked = "checked";
+                        }
+                    ?>
+                        <div class="product-color-item">
+                            <input value="<?php echo $splitResult[$i]?>" type="radio" class="radio" name="<?php echo $radioButtonName?>" <?php echo $radioChecked?>  id="<?php echo $radioButtonId?>">
+                                <label style="background-color: <?php echo $splitResult[$i]?>" for="<?php echo $radioButtonId?>" class="radio-label">
+                                    <i class="fa-xs fa-solid fa-check"></i>
+                                </label>
+                        </div>
+                    <?php
+                        }
+                    ?>
+                    </div>
+                    <p class="product-name"><?php echo $result['productName']?></p>
+                    <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.')?><span>đ</span></p>
+                    <input style="display: none;" type="text" name="insert" value="insert"/>
+                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>"/>
+                    <button class="add-to-cart">
+                        <i class="fa-xl fa-thin fa-plus"></i>
+                        <div class="product-size-sub-menu">
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">S</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">M</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">L</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XL</p>
+                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XXL</p>
+                        </div>
+                    </button>
+                </div>
+                <?php
+                    }
+                ?>
+            </div>
             <!-- new-arr; hot-sale -->
+            <!-- 
             <div class="product-item new-arr">
                 <img src="images/product/product-1.jpg">
                 <div class="product-item__toolhover">
@@ -303,7 +515,7 @@
                     <span></span>
                     <p>$67.24</p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -325,7 +537,7 @@
             <div class="sale-product__category-deal-countdown__time">
                 <span id="dd">00</span> : <span id="hh">00</span> : <span id="mm">00</span> : <span id="ss">00</span>
             </div>
-            <a href="#">SHOP NOW</a>
+            <a href="shop">SHOP NOW</a>
         </div>
     </section>
 
@@ -393,4 +605,5 @@
     ?>
 </body>
 <script src="javascript/index.js"></script>
+
 </html>

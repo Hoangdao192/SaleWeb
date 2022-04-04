@@ -36,48 +36,61 @@ setInterval(imgSlide, 5000)
 
 //---------------------------------------------------Select product-------------------------------------------------------------------------
 
-const productItem = document.querySelectorAll(".product-item")
-const productNewArrItem = document.querySelectorAll(".new-arr")
-const productHotSaleItem = document.querySelectorAll(".hot-sale")
-const bestSaleOption = document.querySelector("#best-sellers")
-const newArrOption = document.querySelector("#new-arrivals")
-const hotSaleOption = document.querySelector("#hot-sales")
+var productItem = document.getElementById("product-content-best-seller");
+productItem.classList.add("show-product");
+var productNew = document.getElementById("product-content-new-product");
+productNew.classList.add("hide-product");
+var productHotSale = document.getElementById("product-content-hot-sales");
+productHotSale.classList.add("hide-product");
+
+var bestSaleOption = document.querySelector("#best-sellers");
+var newArrOption = document.querySelector("#new-arrivals");
+var hotSaleOption = document.querySelector("#hot-sales");
 
 bestSaleOption.addEventListener("click", function() {
     bestSaleOption.style.color = "#111"
     newArrOption.style.color = "#b7b7b7"
     hotSaleOption.style.color = "#b7b7b7"
-    productItem.forEach(function(product) {
-        product.classList.remove("product-item-smaller")
-        product.classList.remove("product-item-transiton")
-    })
-})
+
+    productItem.classList.add("show-product");
+    productItem.classList.remove("hide-product");
+
+    productNew.classList.add("hide-product");
+    productNew.classList.remove("show-product");
+
+    productHotSale.classList.add("hide-product");
+    productHotSale.classList.remove("show-product");
+});
 
 newArrOption.addEventListener("click", function() {
     bestSaleOption.style.color = "#b7b7b7"
     newArrOption.style.color = "#111"
     hotSaleOption.style.color = "#b7b7b7"
-    productItem.forEach(function(product) {
-        product.classList.remove("product-item-smaller")
-    })
-    productHotSaleItem.forEach(function(product) {
-        product.classList.add("product-item-smaller")
-        product.classList.add("product-item-transiton")
-    })
-})
+    
+    productNew.classList.add("show-product");
+    productNew.classList.remove("hide-product");
+
+    productItem.classList.add("hide-product");
+    productItem.classList.remove("show-product");
+
+    productHotSale.classList.add("hide-product");
+    productHotSale.classList.remove("show-product");
+});
 
 hotSaleOption.addEventListener("click", function() {
     bestSaleOption.style.color = "#b7b7b7"
     newArrOption.style.color = "#b7b7b7"
     hotSaleOption.style.color = "#111"
-    productItem.forEach(function(product) {
-        product.classList.remove("product-item-smaller")
-    })
-    productNewArrItem.forEach(function(product) {
-        product.classList.add("product-item-smaller")
-        product.classList.add("product-item-transiton")
-    })
-})
+    
+    productHotSale.classList.add("show-product");
+    productHotSale.classList.remove("hide-product");
+
+    productItem.classList.add("hide-product");
+    productItem.classList.remove("show-product");
+
+    productNew.classList.add("hide-product");
+    productNew.classList.remove("show-product");
+});
 
 //---------------------------------------------------Change color product-------------------------------------------------------------------
 

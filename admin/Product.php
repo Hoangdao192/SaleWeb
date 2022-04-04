@@ -29,6 +29,18 @@ class Product {
         return $result;
     }
 
+    public function show_product_limit($offset, $limit) {
+        $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME ORDER BY $this->COLUMN_PRODUCT_ID LIMIT $offset, $limit";
+        $result = $this->database->query($query);
+        return $result;
+    }
+
+    public function show_new_product_limit($offset, $limit) {
+        $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME ORDER BY $this->COLUMN_PRODUCT_ID DESC LIMIT $offset, $limit";
+        $result = $this->database->query($query);
+        return $result;
+    }
+
     //  Get all product have category id equal $categoryId
     public function show_product_by_category($categoryId) {
         $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME WHERE $this->COLUMN_CATEGORY_ID = $categoryId

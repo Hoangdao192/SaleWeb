@@ -30,181 +30,8 @@ a {
     width: 70%;
 }
 
-/* 
-header {
-    min-width: 800px;
-}
-
-div.headertop {
-    justify-content: space-between;
-    margin: 0 0px;
-    padding: 12px 50px;
-    width: 100%;
-    height: 10px;
-    background-color: black;
-    color: white;
-    align-items: center;
-    display: flex;
-}
-
-.toolsupport {
-    display: flex;
-    align-items: center;
-}
-
-.toolsupport>li {
-    padding: 0 12px;
-}
-
-.toolsupport>li:hover a {
-    color: antiquewhite;
-}
-
-.toolsupport a {
-    color: white;
-}
-
-.selectunitmoney {
-    display: inline-block;
-    position: relative;
-    color: white;
-    left: 1px;
-    bottom: 4px;
-    content: "\2304";
-}
-
-.selectunitmoney:hover {
-    cursor: pointer;
-    color: antiquewhite;
-}
-
-.selectunit {
-    padding: 8px 12px 3px 20px;
-    position: absolute;
-    top: 30px;
-    right: 60px;
-    border-radius: 5%;
-    background-color: black;
-    visibility: hidden;
-}
-
-.selectunit a {
-    font-family: "Nunito Sans", sans-serif;
-}
-
-.unitmoney:hover .selectunit {
-    visibility: visible;
-    transition: 0.3s;
-    top: 20px;
-}
-
-.selectunit a:hover {
-    color: antiquewhite;
-}
 
 
-div.headerbottom {
-    justify-content: space-between;
-    margin: 0 0px;
-    padding: 12px 50px;
-    height: 70px;
-    align-items: center;
-    display: flex;
-}
-
-.logo {
-    flex: 2;
-}
-
-.logo img {
-    width: 100%;
-    min-width: 160px;
-    max-width: 240px;
-}
-
-.menu {
-    flex: 3;
-    display: flex;
-    align-items: center;
-    font-weight: bolder;
-}
-
-.menu>li {
-    padding: 0 12px;
-}
-
-.menu>li:hover :not(.dropdown>li>a, .dropdown>li, .dropdown) {
-    color: red;
-    transition: 0.5s;
-    border-bottom: 3px solid red;
-}
-
-.dropdown {
-    position: absolute;
-    background-color: antiquewhite;
-    visibility: hidden;
-    top: 100px;
-    transition: 0.3s;
-    border-radius: 5%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    z-index: 9999;
-}
-
-.dropdown li {
-    margin: 12px 12px 12px 0px;
-    padding: 5px;
-    color: white;
-}
-
-.dropdown li a {
-    color: white;
-    font-family: "Nunito Sans", sans-serif;
-    font-weight: normal;
-    font-size: 14px;
-}
-
-.dropdown li a:hover {
-    color: bisque;
-}
-
-li:hover .dropdown {
-    visibility: visible;
-    background-color: black;
-    top: 80px;
-}
-
-.orther {
-    flex: 1;
-    display: flex;
-    font-weight: bold;
-}
-
-.orther>li {
-    padding: 0px 12px;
-}
-
-.quantity {
-    position: relative;
-    display: flex;
-}
-
-.quantity>p,
-.quantity>img {
-    position: absolute;
-}
-
-.quantity>p {
-    left: 20%;
-    top: 10%;
-    font-size: 13px;
-}
-
-.quantity>img {
-    top: 0;
-    left: 0;
-}
-
- */
 /*----------------------------  poster-------------------------------------------------------------------------------------------------------------------------------*/
 
 #Slider {
@@ -479,6 +306,34 @@ li:hover .dropdown {
     color: #111;
 }
 
+
+#product-content-best-seller {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#product-content-new-product {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#product-content-hot-sales {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.show-product {
+    display: flex;
+}
+
+.hide-product {
+    display: none;
+}
+
+.product-item {
+    width: 22%;
+}
+/* 
 .product-content {
     display: flex;
     flex-wrap: wrap;
@@ -545,10 +400,6 @@ li:hover .dropdown {
     background: #fff;
     padding: 10px 7px 7px;
     margin: 10%;
-}
-
-.product-item span::after {
-    content: "\2729\2729\2729\2729\2729";
 }
 
 .product-item__text {
@@ -628,7 +479,7 @@ li:hover .dropdown {
 .product-item__text>div label>input {
     position: absolute;
     visibility: hidden;
-}
+} */
 
 
 /*-----------------------------Sale Product-------------------------------------------------------------------------------------------------------------------------------*/
