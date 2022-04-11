@@ -125,6 +125,10 @@ div.headerbottom {
     font-weight: bolder;
 }
 
+.menu>li>a {
+    color: #111;
+}
+
 .menu>li {
     padding: 0 12px;
 }

@@ -129,6 +129,10 @@ div.headerbottom {
     padding: 0 12px;
 }
 
+.menu>li>a {
+    color: #111;
+}
+
 .menu>li:hover :not(.dropdown>li>a, .dropdown>li, .dropdown) {
     color: red;
     transition: 0.5s;
