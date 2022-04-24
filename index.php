@@ -70,6 +70,11 @@ $hotSaleProduct = $product->show_product_limit(0,8);
                 }
             });
         }
+        
+        function showProductDetail(productId) {
+            console.log("clicked");
+                    window.location.href = "./product_detail.php?productId=" + productId;
+        }
     </script>
 </head>
 
@@ -161,7 +166,7 @@ $hotSaleProduct = $product->show_product_limit(0,8);
                     }
                 ?>
                 <div class="product-item">
-                    <img src="admin/database/<?php echo $result['productImagePath']?>">
+                    <img onclick="showProductDetail(<?php echo $result['productId']?>)" src="admin/database/<?php echo $result['productImagePath']?>">
                     <div id="<?php echo $radioGroupId?>" class="product-color">
                     <?php
                     $colorArray = $result['productColor'];

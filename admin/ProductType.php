@@ -24,6 +24,12 @@ class ProductType {
         return $result;
     }
 
+    public function show_product_type_by_category($categoryId) {
+        $query = "SELECT * FROM $this->PRODUCT_TYPE_TABLE_NAME WHERE $this->COLUMN_CATEGORY_ID = $categoryId ORDER BY $this->COLUMN_PRODUCT_TYPE_ID";
+        $result = $this->database->query($query);
+        return $result;
+    }
+
     //  Insert new product type to database
     public function insert_product_type($productTypeId, $productTypeName) {
         $query = "INSERT INTO $this->PRODUCT_TYPE_TABLE_NAME ($this->COLUMN_CATEGORY_ID, $this->COLUMN_PRODUCT_TYPE_NAME) 

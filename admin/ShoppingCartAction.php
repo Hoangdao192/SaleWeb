@@ -10,7 +10,8 @@
         $productId = $_POST['productId'];
         $productSize = $_POST['productSize'];
         $productColor = $_POST['productColor'];
-        $shoppingCart->addToCart($productId, $productSize, $productColor);
+        $productQuantity = $_POST['productQuantity'];
+        $shoppingCart->addToCart($productId, $productSize, $productColor, $productQuantity);
         echo count($_SESSION['cart']);
         exit();
     }

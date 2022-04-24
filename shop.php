@@ -32,8 +32,9 @@ if (isset($_GET['categoryId'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/shop.css">
     <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/shop.css">
     <title>SHOP</title>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -55,7 +56,7 @@ if (isset($_GET['categoryId'])) {
                 type: 'get',
                 url: 'admin/ShopSupportHTML.php',
                 data: {
-                    id: <?php echo $categoryId?>
+                    id: <?php echo $categoryId ?>
                 },
                 success: function(response) {
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
@@ -108,18 +109,25 @@ if (isset($_GET['categoryId'])) {
                     action: 'add',
                     productId: productId,
                     productSize: productSize,
-                    productColor: productColor
+                    productColor: productColor,
+                    productQuantity: 1
                 },
                 success: function(response) {
                     document.getElementById("cart-product-number").innerHTML = response;
                 }
             });
         }
+
+        function showProductDetail(productId) {
+            console.log("clicked");
+                    window.location.href = "./product_detail.php?productId=" + productId;
+        }
     </script>
 </head>
+
 <body>
-    <?php 
-        include "php/header.php";
+    <?php
+    include "php/header.php";
     ?>
     <!-- <section class="header">
         <div class="logo">
@@ -145,8 +153,8 @@ if (isset($_GET['categoryId'])) {
         </div>
     </section> -->
     <section class="directory">
-        <h1>Shop</h1>
-        <p>Home &nbsp;<span></span>&nbsp; Shop</p>
+        <h1>Cửa hàng</h1>
+        <p>Trang chủ &nbsp;<span></span>&nbsp; Cửa hàng</p>
     </section>
     <!----------------------Content------------------------->
     <section class="content">
@@ -162,11 +170,11 @@ if (isset($_GET['categoryId'])) {
                     $showCategory = $category->show_category();
                     while ($result = $showCategory->fetch_assoc()) {
                     ?>
-                    <input style="display: none;" type="number" name="categoryId" value="<?php echo $result['categoryId'] ?>">
-                    <br>
-                    <a style="<?php if ($categoryId == $result['categoryId']) echo "color:black" ?>" href="shop.php?categoryId=<?php echo $result['categoryId'] ?>">
-                        <?php echo $result['categoryName'] ?>
-                    </a>
+                        <input style="display: none;" type="number" name="categoryId" value="<?php echo $result['categoryId'] ?>">
+                        <br>
+                        <a style="<?php if ($categoryId == $result['categoryId']) echo "color:black" ?>" href="shop.php?categoryId=<?php echo $result['categoryId'] ?>">
+                            <?php echo $result['categoryName'] ?>
+                        </a>
                     <?php
                     }
                     ?>
@@ -179,12 +187,12 @@ if (isset($_GET['categoryId'])) {
                     <option value="-1">Hiển thị tất cả</option>
                     <?php
                     //  Get all product type from database and show it to selector
-                    $allProductType = $productType->show_product_type();
+                    $allProductType = $productType->show_product_type_by_category($categoryId);
                     while ($typeResult = $allProductType->fetch_assoc()) {
                         $productTypeId = $typeResult['productTypeId'];
                         $productTypeName = $typeResult['productTypeName'];
                     ?>
-                    <option value="<?php echo $productTypeId?>"><?php echo $productTypeName?></option>
+                        <option value="<?php echo $productTypeId ?>"><?php echo $productTypeName ?></option>
                     <?php
                     }
                     ?>
@@ -208,7 +216,7 @@ if (isset($_GET['categoryId'])) {
         </div>
     </section>
     <!---------------------FOOTER------------------------->
-    <?php 
+    <?php
     include "php/footer.php"
     ?>
     <!-- <footer class="footer">
@@ -259,4 +267,5 @@ if (isset($_GET['categoryId'])) {
     </footer> -->
 </body>
 <script src="javascript/shop.js"></script>
+
 </html>

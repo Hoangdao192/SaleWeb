@@ -34,7 +34,7 @@
                 }
 
                 echo    "<div style=\"" . $divProductItemStyle . "\"class=\"product-item\">";
-                echo        "<img src=\"admin/database/" . $result['productImagePath'] . "\">";
+                echo        "<img onClick=showProductDetail(" . $result['productId'] . ") src=\"admin/database/" . $result['productImagePath'] . "\">";
                 echo        "<div id=\"" . $radioGroupId . "\" class=\"product-color\">";
 
                 $colorArray = $result['productColor'];
@@ -48,10 +48,16 @@
                     if ($i == 0) {
                         $radioChecked = "checked";
                     }
+                    $borderClass = "";
+                    $blackCheck = "";
+                    if ($splitResult[$i] == '#FFFFFF') {
+                        $borderClass = " inner-border";
+                        $blackCheck = " black";
+                    }
                     echo        "<div class=\"product-color-item\">";
                     echo            "<input value=\"" . $splitResult[$i] . "\" type=\"radio\" class=\"radio\" name=\"" . $radioButtonName . "\" " . $radioChecked . " id=\"" . $radioButtonId . "\">";
-                    echo                "<label style=\"background-color:" . $splitResult[$i] . "\" for=\"" . $radioButtonId . "\" class=\"radio-label\">";
-                    echo                    "<i class=\"fa-xs fa-solid fa-check\"></i>";
+                    echo                "<label style=\"background-color:" . $splitResult[$i] . "\" for=\"" . $radioButtonId . "\" class=\"radio-label" . $borderClass . "\">";
+                    echo                    "<i class=\"fa-xs fa-solid fa-check" . $blackCheck . "\"></i>";
                     echo                "</label>";
                     echo        "</div>";
                 }
