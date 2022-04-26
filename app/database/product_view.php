@@ -1,9 +1,10 @@
 <?php
-echo ($_SERVER['DOCUMENT_ROOT']);
-    include_once "app/database/product_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
     //  This file take data from database and return it in HTML
 
     $product_table = new ProductTable;
+
+    
 
     echo ($_GET['id']);
     if (isset($_GET['id'])) {
@@ -39,7 +40,7 @@ echo ($_SERVER['DOCUMENT_ROOT']);
                 }
             ?>
             <div class="product-item">
-                <img onclick="showProductDetail(<?php echo $product->id?>)" src="admin/database/<?php echo $product->image_path?>">
+                <img onclick="showProductDetail(<?php echo $product->id?>)" src="/SaleWeb_Assignment/admin/database/<?php echo $product->image_path?>">
                 <div id="<?php echo $radio_group_id?>" class="product-color">
                 <?php
                 $color_array = $product->color;

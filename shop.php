@@ -1,19 +1,21 @@
 <?php
-include_once "admin/Product.php";
-include_once "admin/ShoppingCart.php";
-include_once "admin/Category.php";
-include_once "admin/ProductType.php";
+include_once "app/database/product_table.php";
+include_once "app/database/product_type_table.php";
+include_once "app/database/category_table.php";
 
-$product = new Product;
-$productType = new ProductType;
-$category = new Category;
-$categoryId = 0;
-if (isset($_GET['categoryId'])) {
-    $categoryId = $_GET['categoryId'];
+$product_table = new ProductTable;
+$products = $product_table->get_all();
+
+$product_type_table = new ProductTypeTable;
+
+$category_table = new CategoryTable;
+$categories = $category_table->get_all();
+
+$category_id = 0;
+if (isset($_GET['category_id'])) {
+    $category_id = $_GET['category_id'];
 } else {
-    $allCategory = $category->show_category();
-    $firstCategory = $allCategory->fetch_assoc();
-    $categoryId = $firstCategory['categoryId'];
+    $category_id = $categories[0]->id;
 }
 ?>
 
@@ -54,12 +56,13 @@ if (isset($_GET['categoryId'])) {
         function showProductByCategory() {
             $.ajax({
                 type: 'get',
-                url: 'admin/ShopSupportHTML.php',
+                url: 'app/database/product_view.php',
                 data: {
-                    id: <?php echo $categoryId ?>
+                    id: <?php echo $category_id ?>
                 },
                 success: function(response) {
-                    var contentRight = document.querySelectorAll(".content-right-content")[0];
+                    var contentRight = document.querySelectorAll(".content-right-content");
+                    console.log(contentRight);
                     contentRight.innerHTML = response;
                 }
             });
@@ -74,7 +77,7 @@ if (isset($_GET['categoryId'])) {
             }
             $.ajax({
                 type: 'get',
-                url: 'admin/ShopSupportHTML.php',
+                url: 'app/database/product_view.php',
                 data: {
                     productTypeId: productTypeId,
                     page: 1
@@ -120,38 +123,16 @@ if (isset($_GET['categoryId'])) {
 
         function showProductDetail(productId) {
             console.log("clicked");
-                    window.location.href = "./product_detail.php?productId=" + productId;
+                    window.location.href = "./product.php?productId=" + productId;
         }
     </script>
 </head>
 
 <body>
     <?php
-    include "php/header.php";
+    include "common/header.php";
     ?>
-    <!-- <section class="header">
-        <div class="logo">
-            <a href=""><img src="images/logo.png"></a>
-        </div>
-        <div class="menu">
-            <li><a href="index.html">Trang chủ</a></li>
-            <li><a href="shop.html">Cửa hàng</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Liên lạc</a></li>
-        </div>
-        <div class="other">
-            <div>
-                <a href="#"><img src="images/icon/search.png"></a>
-            </div>
-            <div>
-                <a href="#"><img src="images/icon/heart.png"></a>
-            </div>
-            <div class="quantity">
-                <a href="#"><img src="images/icon/cart.png"><span id="cart-product-number">10</span></a>
-            </div>
-            <div class="price">$0.00</div>
-        </div>
-    </section> -->
+
     <section class="directory">
         <h1>Cửa hàng</h1>
         <p>Trang chủ &nbsp;<span></span>&nbsp; Cửa hàng</p>
@@ -167,13 +148,13 @@ if (isset($_GET['categoryId'])) {
                 <h1>DANH MỤC</h1><i class="show-categories fa-solid fa-chevron-down"></i>
                 <div class="categories-sub-menu">
                     <?php
-                    $showCategory = $category->show_category();
-                    while ($result = $showCategory->fetch_assoc()) {
+                    for ($i = 0; $i < sizeof($categories); ++$i) {
+                        $category = $categories[$i];
                     ?>
-                        <input style="display: none;" type="number" name="categoryId" value="<?php echo $result['categoryId'] ?>">
+                        <input style="display: none;" type="number" name="category_id" value="<?php echo $category->id ?>">
                         <br>
-                        <a style="<?php if ($categoryId == $result['categoryId']) echo "color:black" ?>" href="shop.php?categoryId=<?php echo $result['categoryId'] ?>">
-                            <?php echo $result['categoryName'] ?>
+                        <a style="<?php if ($category_id == $category->id) echo "color:black" ?>" href="shop.php?category_id=<?php echo $category->id?>">
+                            <?php echo $category->name ?>
                         </a>
                     <?php
                     }
@@ -187,12 +168,11 @@ if (isset($_GET['categoryId'])) {
                     <option value="-1">Hiển thị tất cả</option>
                     <?php
                     //  Get all product type from database and show it to selector
-                    $allProductType = $productType->show_product_type_by_category($categoryId);
-                    while ($typeResult = $allProductType->fetch_assoc()) {
-                        $productTypeId = $typeResult['productTypeId'];
-                        $productTypeName = $typeResult['productTypeName'];
+                    $product_types[] = $product_type_table->get_all_filter_by_category($category_id);
+                    for ($i = 0; $i < sizeof($product_types); ++$i) {
+                        $product_type = $product_types[$i];
                     ?>
-                        <option value="<?php echo $productTypeId ?>"><?php echo $productTypeName ?></option>
+                        <option value="<?php echo $product_type->id ?>"><?php echo $product_type->name ?></option>
                     <?php
                     }
                     ?>
@@ -217,55 +197,8 @@ if (isset($_GET['categoryId'])) {
     </section>
     <!---------------------FOOTER------------------------->
     <?php
-    include "php/footer.php"
+    include "common/footer.php"
     ?>
-    <!-- <footer class="footer">
-        <div class="footer__container">
-            <div class="footer__row">
-                <div class="footer__about">
-                    <div class="footer__logo">
-                        <a href=""><img src="images/footer-logo.png" alt=""></a>
-                    </div>
-                    <p>The customer is at the heart of our unique business model, which includes design.</p>
-                    <div class="footer__payment">
-                        <a href=""><img src="images/payment.png" </a>
-                    </div>
-                </div>
-                <div class="footer__widget">
-                    <b>SHOPPING</b>
-                    <ul>
-                        <li><a href="">Clothing Store</a></li>
-                        <li><a href="">Trending Shoes</a></li>
-                        <li><a href="">Accessories</a></li>
-                        <li><a href="">Sale</a></li>
-                    </ul>
-                </div>
-                <div class="footer__widget">
-                    <b>SHOPPING</b>
-                    <ul>
-                        <li><a href="">Contact Us</a></li>
-                        <li><a href="">Payment Methods</a></li>
-                        <li><a href="">Delivary</a></li>
-                        <li><a href="">Return & Exchanges</a></li>
-                    </ul>
-                </div>
-                <div class="footer__widget">
-                    <b>NEWLETTER</b>
-                    <p>Be the first to know about new arrivals. look books, sales & promos!</p>
-                    <form action="">
-                        <input type="email" placeholder="Your email">
-                        <button type="submit"><i class="fa fa-envelope-o" aria-hidden="true"></i></button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer__copyright">
-                <p>Copyright © 2022 All rights reserved | This website is made with
-                    <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com/">Team BCD</a>
-                </p>
-            </div>
-        </div>
-    </footer> -->
 </body>
 <script src="javascript/shop.js"></script>
-
 </html>

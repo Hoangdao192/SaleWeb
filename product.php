@@ -1,5 +1,5 @@
 <?php
-include_once "admin/Product.php";
+include_once "./admin/Product.php";
 
 if (isset($_GET['productId'])) {
     $productId = $_GET['productId'];
@@ -87,7 +87,7 @@ if (isset($_GET['productId'])) {
 <body>
     <!-----------------------------------Header------------------------------------------------------------>
     <?php
-    include "php/header.php";
+    include "common/header.php";
     ?>
     <section class="directory">
         <h1><?php echo $currentProduct['productName'] ?></h1>
@@ -176,7 +176,7 @@ if (isset($_GET['productId'])) {
         </div>
     </section>
     <?php
-    include "php/footer.php"
+    include "common/footer.php"
     ?>
 </body>
 
