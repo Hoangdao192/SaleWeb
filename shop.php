@@ -17,6 +17,7 @@ if (isset($_GET['category_id'])) {
 } else {
     $category_id = $categories[0]->id;
 }
+echo ($category_id);
 ?>
 
 <!DOCTYPE html>
@@ -58,9 +59,10 @@ if (isset($_GET['category_id'])) {
                 type: 'get',
                 url: 'app/database/product_view.php',
                 data: {
-                    id: <?php echo $category_id ?>
+                    id: <?php echo $category_id?>
                 },
                 success: function(response) {
+                    console.log(response);
                     var contentRight = document.querySelectorAll(".content-right-content");
                     console.log(contentRight);
                     contentRight.innerHTML = response;
@@ -168,7 +170,7 @@ if (isset($_GET['category_id'])) {
                     <option value="-1">Hiển thị tất cả</option>
                     <?php
                     //  Get all product type from database and show it to selector
-                    $product_types[] = $product_type_table->get_all_filter_by_category($category_id);
+                    $product_types = $product_type_table->get_all_filter_by_category($category_id);
                     for ($i = 0; $i < sizeof($product_types); ++$i) {
                         $product_type = $product_types[$i];
                     ?>

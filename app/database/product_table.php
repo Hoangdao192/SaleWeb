@@ -44,13 +44,13 @@ class ProductTable {
         $product_type = new ProductType;
        
         $imagePath = $_FILES['productImage']['name'];
-        $query = "INSERT INTO $this->PRODUCT_TABLE_NAME (
-                $this->COLUMN_PRODUCT_TYPE_ID, 
-                $this->COLUMN_PRODUCT_NAME, 
-                $this->COLUMN_PRODUCT_COLOR, 
-                $this->COLUMN_PRODUCT_PRICE, 
-                $this->COLUMN_PRODUCT_IMAGE_PATH, 
-                $this->COLUMN_CATEGORY_ID)
+        $query = "INSERT INTO " . ProductTable::$PRODUCT_TABLE_NAME . " (
+                " . ProductTable::$COLUMN_PRODUCT_TYPE_ID. ", 
+                " . ProductTable::$COLUMN_PRODUCT_NAME. ", 
+                " . ProductTable::$COLUMN_PRODUCT_COLOR. ", 
+                " . ProductTable::$COLUMN_PRODUCT_PRICE. ", 
+                " . ProductTable::$COLUMN_PRODUCT_IMAGE_PATH. ", 
+                " . ProductTable::$COLUMN_CATEGORY_ID. ")
         VALUES($product->type_id, '$product->name', '$product->color', $product->price, '$imagePath', $product->category_id);";
         $result = $this->database->query($query);
 
@@ -59,9 +59,9 @@ class ProductTable {
         move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$lastId);
 
         //  Change image file's name to productId so it easy to find and cannot be replaced
-        $query = "UPDATE $this->PRODUCT_TABLE_NAME 
-                    SET $this->COLUMN_PRODUCT_IMAGE_PATH = '$lastId' 
-                    WHERE $this->COLUMN_PRODUCT_ID = $lastId";
+        $query = "UPDATE " . ProductTable::$PRODUCT_TABLE_NAME . " 
+                    SET " . ProductTable::$COLUMN_PRODUCT_IMAGE_PATH. " = '$lastId' 
+                    WHERE " . ProductTable::$COLUMN_PRODUCT_ID. " = $lastId";
         $this->database->query($query);
 
         return $result;
@@ -72,20 +72,20 @@ class ProductTable {
         $imagePath = $_FILES['productImage']['name'];
         move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$product->id);
         $query = 
-                "UPDATE $this->PRODUCT_TABLE_NAME 
-                SET $this->COLUMN_PRODUCT_TYPE_ID = $product->type_id, 
-                    $this->COLUMN_PRODUCT_NAME = '$product->name',
-                    $this->COLUMN_PRODUCT_COLOR = '$product->color',
-                    $this->COLUMN_PRODUCT_PRICE = $product->price,
-                    $this->COLUMN_PRODUCT_IMAGE_PATH = '$imagePath',
-                    $this->COLUMN_CATEGORY_ID = $product->category_id
-                WHERE $this->COLUMN_PRODUCT_ID = $product->id";
+                "UPDATE " . ProductTable::$PRODUCT_TABLE_NAME . " 
+                SET " . ProductTable::$COLUMN_PRODUCT_TYPE_ID. " = $product->type_id, 
+                    " . ProductTable::$COLUMN_PRODUCT_NAME. " = '$product->name',
+                    " . ProductTable::$COLUMN_PRODUCT_COLOR. " = '$product->color',
+                    " . ProductTable::$COLUMN_PRODUCT_PRICE. " = $product->price,
+                    " . ProductTable::$COLUMN_PRODUCT_IMAGE_PATH. " = '$imagePath',
+                    " . ProductTable::$COLUMN_CATEGORY_ID. " = $product->category_id
+                WHERE " . ProductTable::$COLUMN_PRODUCT_ID. " = $product->id";
         $result = $this->database->query($query);
 
         //  Change image file's name to productId so it easy to find and cannot be replaced
-        $query = "UPDATE $this->PRODUCT_TABLE_NAME 
-                    SET $this->COLUMN_PRODUCT_IMAGE_PATH = '$product->id' 
-                    WHERE $this->COLUMN_PRODUCT_ID = $product->id";
+        $query = "UPDATE " . ProductTable::$PRODUCT_TABLE_NAME . " 
+                    SET " . ProductTable::$COLUMN_PRODUCT_IMAGE_PATH. " = '$product->id' 
+                    WHERE " . ProductTable::$COLUMN_PRODUCT_ID. " = $product->id";
         $this->database->query($query);
 
         return $result;
@@ -93,14 +93,14 @@ class ProductTable {
 
     //  Delete a product with this id
     public function delete_product($product_id) {
-        $query = "DELETE FROM $this->PRODUCT_TABLE_NAME WHERE $this->COLUMN_PRODUCT_ID = $product_id";
+        $query = "DELETE FROM " . ProductTable::$PRODUCT_TABLE_NAME . " WHERE " . ProductTable::$COLUMN_PRODUCT_ID. " = $product_id";
         $result = $this->database->query($query);
         return $result;
     }
 
     //  Get a single product have this id
     public function get_product($product_id) {
-        $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME WHERE $this->COLUMN_PRODUCT_ID = $product_id";
+        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . " WHERE " . ProductTable::$COLUMN_PRODUCT_ID. " = $product_id";
         $result = $this->database->query($query);
         return $this->parse_product($result->fetch_assoc());
     }
@@ -118,11 +118,15 @@ class ProductTable {
 
      //  Get all product have product type id equal
      public function get_all_filter_by_type($type_id) {
-        $query = "SELECT * FROM $this->PRODUCT_TABLE_NAME 
-                    WHERE $this->COLUMN_PRODUCT_TYPE_ID = $type_id
-                    ORDER BY $this->COLUMN_PRODUCT_ID";
+        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . " 
+                    WHERE " . ProductTable::$COLUMN_PRODUCT_TYPE_ID. " = $type_id
+                    ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID. "";
         $result = $this->database->query($query);
-        return $result;
+        $products = [];
+        while ($item = $result->fetch_assoc()) {
+            $products[] = $this->parse_product($item);
+        }
+        return $products;
     }
 
     //  Get all product have category id equal $categoryId

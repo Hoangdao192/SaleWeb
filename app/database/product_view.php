@@ -4,16 +4,11 @@
 
     $product_table = new ProductTable;
 
-    
-
-    echo ($_GET['id']);
     if (isset($_GET['id'])) {
         $categoryId = $_GET['id'];
         $products = $product_table->get_all_filter_by_category($categoryId);
         showDataToHTML($products, 1);
         exit();
-    } else {
-        echo "not";
     }
 
     if (isset($_GET['productTypeId'])) {
