@@ -63,7 +63,7 @@ echo ($category_id);
                 },
                 success: function(response) {
                     console.log(response);
-                    var contentRight = document.querySelectorAll(".content-right-content");
+                    var contentRight = document.querySelectorAll(".content-right-content")[0];
                     console.log(contentRight);
                     contentRight.innerHTML = response;
                 }
