@@ -43,7 +43,7 @@ class ProductTable {
     public function insert_product($product) {
         $product_type = new ProductType;
        
-        $imagePath = $_FILES['productImage']['name'];
+        $imagePath = $_FILES['productImagePath']['name'];
         $query = "INSERT INTO " . ProductTable::$PRODUCT_TABLE_NAME . " (
                 " . ProductTable::$COLUMN_PRODUCT_TYPE_ID. ", 
                 " . ProductTable::$COLUMN_PRODUCT_NAME. ", 
@@ -56,7 +56,7 @@ class ProductTable {
 
         $lastId = $this->database->link->insert_id;
 
-        move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$lastId);
+        move_uploaded_file($_FILES['productImagePath']['tmp_name'], "database/".$lastId);
 
         //  Change image file's name to productId so it easy to find and cannot be replaced
         $query = "UPDATE " . ProductTable::$PRODUCT_TABLE_NAME . " 

@@ -1,6 +1,6 @@
 <?php
     include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/database.php";
-    include_once "app/models/category.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/category.php";
 ?>
 
 <?php

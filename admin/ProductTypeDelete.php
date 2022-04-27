@@ -1,14 +1,13 @@
 <?php 
-    include_once "ProductType.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
 
-    $productType = new ProductType;
-    $columnProductTypeIdTitle = $productType->COLUMN_PRODUCT_TYPE_ID;
+    $product_type_table = new ProductTypeTable;
 
-    if (!isset($_GET[$columnProductTypeIdTitle]) || $_GET[$columnProductTypeIdTitle] == NULL) {
+    if (!isset($_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID]) || $_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID] == NULL) {
         echo "<script>window.location = 'listproduct.php'</script>";
     } else {
-        $productTypeId = $_GET[$columnProductTypeIdTitle];
+        $product_type_id = $_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID];
     }
-    $productType->delete_product_type($productTypeId);
+    $product_type_table->delete_product_type($product_type_id);
     header('Location:ProductTypeList.php');
 ?>

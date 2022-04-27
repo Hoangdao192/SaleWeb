@@ -1,12 +1,12 @@
 <?php 
-    include_once "Product.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
 
-    $product = new Product;
-    if (!isset($_GET['productId']) || $_GET['productId'] == NULL) {
+    $product_table = new ProductTable;
+    if (!isset($_GET[ProductTable::$COLUMN_PRODUCT_ID]) || $_GET[ProductTable::$COLUMN_PRODUCT_ID] == NULL) {
         echo "<script>window.location = 'listproduct.php'</script>";
     } else {
-        $productId = $_GET['productId'];
+        $product_id = $_GET[ProductTable::$COLUMN_PRODUCT_ID];
     }
-    $product->delete_product($productId);
+    $product_table->delete_product($product_id);
     header('Location:ProductList.php');
 ?>

@@ -1,7 +1,7 @@
 <?php
 include "header.php";
 include "slider.php";
-include_once "Category.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
 ?>
 
 <div class="admin-content-right">
@@ -18,23 +18,20 @@ include_once "Category.php";
             </thead>
             <tbody>
                 <?php
-                $category = new Category;
-                $showCategory = $category->show_category();
-                if ($showCategory) {
-                    $i = 0;
-                    while ($result = $showCategory->fetch_assoc()) {
-                        $i++;
+                $category_table = new CategoryTable;
+                $categories = $category_table->get_all();
+                for ($i = 0; $i < sizeof($categories); $i++) {
+                    $category = $categories[$i];
                 ?>
-                        <tr>
-                            <td><?php echo $i ?></td>
-                            <td><?php echo $result[$category->COLUMN_CATEGORY_ID] ?></td>
-                            <td><?php echo $result[$category->COLUMN_CATEGORY_NAME] ?></td>
-                            <td><a href="CategoryEdit.php?<?php echo $category->COLUMN_CATEGORY_ID ?>=<?php echo $result[$category->COLUMN_CATEGORY_ID] ?>">Sửa</a>
-                                |<a href="CategoryDelete.php?<?php echo $category->COLUMN_CATEGORY_ID ?>=<?php echo $result[$category->COLUMN_CATEGORY_ID] ?>">Xóa</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><?php echo $i ?></td>
+                        <td><?php echo $category->id ?></td>
+                        <td><?php echo $category->name ?></td>
+                        <td><a href="CategoryEdit.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Sửa</a>
+                            |<a href="CategoryDelete.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Xóa</a>
+                        </td>
+                    </tr>
                 <?php
-                    }
                 }
                 ?>
             </tbody>

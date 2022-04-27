@@ -1,12 +1,12 @@
 <?php 
-include_once "Category.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
 
-    $category = new Category;
-    if (!isset($_GET[$category->COLUMN_CATEGORY_ID]) || $_GET[$category->COLUMN_CATEGORY_ID] == NULL) {
+    $category_table = new CategoryTable;
+    if (!isset($_GET[CategoryTable::$COLUMN_CATEGORY_ID]) || $_GET[CategoryTable::$COLUMN_CATEGORY_ID] == NULL) {
         //echo "<script>window.location = 'listproduct.php'</script>";
     } else {
-        $categoryId = $_GET[$category->COLUMN_CATEGORY_ID];
-        $category->delete_category($categoryId);
+        $category_id = $_GET[CategoryTable::$COLUMN_CATEGORY_ID];
+        $category_table->delete_category($category_id);
     }
     header('Location:CategoryList.php');
 ?>

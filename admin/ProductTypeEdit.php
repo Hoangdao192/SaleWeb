@@ -1,38 +1,38 @@
 <?php
     include "header.php";
     include "slider.php";
-    include_once "ProductType.php";
-    include_once "Category.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/product_type.php";
 ?>
 
 <?php 
     //  Lấy id loại sản phẩm được truyền đến
-    $productType = new ProductType;
-    $columnProductTypeIdTitle = $productType->COLUMN_PRODUCT_TYPE_ID;
-    $columnProductTypeNameTitle = $productType->COLUMN_PRODUCT_TYPE_NAME;
+    $product_type_table = new ProductTypeTable;
 
-    $category = new category;
-    $columnCategoryIdTitle = $category->COLUMN_CATEGORY_ID;
-    $columnCategoryNameTitle = $category->COLUMN_CATEGORY_NAME;
-    $showCategory = $category->show_category();
+    $category_table = new CategoryTable;
 
-    if (!isset($_GET[$columnProductTypeIdTitle]) || $_GET[$columnProductTypeIdTitle] == NULL) {
+    $product_type_id;
+
+    if (!isset($_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID]) || $_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID] == NULL) {
         echo "Không nhận được id loại sản phẩm";
         return;
     } else {
-        $productTypeId = $_GET[$columnProductTypeIdTitle];
+        $product_type_id = $_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID];
     }
-    $getProductType = $productType->get_product_type($productTypeId);
-    if ($getProductType) {
-        $productTypeResult = $getProductType->fetch_assoc();
-    }
+    $product_type = $product_type_table->get_product_type($product_type_id);
 ?>
 
 <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $id_danhmuc = $_POST[$columnCategoryIdTitle];
-        $ten_loaisanpham = $_POST[$columnProductTypeNameTitle];
-        $insertProductType = $productType->update_product_type($productTypeId, $id_danhmuc, $ten_loaisanpham);
+        $category_id = $_POST[CategoryTable::$COLUMN_CATEGORY_ID];
+        $product_type_name = $_POST[ProductTypeTable::$COLUMN_PRODUCT_TYPE_NAME];
+
+        $product_type = new ProductType;
+        $product_type->id = $product_type_id;
+        $product_type->category_id = $category_id;
+        $product_type->name = $product_type_name;
+        $product_type_table->update_product_type($product_type);
         header('Location:ProductTypeList.php');
     }
 ?>
@@ -41,21 +41,21 @@
             <div class="admin-content-right-cartegory-add">
                 <h1 class="content-title">Sửa loại sản phẩm</h1>
                 <form action="" method="POST" class="submit_form">
-                    <select name="<?php echo $columnCategoryIdTitle?>" id="danhmuc">
+                    <select name="<?php echo CategoryTable::$COLUMN_CATEGORY_ID?>" id="danhmuc">
                         <option value="#">Chọn danh mục</option>
                         <?php
-                            if ($showCategory) {
-                                while ($result = $showCategory->fetch_assoc()) {
-                            ?>
-                        <option value="<?php echo $result[$columnCategoryIdTitle]?>"><?php echo $result[$columnCategoryNameTitle]?></option>
-                        <?php
-                                }
-                            }
+                        $categories = $category_table->get_all();
+                        for ($i = 0; $i < sizeof($categories); $i++){
+                            $category = $categories[$i];
                         ?>
-                        <option value=""></option>
+                            <option value="<?php echo $category->id?>"><?php echo $category->name?></option>
+                        <?php
+                        }
+                        ?>
                     </select>
                     <br>
-                    <input class="input-template" required name="<? echo $columnProductTypeNameTitle?>" type="text" placeholder="Nhập tên loại sản phẩm" value="<?php echo $productTypeResult[$columnProductTypeNameTitle]?>">
+                    <input class="input-template" required name="<?php echo ProductTypeTable::$COLUMN_PRODUCT_TYPE_NAME?>" 
+                        type="text" placeholder="Nhập tên loại sản phẩm" value="<?php echo $product_type->name?>">
                     <button type="button-template submit" class="submitbtn">Sửa</button>
                 </form>
             </div>
@@ -67,7 +67,7 @@
     var selector = document.getElementById('danhmuc');
     //  Đặt giá trị hiện tại cho selector
     for(var i, j = 0; i = selector.options[j]; j++) {
-        if(i.value == <?php echo $productTypeResult[$columnCategoryIdTitle]?>) {
+        if(i.value == <?php echo $product_type->category_id?>) {
             selector.selectedIndex = j;
             break;
         }

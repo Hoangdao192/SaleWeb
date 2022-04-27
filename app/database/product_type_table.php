@@ -29,7 +29,7 @@ class ProductTypeTable {
     //  Insert new product type to database
     public function insert_product_type($product_type) {
         $query = "INSERT INTO " . ProductTypeTable::$PRODUCT_TYPE_TABLE_NAME . "(" . ProductTypeTable::$COLUMN_CATEGORY_ID . ", " . ProductTypeTable::$COLUMN_PRODUCT_TYPE_NAME . ") 
-                VALUES($product_type->id, '$product_type->name')";
+                VALUES($product_type->category_id, '$product_type->name')";
         $result = $this->database->query($query);
         return $result;
     }

@@ -1,5 +1,5 @@
 <?php
-include_once "app/database/product_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
 
 $product_table = new ProductTable;
 $products = $product_table->get_all();
@@ -212,8 +212,7 @@ $products = $product_table->get_all();
             <?php
                 $j = 0;
                 for ($i = sizeof($products) - 1; $i >= 0; $i = $i - 1) {
-                    echo $i;
-                    if ($i < sizeof($products) - 7) break;
+                    if ($i <= sizeof($products) - 9) break;
                     $product = $products[$i];
                     $j++;
                     $divProductItemStyle = "";

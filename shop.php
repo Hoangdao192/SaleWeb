@@ -1,7 +1,7 @@
 <?php
-include_once "app/database/product_table.php";
-include_once "app/database/product_type_table.php";
-include_once "app/database/category_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
 
 $product_table = new ProductTable;
 $products = $product_table->get_all();
@@ -17,7 +17,6 @@ if (isset($_GET['category_id'])) {
 } else {
     $category_id = $categories[0]->id;
 }
-echo ($category_id);
 ?>
 
 <!DOCTYPE html>
