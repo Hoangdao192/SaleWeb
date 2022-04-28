@@ -5,7 +5,6 @@ arrowButton.addEventListener("click", function(){
 });
 
 var productItems = document.querySelectorAll(".product-item img");
-console.log(productItems);
 for (let i = 0; i < productItems.length; ++i) {
     productItems[i].addEventListener("click", function(){
         console.log("clicked");

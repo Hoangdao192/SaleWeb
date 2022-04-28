@@ -1,5 +1,5 @@
 <?php
-    include_once "Database.php";
+    include_once "../app/database/database.php";
 
     class ShopingCart {
         private $database;
@@ -18,9 +18,21 @@
             }
         }
 
-        public function addToCart($productId, $productSize, $productColor) {
-            $product = [$productId, $productSize, $productColor];
-            $_SESSION['cart'][] = $product;
+        public function addToCart($productId, $productSize, $productColor, $productQuantity) {
+            $product = [$productId, $productSize, $productColor, intval($productQuantity)];
+            $all_products = $_SESSION['cart'];
+            $exist = false;
+            for ($i = 0; $i < sizeof($all_products); ++$i) {
+                if ($productId === $all_products[$i][0] && $productSize === $all_products[$i][1]
+                    && $productColor === $all_products[$i][2]) {
+                        $_SESSION['cart'][$i][3] = intval($_SESSION['cart'][$i][3]) + intval($productQuantity);
+                        $exist = true;
+                        break;
+                    }
+            }
+            if (!$exist) {
+                $_SESSION['cart'][] = $product;
+            }
         }
 
         public function countInCart() {

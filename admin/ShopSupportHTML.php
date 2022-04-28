@@ -1,83 +1,85 @@
 <?php
-    include_once "Product.php";
+echo ($_SERVER['DOCUMENT_ROOT']);
+    include_once "app/database/product_table.php";
     //  This file take data from database and return it in HTML
 
-    $product = new Product;
+    $product_table = new ProductTable;
 
+    echo ($_GET['id']);
     if (isset($_GET['id'])) {
         $categoryId = $_GET['id'];
-        $allResult = $product->show_product_by_category($categoryId);
-        showDataToHTML($allResult, 1);
+        $products = $product_table->get_all_filter_by_category($categoryId);
+        showDataToHTML($products, 1);
         exit();
+    } else {
+        echo "not";
     }
 
     if (isset($_GET['productTypeId'])) {
         $productTypeId = $_GET['productTypeId'];
         $page = $_GET['page'];
-        $result = $product->show_product_by_type($productTypeId);
-        showDataToHTML($result, $page);
+        $products = $product_table->get_all_filter_by_type($productTypeId);
+        showDataToHTML($products, $page);
         exit();
     }
 
     //  Show data in HTML
     //  Data is mysqli querry result
-    function showDataToHTML($data, $page) {
-        if ($data) {
+    function showDataToHTML($products, $page) {
+        if ($products) {
             $j = ($page - 1) * 12;
-            while ($result = $data->fetch_assoc()) {
+            for ($i = 0; $i < sizeof($products); ++$i) {
+                if ($i > 7) break;
+                $product = $products[$i];
                 $j++;
-                if ($j > 12) break;
                 $divProductItemStyle = "";
-                $radioGroupId = "product-color" . $result['productId'];
-                if (fmod($j,3) != 0 || $j == 0) {
-                    $divProductItemStyle = "margin-right:4.7%";
+                $radio_group_id = "product-color" . $product->id;
+                if (fmod($j, 4) != 0 || $j == 0) {
+                    $divProductItemStyle = "margin-right:10px";
                 }
-
-                echo    "<div style=\"" . $divProductItemStyle . "\"class=\"product-item\">";
-                echo        "<img onClick=showProductDetail(" . $result['productId'] . ") src=\"admin/database/" . $result['productImagePath'] . "\">";
-                echo        "<div id=\"" . $radioGroupId . "\" class=\"product-color\">";
-
-                $colorArray = $result['productColor'];
-                $splitRegex = "/,/";
-                $splitResult = preg_split($splitRegex, $colorArray);
-
-                for ($i = 0; $i < sizeof($splitResult); $i++) {
-                    $radioButtonName = "color" . $result['productId'];
-                    $radioButtonId = "color" . $result['productId'] . "-" . $i;
-                    $radioChecked = "";
-                    if ($i == 0) {
-                        $radioChecked = "checked";
+            ?>
+            <div class="product-item">
+                <img onclick="showProductDetail(<?php echo $product->id?>)" src="admin/database/<?php echo $product->image_path?>">
+                <div id="<?php echo $radio_group_id?>" class="product-color">
+                <?php
+                $color_array = $product->color;
+                for ($j = 0; $j < sizeof($color_array); $j++) {
+                    $radio_button_name = "color" . $product->id;
+                    $radio_button_id = "color" . $product->id . "-" . $j;
+                    $radio_checked = "";
+                    if ($j == 0) {
+                        $radio_checked = "checked";
                     }
-                    $borderClass = "";
-                    $blackCheck = "";
-                    if ($splitResult[$i] == '#FFFFFF') {
-                        $borderClass = " inner-border";
-                        $blackCheck = " black";
-                    }
-                    echo        "<div class=\"product-color-item\">";
-                    echo            "<input value=\"" . $splitResult[$i] . "\" type=\"radio\" class=\"radio\" name=\"" . $radioButtonName . "\" " . $radioChecked . " id=\"" . $radioButtonId . "\">";
-                    echo                "<label style=\"background-color:" . $splitResult[$i] . "\" for=\"" . $radioButtonId . "\" class=\"radio-label" . $borderClass . "\">";
-                    echo                    "<i class=\"fa-xs fa-solid fa-check" . $blackCheck . "\"></i>";
-                    echo                "</label>";
-                    echo        "</div>";
+                ?>
+                    <div class="product-color-item">
+                        <input value="<?php echo $color_array[$j]?>" type="radio" 
+                            class="radio" name="<?php echo $radio_button_name?>" <?php echo $radio_checked?>  
+                            id="<?php echo $radio_button_id?>">
+                        <label style="background-color: <?php echo $color_array[$j]?>" for="<?php echo $radio_button_id?>" class="radio-label">
+                            <i class="fa-xs fa-solid fa-check"></i>
+                        </label>
+                    </div>
+                <?php
                 }
-                            
-                echo        "</div>";
-                echo        "<p class=\"product-name\">" . $result['productName'] . "</p>";
-                echo        "<p class=\"product-price\">" . number_format($result['productPrice'], 0, ',', '.') . "<span>đ</span></p>";
-                echo        "<input style=\"display: none;\" type=\"text\" name=\"insert\" value=\"insert\"/>";
-                echo        "<input style=\"display: none;\" class=\"product-id-input\" name=\"productId\" value=\"" . $result['productId'] . "\" />";
-                echo        "<button class=\"add-to-cart\">";
-                echo            "<i class=\"fa-xl fa-thin fa-plus\"></i>";
-                echo            "<div class=\"product-size-sub-menu\">";
-                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'S','" . $radioGroupId . "')\">S</p>";
-                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'M','" . $radioGroupId . "')\">M</p>";
-                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'L','" . $radioGroupId . "')\">L</p>";
-                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'XL','" . $radioGroupId . "')\">XL</p>";
-                echo                "<p onClick=\"addToCart(" . $result['productId'] . ",'XXL','" . $radioGroupId . "')\">XXL</p>";
-                echo            "</div>";
-                echo        "</button>";
-                echo    "</div>";
+                ?>
+                </div>
+                <p class="product-name"><?php echo $product->name?></p>
+                <p class="product-price"><?php echo number_format($product->price, 0, ',', '.')?><span>đ</span></p>
+                <input style="display: none;" type="text" name="insert" value="insert"/>
+                <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $product->id?>"/>
+                <button class="add-to-cart">
+                    <i class="fa-xl fa-thin fa-plus"></i>
+                    <div class="product-size-sub-menu">
+                        <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">S</p>
+                        <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">M</p>
+                        <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">L</p>
+                        <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XL</p>
+                        <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XXL</p>
+                    </div>
+                </button>
+            </div>
+            <?php
             }
         }
     }
+?>

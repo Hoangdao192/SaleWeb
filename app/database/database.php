@@ -1,5 +1,5 @@
 <?php
-    include_once "DatabaseConfig.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/config.php";
 
     class Database {
         public $host = DB_HOST;

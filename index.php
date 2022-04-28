@@ -1,16 +1,12 @@
 <?php
-include_once "admin/Product.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
 
-$product = new Product;
-$showProduct = $product->show_product_limit(0, 8);
-$showNewProduct = $product->show_new_product_limit(0, 8);
-$hotSaleProduct = $product->show_product_limit(0,8);
+$product_table = new ProductTable;
+$products = $product_table->get_all();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,11 +36,11 @@ $hotSaleProduct = $product->show_product_limit(0,8);
                 }
             });
         });
-        function addToCart(productId, productSize, colorRadioGroupId, colorArray) {
+        function addToCart(productId, productSize, colorradio_group_id, colorArray) {
             console.log(productId);
 
             //  Get selected color
-            var radioGroup = document.getElementById(colorRadioGroupId);
+            var radioGroup = document.getElementById(colorradio_group_id);
             console.log(radioGroup);
             var radioArray = radioGroup.querySelectorAll(".radio");
             console.log(radioArray);
@@ -63,7 +59,8 @@ $hotSaleProduct = $product->show_product_limit(0,8);
                     action: 'add',
                     productId: productId,
                     productSize: productSize,
-                    productColor: productColor
+                    productColor: productColor,
+                    productQuantity: 1
                 },
                 success: function(response) {
                     document.getElementById("cart-product-number").innerHTML = response;
@@ -73,14 +70,14 @@ $hotSaleProduct = $product->show_product_limit(0,8);
         
         function showProductDetail(productId) {
             console.log("clicked");
-                    window.location.href = "./product_detail.php?productId=" + productId;
+                    window.location.href = "./product?productId=" + productId;
         }
     </script>
 </head>
 
 <body>
     <?php
-    include "php/header.php"
+    include "common/header.php"
     ?>
 
     <!-------------------------Poster----------------------------------------------------------------------->
@@ -157,106 +154,110 @@ $hotSaleProduct = $product->show_product_limit(0,8);
             <div id="product-content-best-seller">
                 <?php
                 $j = 0;
-                while ($result = $showProduct->fetch_assoc()) {
+                for ($i = 0; $i < sizeof($products); ++$i) {
+                    if ($i > 7) break;
+                    $product = $products[$i];
                     $j++;
                     $divProductItemStyle = "";
-                    $radioGroupId = "product-color" . $result['productId'];
+                    $radio_group_id = "product-color" . $product->id;
                     if (fmod($j, 4) != 0 || $j == 0) {
                         $divProductItemStyle = "margin-right:10px";
                     }
                 ?>
                 <div class="product-item">
-                    <img onclick="showProductDetail(<?php echo $result['productId']?>)" src="admin/database/<?php echo $result['productImagePath']?>">
-                    <div id="<?php echo $radioGroupId?>" class="product-color">
+                    <img onclick="showProductDetail(<?php echo $product->id?>)" src="admin/database/<?php echo $product->image_path?>">
+                    <div id="<?php echo $radio_group_id?>" class="product-color">
                     <?php
-                    $colorArray = $result['productColor'];
-                    $splitRegex = "/,/";
-                    $splitResult = preg_split($splitRegex, $colorArray);
-                    for ($i = 0; $i < sizeof($splitResult); $i++) {
-                        $radioButtonName = "2color" . $result['productId'];
-                        $radioButtonId = "2color" . $result['productId'] . "-" . $i;
-                        $radioChecked = "";
-                        if ($i == 0) {
-                            $radioChecked = "checked";
+                    $color_array = $product->color;
+                    for ($j = 0; $j < sizeof($color_array); $j++) {
+                        $radio_button_name = "2color" . $product->id;
+                        $radio_button_id = "2color" . $product->id . "-" . $j;
+                        $radio_checked = "";
+                        if ($j == 0) {
+                            $radio_checked = "checked";
                         }
                     ?>
                         <div class="product-color-item">
-                            <input value="<?php echo $splitResult[$i]?>" type="radio" class="radio" name="<?php echo $radioButtonName?>" <?php echo $radioChecked?>  id="<?php echo $radioButtonId?>">
-                                <label style="background-color: <?php echo $splitResult[$i]?>" for="<?php echo $radioButtonId?>" class="radio-label">
-                                    <i class="fa-xs fa-solid fa-check"></i>
-                                </label>
+                            <input value="<?php echo $color_array[$j]?>" type="radio" 
+                                class="radio" name="<?php echo $radio_button_name?>" <?php echo $radio_checked?>  
+                                id="<?php echo $radio_button_id?>">
+                            <label style="background-color: <?php echo $color_array[$j]?>" for="<?php echo $radio_button_id?>" class="radio-label">
+                                <i class="fa-xs fa-solid fa-check"></i>
+                            </label>
                         </div>
                     <?php
-                        }
+                    }
                     ?>
                     </div>
-                    <p class="product-name"><?php echo $result['productName']?></p>
-                    <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.')?><span>đ</span></p>
+                    <p class="product-name"><?php echo $product->name?></p>
+                    <p class="product-price"><?php echo number_format($product->price, 0, ',', '.')?><span>đ</span></p>
                     <input style="display: none;" type="text" name="insert" value="insert"/>
-                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>"/>
+                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $product->id?>"/>
                     <button class="add-to-cart">
                         <i class="fa-xl fa-thin fa-plus"></i>
                         <div class="product-size-sub-menu">
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">S</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">M</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">L</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XL</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XXL</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">S</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">M</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">L</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XL</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XXL</p>
                         </div>
                     </button>
                 </div>
                 <?php
-                    }
+                }
                 ?>
             </div>
             <div id="product-content-new-product">
-                <?php
+            <?php
                 $j = 0;
-                while ($result = $showNewProduct->fetch_assoc()) {
+                for ($i = sizeof($products) - 1; $i >= 0; $i = $i - 1) {
+                    if ($i <= sizeof($products) - 9) break;
+                    $product = $products[$i];
                     $j++;
                     $divProductItemStyle = "";
-                    $radioGroupId = "product-color" . $result['productId'];
+                    $radio_group_id = "product-color" . $product->id;
                     if (fmod($j, 4) != 0 || $j == 0) {
                         $divProductItemStyle = "margin-right:10px";
                     }
                 ?>
                 <div class="product-item">
-                    <img src="admin/database/<?php echo $result['productImagePath']?>">
-                    <div id="<?php echo $radioGroupId?>" class="product-color">
+                    <img onclick="showProductDetail(<?php echo $product->id?>)" src="admin/database/<?php echo $product->image_path?>">
+                    <div id="<?php echo $radio_group_id?>" class="product-color">
                     <?php
-                    $colorArray = $result['productColor'];
-                    $splitRegex = "/,/";
-                    $splitResult = preg_split($splitRegex, $colorArray);
-                    for ($i = 0; $i < sizeof($splitResult); $i++) {
-                        $radioButtonName = "color" . $result['productId'];
-                        $radioButtonId = "color" . $result['productId'] . "-" . $i;
-                        $radioChecked = "";
-                        if ($i == 0) {
-                            $radioChecked = "checked";
+                    $color_array = $product->color;
+                    for ($j = 0; $j < sizeof($color_array); $j++) {
+                        $radio_button_name = "color" . $product->id;
+                        $radio_button_id = "color" . $product->id . "-" . $j;
+                        $radio_checked = "";
+                        if ($j == 0) {
+                            $radio_checked = "checked";
                         }
                     ?>
                         <div class="product-color-item">
-                            <input value="<?php echo $splitResult[$i]?>" type="radio" class="radio" name="<?php echo $radioButtonName?>" <?php echo $radioChecked?>  id="<?php echo $radioButtonId?>">
-                                <label style="background-color: <?php echo $splitResult[$i]?>" for="<?php echo $radioButtonId?>" class="radio-label">
-                                    <i class="fa-xs fa-solid fa-check"></i>
-                                </label>
+                            <input value="<?php echo $color_array[$j]?>" type="radio" 
+                                class="radio" name="<?php echo $radio_button_name?>" <?php echo $radio_checked?>  
+                                id="<?php echo $radio_button_id?>">
+                            <label style="background-color: <?php echo $color_array[$j]?>" for="<?php echo $radio_button_id?>" class="radio-label">
+                                <i class="fa-xs fa-solid fa-check"></i>
+                            </label>
                         </div>
                     <?php
                         }
                     ?>
                     </div>
-                    <p class="product-name"><?php echo $result['productName']?></p>
-                    <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.')?><span>đ</span></p>
+                    <p class="product-name"><?php echo $product->name?></p>
+                    <p class="product-price"><?php echo number_format($product->price, 0, ',', '.')?><span>đ</span></p>
                     <input style="display: none;" type="text" name="insert" value="insert"/>
-                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>"/>
+                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $product->id?>"/>
                     <button class="add-to-cart">
                         <i class="fa-xl fa-thin fa-plus"></i>
                         <div class="product-size-sub-menu">
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">S</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">M</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">L</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XL</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XXL</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">S</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">M</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">L</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XL</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XXL</p>
                         </div>
                     </button>
                 </div>
@@ -265,53 +266,55 @@ $hotSaleProduct = $product->show_product_limit(0,8);
                 ?>
             </div>
             <div id="product-content-hot-sales">
-                <?php
+            <?php
                 $j = 0;
-                while ($result = $hotSaleProduct->fetch_assoc()) {
+                for ($i = 0; $i < sizeof($products); ++$i) {
+                    if ($i > 7) break;
+                    $product = $products[$i];
                     $j++;
                     $divProductItemStyle = "";
-                    $radioGroupId = "product-color" . $result['productId'];
+                    $radio_group_id = "product-color" . $product->id;
                     if (fmod($j, 4) != 0 || $j == 0) {
                         $divProductItemStyle = "margin-right:10px";
                     }
                 ?>
                 <div class="product-item">
-                    <img src="admin/database/<?php echo $result['productImagePath']?>">
-                    <div id="<?php echo $radioGroupId?>" class="product-color">
+                    <img onclick="showProductDetail(<?php echo $product->id?>)" src="admin/database/<?php echo $product->image_path?>">
+                    <div id="<?php echo $radio_group_id?>" class="product-color">
                     <?php
-                    $colorArray = $result['productColor'];
-                    $splitRegex = "/,/";
-                    $splitResult = preg_split($splitRegex, $colorArray);
-                    for ($i = 0; $i < sizeof($splitResult); $i++) {
-                        $radioButtonName = "3color" . $result['productId'];
-                        $radioButtonId = "3color" . $result['productId'] . "-" . $i;
-                        $radioChecked = "";
-                        if ($i == 0) {
-                            $radioChecked = "checked";
+                    $color_array = $product->color;
+                    for ($j = 0; $j < sizeof($color_array); $j++) {
+                        $radio_button_name = "1color" . $product->id;
+                        $radio_button_id = "1color" . $product->id . "-" . $j;
+                        $radio_checked = "";
+                        if ($j == 0) {
+                            $radio_checked = "checked";
                         }
                     ?>
                         <div class="product-color-item">
-                            <input value="<?php echo $splitResult[$i]?>" type="radio" class="radio" name="<?php echo $radioButtonName?>" <?php echo $radioChecked?>  id="<?php echo $radioButtonId?>">
-                                <label style="background-color: <?php echo $splitResult[$i]?>" for="<?php echo $radioButtonId?>" class="radio-label">
-                                    <i class="fa-xs fa-solid fa-check"></i>
-                                </label>
+                            <input value="<?php echo $color_array[$j]?>" type="radio" 
+                                class="radio" name="<?php echo $radio_button_name?>" <?php echo $radio_checked?>  
+                                id="<?php echo $radio_button_id?>">
+                            <label style="background-color: <?php echo $color_array[$j]?>" for="<?php echo $radio_button_id?>" class="radio-label">
+                                <i class="fa-xs fa-solid fa-check"></i>
+                            </label>
                         </div>
                     <?php
-                        }
+                    }
                     ?>
                     </div>
-                    <p class="product-name"><?php echo $result['productName']?></p>
-                    <p class="product-price"><?php echo number_format($result['productPrice'], 0, ',', '.')?><span>đ</span></p>
+                    <p class="product-name"><?php echo $product->name?></p>
+                    <p class="product-price"><?php echo number_format($product->price, 0, ',', '.')?><span>đ</span></p>
                     <input style="display: none;" type="text" name="insert" value="insert"/>
-                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $result['productId']?>"/>
+                    <input style="display: none;" class="product-id-input" name="productId" value="<?php echo $product->id?>"/>
                     <button class="add-to-cart">
                         <i class="fa-xl fa-thin fa-plus"></i>
                         <div class="product-size-sub-menu">
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">S</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">M</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">L</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XL</p>
-                            <p onClick="addToCart(<?php echo $result['productId']?>,'S','<?php echo $radioGroupId?>')">XXL</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">S</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">M</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">L</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XL</p>
+                            <p onClick="addToCart(<?php echo $product->id?>,'S','<?php echo $radio_group_id?>')">XXL</p>
                         </div>
                     </button>
                 </div>
@@ -319,208 +322,6 @@ $hotSaleProduct = $product->show_product_limit(0,8);
                     }
                 ?>
             </div>
-            <!-- new-arr; hot-sale -->
-            <!-- 
-            <div class="product-item new-arr">
-                <img src="images/product/product-1.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item hot-sale">
-                <img src="images/product/product-2.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item new-arr">
-                <img src="images/product/product-3.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item hot-sale">
-                <img src="images/product/product-4.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item new-arr">
-                <img src="images/product/product-5.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item hot-sale">
-                <img src="images/product/product-6.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item new-arr">
-                <img src="images/product/product-7.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div>
-            <div class="product-item hot-sale">
-                <img src="images/product/product-8.jpg">
-                <div class="product-item__toolhover">
-                    <li>
-                        <a href=""><img src="images/icon/heart.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/compare.png" alt=""></a>
-                    </li>
-                    <li>
-                        <a href=""><img src="images/icon/search.png" alt=""></a>
-                    </li>
-                </div>
-                <div class="product-item__text">
-                    <a href="">+Add To Cart</a>
-                    <div>
-                        <label class="label__blue"><input type="radio" class="input"></label>
-                        <label class="label__black"><input type="radio" class="input"></label>
-                        <label class="label__gray"><input type="radio" class="input"></label>
-                    </div>
-                    <h6>Piqué Biker Jacket</h6>
-                    <span></span>
-                    <p>$67.24</p>
-                </div>
-            </div> -->
         </div>
     </section>
 
@@ -528,9 +329,9 @@ $hotSaleProduct = $product->show_product_limit(0,8);
 
     <section class="sale-product">
         <div class="sale-product__category-text">
-            <li>Clothings Hot</li>
-            <li>Shoe Colection</li>
-            <li>Accessories</li>
+            <li>Hot</li>
+            <li>Bộ sưu tập Giày</li>
+            <li>Phụ kiện</li>
         </div>
         <div class="sale-product-item">
             <img src="images/product-sale.png" alt="Product Sale">
@@ -542,7 +343,7 @@ $hotSaleProduct = $product->show_product_limit(0,8);
             <div class="sale-product__category-deal-countdown__time">
                 <span id="dd">00</span> : <span id="hh">00</span> : <span id="mm">00</span> : <span id="ss">00</span>
             </div>
-            <a href="shop">SHOP NOW</a>
+            <a href="shop">MUA NGAY</a>
         </div>
     </section>
 
@@ -606,7 +407,7 @@ $hotSaleProduct = $product->show_product_limit(0,8);
     </section>
 
     <?php
-    include "php/footer.php"
+    include "common/footer.php"
     ?>
 </body>
 <script src="javascript/index.js"></script>

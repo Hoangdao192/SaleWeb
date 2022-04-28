@@ -1,13 +1,16 @@
 <?php
-include_once "admin/Product.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/product.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
 
+$related_products;
 if (isset($_GET['productId'])) {
-    $productId = $_GET['productId'];
-    $product = new Product;
-    $showProduct = $product->get_product($productId);
-    $currentProduct = $showProduct->fetch_assoc();
+    $product_id = $_GET['productId'];
+    $product_table = new ProductTable;
+    $product = $product_table->get_product($product_id);
 
-    $showRelatedProduct = $product->show_product_by_type($currentProduct['productTypeId']);
+    $related_products = $product_table->get_all_filter_by_type($product->type_id);
 }
 ?>
 
@@ -87,24 +90,24 @@ if (isset($_GET['productId'])) {
 <body>
     <!-----------------------------------Header------------------------------------------------------------>
     <?php
-    include "php/header.php";
+    include "common/header.php";
     ?>
     <section class="directory">
-        <h1><?php echo $currentProduct['productName'] ?></h1>
-        <p>Trang chủ &nbsp;<span></span>&nbsp; Cửa hàng &nbsp;<span></span>&nbsp; <?php echo $currentProduct['productName'] ?></p>
+        <h1><?php echo $product->name ?></h1>
+        <p>Trang chủ &nbsp;<span></span>&nbsp; Cửa hàng &nbsp;<span></span>&nbsp; <?php echo $product->name?></p>
     </section>
     <!-------------------------Detail Product----------------------------------------------------------------------->
     <section class="product">
         <div class="detail-product">
             <div class="detail-product-image">
                 <div class="detail-product-image-main">
-                    <img src="admin/database/<?php echo $currentProduct['productImagePath'] ?>" alt="detail_product">
+                    <img src="admin/database/<?php echo $product->image_path?>" alt="detail_product">
                 </div>
             </div>
             <div class="detail-product-infomation">
-                <h1><?php echo $currentProduct['productName'] ?></h1>
+                <h1><?php echo $product->name?></h1>
                 <div class="detail-product__sup-info">
-                    <p>MSP: <span><?php echo $currentProduct['productId'] ?></span></p>
+                    <p>MSP: <span><?php echo $product->id?></span></p>
                     <div class="detail-product__rate-star">
                         <p> <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -116,27 +119,25 @@ if (isset($_GET['productId'])) {
                     </div>
                 </div>
                 <div class="detail-product__price">
-                    <p><b><?php echo number_format($currentProduct['productPrice'], 0, ',', '.') ?><sup>đ</sup></b>
+                    <p><b><?php echo number_format($product->price, 0, ',', '.') ?><sup>đ</sup></b>
                     </p>
                 </div>
                 <div class="detail-product__color">
                     <p>Mã màu: <span>#233234</span></p>
                     <div id="product-color-select" class="product-color">
                         <?php
-                        $colorArray = $currentProduct['productColor'];
-                        $splitRegex = "/,/";
-                        $splitResult = preg_split($splitRegex, $colorArray);
-                        for ($i = 0; $i < sizeof($splitResult); $i++) {
-                            $radioButtonName = "2color" . $currentProduct['productId'];
-                            $radioButtonId = "2color" . $currentProduct['productId'] . "-" . $i;
-                            $radioChecked = "";
+                        $color_array = $product->color;
+                        for ($i = 0; $i < sizeof($color_array); $i++) {
+                            $radio_button_name = "2color" . $product->id;
+                            $radio_button_id = "2color" . $product->id . "-" . $i;
+                            $radio_checked = "";
                             if ($i == 0) {
-                                $radioChecked = "checked";
+                                $radio_checked = "checked";
                             }
                         ?>
                             <div class="product-color-item">
-                                <input value="<?php echo $splitResult[$i] ?>" type="radio" class="radio" name="<?php echo $radioButtonName ?>" <?php echo $radioChecked ?> id="<?php echo $radioButtonId ?>">
-                                <label style="background-color: <?php echo $splitResult[$i] ?>" for="<?php echo $radioButtonId ?>" class="radio-label">
+                                <input value="<?php echo $color_array[$i] ?>" type="radio" class="radio" name="<?php echo $radio_button_name ?>" <?php echo $radio_checked ?> id="<?php echo $radio_button_id ?>">
+                                <label style="background-color: <?php echo $color_array[$i] ?>" for="<?php echo $radio_button_id ?>" class="radio-label">
                                     <i class="fa-xs fa-solid fa-check"></i>
                                 </label>
                             </div>
@@ -161,7 +162,7 @@ if (isset($_GET['productId'])) {
                     </div>
                 </div>
                 <div class="detail-product__action">
-                    <button onclick="addToCart(<?php echo $currentProduct['productId'] ?>, 'detail-product__size', 'product-color-select')">
+                    <button onclick="addToCart(<?php echo $product->id?>, 'detail-product__size', 'product-color-select')">
                         THÊM VÀO GIỎ</button>
                     <button>MUA HÀNG</button>
                 </div>
@@ -176,28 +177,35 @@ if (isset($_GET['productId'])) {
         </div>
     </section>
     <?php
-    include "php/footer.php"
+    include "common/footer.php"
     ?>
 </body>
 
 <script src="javascript/detail-product.js"></script>
 <script>
     <?php
-    $i = 0;
-    while ($result = $showRelatedProduct->fetch_assoc()) {
-        if ($currentProduct['productId'] == $result['productId']) continue;
-        $i++;
+    for ($i = 0; $i < sizeof($related_products); ++$i) {
+        $related_product = $related_products[$i];
+
+        if ($product->id == $related_product->id) continue;
         if ($i > 4) break;
    ?>
         $.ajax({
             type: 'post',
             url: 'admin/ProductToHTML.php',
             data: {
-                productId: '<?php echo $result['productId'] ?>',
-                productImagePath: '<?php echo $result['productImagePath'] ?>',
-                productColorArray: '<?php echo $result['productColor'] ?>',
-                productName: '<?php echo $result['productName'] ?>',
-                productPrice: '<?php echo $result['productPrice'] ?>'
+                productId: '<?php echo $related_product->id?>',
+                productImagePath: '<?php echo $related_product->image_path?>',
+                productColorArray: '<?php
+                                    $color_string = "";
+                                    for ($j = 0; $j < sizeof($related_product->color); ++$j) {
+                                        if (strlen($color_string) >= 30) break;
+                                        if ($j > 0) $color_string .= "; ";
+                                        $color_string .= $related_product->color[$j];
+                                    }
+                                    echo $color_string;?>',
+                productName: '<?php echo $related_product->name?>',
+                productPrice: '<?php echo $related_product->price?>'
             },
             success: function(data) {
                 document.querySelector(".related-product-list").innerHTML += data;

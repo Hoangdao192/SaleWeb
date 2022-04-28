@@ -1,22 +1,22 @@
 <?php
     include "header.php";
     include "slider.php";
-    include_once "ProductType.php";
-    include_once "Category.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/product_type.php";
 ?>
 
 <?php
-    $category = new Category;
-    $columnIdTitle = $category->COLUMN_CATEGORY_ID;
-    $columnNameTitle = $category->COLUMN_CATEGORY_NAME;
-
-    $productType = new ProductType;
-    $columnProductTypeNameTitle = $productType->COLUMN_PRODUCT_TYPE_NAME;
+    $category_table = new CategoryTable;
+    $product_type_table = new ProductTypeTable;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $categoryId = $_POST[$columnIdTitle];
-        $productTypeName = $_POST[$productType->COLUMN_PRODUCT_TYPE_NAME];
-        $insertProductType = $productType->insert_product_type($categoryId, $productTypeName);
+        $category_id = $_POST[CategoryTable::$COLUMN_CATEGORY_ID];
+        $product_type_name = $_POST[ProductTypeTable::$COLUMN_PRODUCT_TYPE_NAME];
+        $product_type = new ProductType;
+        $product_type->category_id = $category_id;
+        $product_type->name = $product_type_name;
+        $product_type_table->insert_product_type($product_type);
     }
 ?>
 
@@ -24,24 +24,23 @@
             <div class="admin-content-right-cartegory-add">
                 <h1 class="content-title">Thêm loại sản phẩm</h1>
                 <form action="" method="POST" class="submit_form">
-                    <select name="<?php echo $columnIdTitle?>" id="danhmuc">
+                    <select name="<?php echo CategoryTable::$COLUMN_CATEGORY_ID?>" id="danhmuc">
                         <option value="#">Chọn danh mục</option>
                         <?php
-                        $showCategory = $category->show_category();
-                        if ($showCategory) {
-                            while ($result = $showCategory->fetch_assoc()) {
+                        $categories = $category_table->get_all();
+                        for ($i = 0; $i < sizeof($categories); ++$i) {
+                            $category = $categories[$i];
                         ?>
-                        <option value="<?php echo $result[$columnIdTitle]?>">
-                            <?php echo $result[$columnNameTitle]?>
+                        <option value="<?php echo $category->id?>">
+                            <?php echo $category->name?>
                         </option>
                         <?php
-                            }
                         }
                         ?>
-                        <option value=""></option>
                     </select>
                     <br>
-                    <input class="input-template" required name="<?php echo $columnProductTypeNameTitle?>" type="text" placeholder="Nhập tên loại sản phẩm">
+                    <input class="input-template" required name="<?php echo ProductTypeTable::$COLUMN_PRODUCT_TYPE_NAME?>" 
+                        type="text" placeholder="Nhập tên loại sản phẩm">
                     <button type="button-temmplate submit" class="submitbtn">Thêm</button>
                 </form>
             </div>
