@@ -69,8 +69,8 @@ class ProductTable {
 
     //  Update a product's information
     public function update_product($product) {
-        $imagePath = $_FILES['productImage']['name'];
-        move_uploaded_file($_FILES['productImage']['tmp_name'], "database/".$product->id);
+        $imagePath = $_FILES['productImagePath']['name'];
+        move_uploaded_file($_FILES['productImagePath']['tmp_name'], "database/".$product->id);
         $query = 
                 "UPDATE " . ProductTable::$PRODUCT_TABLE_NAME . " 
                 SET " . ProductTable::$COLUMN_PRODUCT_TYPE_ID. " = $product->type_id, 

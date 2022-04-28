@@ -9,5 +9,5 @@
         $product_type_id = $_GET[ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID];
     }
     $product_type_table->delete_product_type($product_type_id);
-    header('Location:ProductTypeList.php');
+    header('Location:show_product_type.php');
 ?>

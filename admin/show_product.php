@@ -63,7 +63,9 @@ $products = $product_table->get_all();
                             </td>
                             <td><?php echo $product->price ?></td>
                             <td><?php echo $product->image_path ?></td>
-                            <td><a href="ProductEdit.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Sửa</a>|<a href="ProductDelete.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Xóa</a></td>
+                            <td><a href="edit_product.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Sửa</a>|
+                                <a href="delete_product.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Xóa</a>
+                            </td>
                         </tr>
                 <?php
                     }

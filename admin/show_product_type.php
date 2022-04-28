@@ -38,8 +38,8 @@ $product_type_table = new ProductTypeTable;
                         <td><?php echo $product_type->id ?></td>
                         <td><?php echo $category->name ?></td>
                         <td><?php echo $product_type->name ?></td>
-                        <td><a href="ProductTypeEdit.php?<?php echo ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID?>=<?php echo $product_type->id?>">Sửa</a>
-                            |<a href="ProductTypeDelete.php?<?php echo ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID?>=<?php echo $product_type->id?>">Xóa</a>
+                        <td><a href="edit_product_type.php?<?php echo ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID?>=<?php echo $product_type->id?>">Sửa</a>
+                            |<a href="delete_product_type.php?<?php echo ProductTypeTable::$COLUMN_PRODUCT_TYPE_ID?>=<?php echo $product_type->id?>">Xóa</a>
                         </td>
                     </tr>
                 <?php

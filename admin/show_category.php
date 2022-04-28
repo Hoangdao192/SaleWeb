@@ -27,8 +27,8 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/categ
                         <td><?php echo $i ?></td>
                         <td><?php echo $category->id ?></td>
                         <td><?php echo $category->name ?></td>
-                        <td><a href="CategoryEdit.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Sửa</a>
-                            |<a href="CategoryDelete.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Xóa</a>
+                        <td><a href="edit_category.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Sửa</a>
+                            |<a href="delete_category.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Xóa</a>
                         </td>
                     </tr>
                 <?php

@@ -33,7 +33,7 @@
         $product_type->category_id = $category_id;
         $product_type->name = $product_type_name;
         $product_type_table->update_product_type($product_type);
-        header('Location:ProductTypeList.php');
+        header('Location:show_product_type.php');
     }
 ?>
 

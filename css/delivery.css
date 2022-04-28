@@ -212,9 +212,18 @@ a {
     cursor: pointer;
 }
 
-.button-show-product:hover {
+.button-show-product a {
+    color: white;
+}
+
+.button-show-product:hover{
     background-color: white;
     color: #111;
+}
+
+
+.button-show-product:hover a {
+    color: black;
 }
 
 .product-list {
@@ -539,3 +548,4 @@ table tr.head th:nth-child(4) {
     background-color: white;
     color: #111;
 }
+

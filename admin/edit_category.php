@@ -8,7 +8,7 @@
     $category_table = new CategoryTable;
     $category_id;
     if (!isset($_GET[CategoryTable::$COLUMN_CATEGORY_ID]) || $_GET[CategoryTable::$COLUMN_CATEGORY_ID] == NULL) {
-        echo "<script>window.location = 'listcategory.php'</script>";
+        echo "<script>window.location = 'show_category.php'</script>";
     } else {
         $category_id = $_GET[CategoryTable::$COLUMN_CATEGORY_ID];
     }
@@ -22,7 +22,7 @@
         $new_category->id = $category_id;
         $new_category->name = $category_name;
         $category_table->update_category($new_category);
-        header('Location:CategoryList.php');
+        header('Location:show_category.php');
     }
 ?>
 

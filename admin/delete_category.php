@@ -8,5 +8,5 @@
         $category_id = $_GET[CategoryTable::$COLUMN_CATEGORY_ID];
         $category_table->delete_category($category_id);
     }
-    header('Location:CategoryList.php');
+    header('Location:show_category.php');
 ?>

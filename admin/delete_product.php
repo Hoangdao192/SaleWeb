@@ -8,5 +8,5 @@
         $product_id = $_GET[ProductTable::$COLUMN_PRODUCT_ID];
     }
     $product_table->delete_product($product_id);
-    header('Location:ProductList.php');
+    header('Location:show_product.php');
 ?>
