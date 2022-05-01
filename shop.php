@@ -37,6 +37,8 @@ if (isset($_GET['category_id'])) {
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="css/product.css">
     <link rel="stylesheet" href="css/shop.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
     <title>SHOP</title>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -61,9 +63,7 @@ if (isset($_GET['category_id'])) {
                     id: <?php echo $category_id?>
                 },
                 success: function(response) {
-                    console.log(response);
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
-                    console.log(contentRight);
                     contentRight.innerHTML = response;
                 }
             });
@@ -126,6 +126,29 @@ if (isset($_GET['category_id'])) {
             console.log("clicked");
                     window.location.href = "./product.php?productId=" + productId;
         }
+
+        function searchProduct() {
+            var productTypeSelector = document.getElementById("product-type");
+            var searchBox = document.getElementById("search-box");
+
+            var productTypeId = productTypeSelector.options[productTypeSelector.selectedIndex].value;
+            var target = searchBox.value;
+            $.ajax({
+                type: 'get',
+                url: 'app/database/product_search.php',
+                data: {
+                    productTypeId: productTypeId,
+                    categoryId: <?php echo $category_id?>,
+                    targetName: target,
+                    page: 1
+                },
+                success: function(response) {
+                    console.log("search called");
+                    var contentRight = document.querySelectorAll(".content-right-content")[0];
+                    contentRight.innerHTML = response;
+                }
+            });
+        }
     </script>
 </head>
 
@@ -142,8 +165,8 @@ if (isset($_GET['category_id'])) {
     <section class="content">
         <div class="content-left">
             <div class="search-box">
-                <input type="text" placeholder="Tìm kiếm">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="search-box" type="text" placeholder="Tìm kiếm">
+                <i onclick="searchProduct()" id="search-button" class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div class="categories">
                 <h1>DANH MỤC</h1><i class="show-categories fa-solid fa-chevron-down"></i>

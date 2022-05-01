@@ -141,6 +141,24 @@ class ProductTable {
         return $products;
     }
 
+    public function get_all_filter_by_name($target_name, $product_type_id, $category_id) {
+        $find_by_type = "";
+        if ($product_type_id != -1) {
+            $find_by_type = " AND " . ProductTable::$COLUMN_PRODUCT_TYPE_ID . " = $product_type_id";
+        }
+        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . 
+                    " WHERE " . ProductTable::$COLUMN_CATEGORY_ID . " = $category_id " .
+                        " AND " . ProductTable::$COLUMN_PRODUCT_NAME . " LIKE '$target_name%' " .
+                        $find_by_type .
+                    " ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID;
+        $result = $this->database->query($query);
+        $products = [];
+        while ($item = $result->fetch_assoc()) {
+            $products[] = $this->parse_product($item);
+        }
+        return $products;
+    }
+
     public function show_product_limit($offset, $limit) {
         $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . " ORDER BY " . ProductTable::$COLUMN_CATEGORY_ID . " LIMIT $offset, $limit";
         $result = $this->database->query($query);
