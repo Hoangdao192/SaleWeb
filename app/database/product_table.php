@@ -1,5 +1,6 @@
 <?php
     include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/database.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/query.php";
     include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/product.php";
 ?>
 
@@ -107,8 +108,10 @@ class ProductTable {
 
     //  Get all product in product table
     public function get_all() {
-        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . " ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID;
-        $result = $this->database->query($query);
+        $query = new Query();
+        $query->get_all(ProductTable::$PRODUCT_TABLE_NAME)->order_by(ProductTable::$COLUMN_PRODUCT_ID);
+
+        $result = $this->database->query($query->build());
         $products = [];
         while ($item = $result->fetch_assoc()) {
             $products[] = $this->parse_product($item);
@@ -118,10 +121,12 @@ class ProductTable {
 
      //  Get all product have product type id equal
      public function get_all_filter_by_type($type_id) {
-        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . " 
-                    WHERE " . ProductTable::$COLUMN_PRODUCT_TYPE_ID. " = $type_id
-                    ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID. "";
-        $result = $this->database->query($query);
+        $query = new Query();
+        $query->get_all(ProductTable::$PRODUCT_TABLE_NAME)
+                ->filter_by(ProductTable::$COLUMN_PRODUCT_TYPE_ID . " = $type_id")
+                ->order_by(ProductTable::$COLUMN_PRODUCT_ID);
+
+        $result = $this->database->query($query->build());
         $products = [];
         while ($item = $result->fetch_assoc()) {
             $products[] = $this->parse_product($item);
@@ -131,9 +136,12 @@ class ProductTable {
 
     //  Get all product have category id equal $categoryId
     public function get_all_filter_by_category($category_id) {
-        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . " WHERE " . ProductTable::$COLUMN_CATEGORY_ID . " = $category_id
-                ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID;
-        $result = $this->database->query($query);
+        $query = new Query();
+        $query->get_all(ProductTable::$PRODUCT_TABLE_NAME)
+                ->filter_by(ProductTable::$COLUMN_CATEGORY_ID . " = $category_id")
+                ->order_by(ProductTable::$COLUMN_PRODUCT_ID);
+
+        $result = $this->database->query($query->build());
         $products = [];
         while ($item = $result->fetch_assoc()) {
             $products[] = $this->parse_product($item);
@@ -141,17 +149,22 @@ class ProductTable {
         return $products;
     }
 
-    public function get_all_filter_by_name($target_name, $product_type_id, $category_id) {
-        $find_by_type = "";
+    public function get_all_filter_by_name($target_name, $product_type_id, $category_id) {        
+        $query = new Query();
+        $query->get_all(ProductTable::$PRODUCT_TABLE_NAME)
+                ->filter_by(ProductTable::$COLUMN_CATEGORY_ID . " = $category_id")
+                ->filter_by(ProductTable::$COLUMN_PRODUCT_NAME . " LIKE '$target_name%' ");
         if ($product_type_id != -1) {
-            $find_by_type = " AND " . ProductTable::$COLUMN_PRODUCT_TYPE_ID . " = $product_type_id";
+            $query->filter_by(ProductTable::$COLUMN_PRODUCT_TYPE_ID . " = $product_type_id");
         }
-        $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . 
-                    " WHERE " . ProductTable::$COLUMN_CATEGORY_ID . " = $category_id " .
-                        " AND " . ProductTable::$COLUMN_PRODUCT_NAME . " LIKE '$target_name%' " .
-                        $find_by_type .
-                    " ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID;
-        $result = $this->database->query($query);
+        $query->order_by(ProductTable::$COLUMN_PRODUCT_ID);
+
+        // $query = "SELECT * FROM " . ProductTable::$PRODUCT_TABLE_NAME . 
+        //             " WHERE " . ProductTable::$COLUMN_CATEGORY_ID . " = $category_id " .
+        //                 " AND " . ProductTable::$COLUMN_PRODUCT_NAME . " LIKE '$target_name%' " .
+        //                 $find_by_type .
+        //             " ORDER BY " . ProductTable::$COLUMN_PRODUCT_ID;
+        $result = $this->database->query($query->build());
         $products = [];
         while ($item = $result->fetch_assoc()) {
             $products[] = $this->parse_product($item);

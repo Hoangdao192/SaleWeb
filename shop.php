@@ -17,6 +17,9 @@ if (isset($_GET['category_id'])) {
 } else {
     $category_id = $categories[0]->id;
 }
+
+$current_page = 1;
+$total_page = 1;
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +55,8 @@ if (isset($_GET['category_id'])) {
                     document.getElementById("cart-product-number").innerHTML = data;
                 }
             });
+            const menuHome = document.querySelector(".menu__shop");
+            menuHome.classList.add("menu__item__underline");
             showProductByCategory();
         });
 
@@ -65,6 +70,7 @@ if (isset($_GET['category_id'])) {
                 success: function(response) {
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
                     contentRight.innerHTML = response;
+                    showPage(1);
                 }
             });
         }
@@ -86,6 +92,7 @@ if (isset($_GET['category_id'])) {
                 success: function(response) {
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
                     contentRight.innerHTML = response;
+                    showPage(1);
                 }
             });
         }
@@ -118,6 +125,10 @@ if (isset($_GET['category_id'])) {
                 },
                 success: function(response) {
                     document.getElementById("cart-product-number").innerHTML = response;
+                    toast({
+                        title: "Đã thêm vào giỏ hàng",
+                        message:  ""
+                    });
                 }
             });
         }
@@ -146,6 +157,7 @@ if (isset($_GET['category_id'])) {
                     console.log("search called");
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
                     contentRight.innerHTML = response;
+                    showPage(1);
                 }
             });
         }
@@ -215,7 +227,11 @@ if (isset($_GET['category_id'])) {
                 <!--------------------Content will be add by ajax------------------->
             </div>
             <div class="content-right-bottom">
-                <p><span>1</span><span>2</span><span>3</span></p>
+                <p id="page-navigator" current-page="1" max-page="1">
+                    <i onclick="previousPage()" id="previous" class="fa-solid fa-angle-left"></i>
+                    <span id="page-number">1</span>
+                    <i onclick="nextPage()" id="next" class="fa-solid fa-angle-right"></i>
+                </p>
             </div>
         </div>
     </section>
@@ -225,4 +241,34 @@ if (isset($_GET['category_id'])) {
     ?>
 </body>
 <script src="javascript/shop.js"></script>
+<script>
+     function previousPage() {
+        var currentPage = parseInt(document.getElementById("page-navigator").getAttribute("current-page"));
+        if (currentPage == 1) return;
+        currentPage -= 1;
+        document.getElementById("page-navigator").setAttribute("current-page", currentPage);
+        showPage(currentPage);
+    }
+    function nextPage() {
+        var currentPage = parseInt(document.getElementById("page-navigator").getAttribute("current-page"));
+        var maxPage = parseInt(document.getElementById("page-navigator").getAttribute("max-page"));
+        if (currentPage == maxPage) return;
+        currentPage += 1;
+        document.getElementById("page-navigator").setAttribute("current-page", currentPage);
+        showPage(currentPage);
+    }
+    function showPage(pageNumber) {
+        document.getElementById("page-number").innerHTML = pageNumber;
+
+        var products = document.querySelectorAll(".product-item");
+        document.getElementById("page-navigator").setAttribute("max-page", Math.floor(products.length / 9) + (products.length % 9 == 0 ? 0 : 1));
+        for (let i = 0; i < products.length; ++i) {
+            if (i >= (pageNumber - 1) * 9 && i < (pageNumber - 1) * 9 + 9) {
+                products[i].style.display = "flex";
+            } else {
+                products[i].style.display = "none";
+            }
+        }
+    }
+</script>
 </html>

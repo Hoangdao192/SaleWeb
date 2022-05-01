@@ -322,3 +322,19 @@ a {
 #search-button:hover {
     color: black;
 }
+
+#next {
+    cursor: pointer;
+}
+
+#next:hover {
+    color: gray;
+}
+
+#previous {
+    cursor: pointer;
+}
+
+#previous:hover {
+    color: gray;
+}
