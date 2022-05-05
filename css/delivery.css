@@ -190,6 +190,18 @@ a {
     border: 1px solid #e7e7e7;
 }
 
+.detail-address form select {
+    width: calc(50% - 12px);
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+}
+
+.default-select {
+    color: grey !important;
+}
+
 .detail-address form input:focus {
     outline: 3px solid #6db9fb;
 }

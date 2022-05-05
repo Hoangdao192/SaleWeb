@@ -1,7 +1,13 @@
 <?php
 include_once "app/database/query.php";
+include_once "app/database/order_table.php";
+include_once "app/database/customer_table.php";
+include_once "app/models/order.php";
 
-$querry = new Query();
-$querry->get_all('product')->filter_by("categoryId = 1")->order_by("productId");
+$new_order = new Order();
+$new_order->customer_number = 1;
+$new_order->order_date = date("Y-m-d");
+$new_order->total_price = 1;
 
-echo $querry->build();
+$order_table = new OrderTable();
+print_r($order_table->get_all());

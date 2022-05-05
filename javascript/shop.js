@@ -11,3 +11,9 @@ for (let i = 0; i < productItems.length; ++i) {
         window.location.href = "../product_detail.php?productId=1";
     })
 }
+
+document.getElementById("search-box").addEventListener('keyup', function (e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        searchProduct();
+    }
+});

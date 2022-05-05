@@ -61,7 +61,7 @@ $products = $product_table->get_all();
                                     echo $color_string;
                                 ?>
                             </td>
-                            <td><?php echo $product->price ?></td>
+                            <td><?php echo number_format($product->price, 0, ',', '.')?>đ</td>
                             <td><?php echo $product->image_path ?></td>
                             <td><a href="edit_product.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Sửa</a>|
                                 <a href="delete_product.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Xóa</a>

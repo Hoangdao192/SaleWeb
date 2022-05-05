@@ -27,5 +27,10 @@
                     <li><a href="show_product.php">Xem tất cả</a></li>
                 </div>
             </div>
+
+            <div id="order-button" class="content-left-item order-button" style="cursor:pointer">
+                <img src="../images/shopping-cart.png" alt="">
+                <span>Đơn hàng</span>
+            </div>
         </div>
         <script src="../javascript/slider.js"></script>

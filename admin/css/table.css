@@ -35,3 +35,23 @@
     color: white;
     font-weight: 500;
 }
+
+.table-item {
+    cursor: pointer;
+}
+
+.table-item:hover {
+    background-color: lightblue;
+}
+
+.color-item {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    position: relative;
+    margin: 0 auto;
+}
+
+.product-image {
+    width: 50px;
+}

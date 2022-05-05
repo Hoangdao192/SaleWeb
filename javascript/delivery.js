@@ -13,3 +13,15 @@ buttonShowProduct.addEventListener("click", function() {
         console.log("false")
     }
 })
+
+const submitButton = document.getElementById("submit");
+submitButton.addEventListener('click', function(){
+    var request = new XMLHttpRequest();
+     request.open('GET', 'app/database/shopping_cart.php?action=order', true);
+
+     request.onload = function() {
+         if (this.status >= 200 && this.status < 400) {
+         }
+     };
+     request.send();
+})

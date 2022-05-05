@@ -9,3 +9,9 @@ for (let i = 0; i < moreButtons.length; i++) {
         subMenus[i].classList.toggle("show-sub-menu");
     });
 }
+
+const orderButton = document.getElementById("order-button");
+orderButton.addEventListener('click', function() {
+    console.log("click");
+    window.location.href = "show_order.php";
+})

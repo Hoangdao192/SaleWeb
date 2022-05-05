@@ -81,8 +81,22 @@ if (isset($_GET['productId'])) {
                 },
                 success: function(response) {
                     document.getElementById("cart-product-number").innerHTML = response;
+                    toast({
+                        title: "Đã thêm vào giỏ hàng",
+                        message:  ""
+                    });
                 }
             });
+        }
+
+        function showProductDetail(productId) {
+            console.log("clicked");
+                    window.location.href = "./product.php?productId=" + productId;
+        }
+
+        function buyNow(productId, productSize, colorRadioGroupId, quantity) {
+            addToCart(productId, productSize, colorRadioGroupId, quantity);
+            window.location.href = "cart.php";
         }
     </script>
 </head>
@@ -164,7 +178,7 @@ if (isset($_GET['productId'])) {
                 <div class="detail-product__action">
                     <button onclick="addToCart(<?php echo $product->id?>, 'detail-product__size', 'product-color-select')">
                         THÊM VÀO GIỎ</button>
-                    <button>MUA HÀNG</button>
+                    <button onclick="buyNow(<?php echo $product->id?>, 'detail-product__size', 'product-color-select')">MUA HÀNG</button>
                 </div>
             </div>
             <!-------------------------Related Product----------------------------------------------------------------------->
