@@ -1,3 +1,44 @@
+const menuHome = document.querySelector(".menu__home");
+menuHome.classList.add("menu__item__underline");
+
+function addToCart(productId, productSize, colorradio_group_id, colorArray) {
+    console.log(productId);
+
+    //  Get selected color
+    var radioGroup = document.getElementById(colorradio_group_id);
+    console.log(radioGroup);
+    var radioArray = radioGroup.querySelectorAll(".radio");
+    console.log(radioArray);
+    var productColor;
+    for (let i = 0; i < radioArray.length; i++) {
+        if (radioArray[i].checked) {
+            productColor = radioArray[i].value;
+        }
+    }
+
+    console.log(productId + " " + productSize + " " + productColor);
+
+    var request = new XMLHttpRequest();
+    request.open('POST', 'app/database/shopping_cart.php', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.onload = function() {
+        if (this.status >= 200 && this.status < 400) {
+            // Success!
+            document.getElementById("cart-product-number").innerHTML = this.response;
+            toast({
+                title: "Đã thêm vào giỏ hàng",
+                message:  ""
+            });
+        }
+    };
+    request.send(`action=add&productId=${productId}&productSize=${productSize}&productColor=${productColor}&productQuantity=1`);
+}
+
+function showProductDetail(productId) {
+    console.log("clicked");
+    window.location.href = "./product?productId=" + productId;
+}
+
 //---------------------------------------------------Change poster-------------------------------------------------------------------
 
 const imgPosition = document.querySelectorAll(".aspect-ratio-169 img")

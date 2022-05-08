@@ -1,0 +1,103 @@
+:root {
+    --main-text-font: "Nunito Sans", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3;
+}
+
+/*----------------------------Poster----------------------------------------------------------------------------------------------------------------------------------*/
+
+.poster {
+    width: 100%;
+}
+
+.poster img {
+    width: 100%;
+}
+
+
+/*-----------------------------Blogs------------------------------------------------------------------------------------------------------------------------------*/
+
+.blogs {
+    width: 80%;
+    margin: 100px 10%;
+}
+
+.blogs-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.blogs-list__item {
+    position: relative;
+    width: 32%;
+    margin: 0 0 15%;
+}
+
+.blogs-list__item>img {
+    width: 100%;
+}
+
+.blogs-list__item-text {
+    width: 80%;
+    position: absolute;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8% 10%;
+    left: 10%;
+    height: 60%;
+    bottom: -45%;
+    /* box-sizing: border-box; */
+}
+
+.blogs-list__item-text span {
+    font-size: 0.8 vw;
+}
+
+.blogs-list__item-text h5 {
+    font-size: 1.12vw;
+}
+
+.blogs-list__item-text a {
+    position: relative;
+    font-size: 0.8vw;
+    font-weight: bold;
+    color: #111;
+    letter-spacing: 0.2vw;
+    width: 45%;
+}
+
+.blogs-list__item-text a::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    bottom: -2px;
+    display: table;
+    clear: both;
+    border: none;
+    border-bottom: 3px solid #111;
+    transition: all 0.3s;
+}
+
+.blogs-list__item:hover .blogs-list__item-text a::after {
+    border-bottom: 3px solid #E53637;
+    width: 50%;
+    transition: all 0.3s;
+}

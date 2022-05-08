@@ -12,81 +12,22 @@ $products = $product_table->get_all();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a914f93d25.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/product.css">
-    <title>TEAM BCD - Male faction</title>
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                type: 'post',
-                url: 'admin/ShoppingCartAction.php',
-                data: {
-                    action: 'count'
-                },
-                success: function(data) {
-                    document.getElementById("cart-product-number").innerHTML = data;
-                }
-            });
-
-            const menuHome = document.querySelector(".menu__home");
-            menuHome.classList.add("menu__item__underline");
-        });
-        function addToCart(productId, productSize, colorradio_group_id, colorArray) {
-            console.log(productId);
-
-            //  Get selected color
-            var radioGroup = document.getElementById(colorradio_group_id);
-            console.log(radioGroup);
-            var radioArray = radioGroup.querySelectorAll(".radio");
-            console.log(radioArray);
-            var productColor;
-            for (let i = 0; i < radioArray.length; i++) {
-                if (radioArray[i].checked) {
-                    productColor = radioArray[i].value;
-                }
-            }
-
-            console.log(productId + " " + productSize + " " + productColor);
-            $.ajax({
-                type: 'post',
-                url: 'admin/ShoppingCartAction.php',
-                data: {
-                    action: 'add',
-                    productId: productId,
-                    productSize: productSize,
-                    productColor: productColor,
-                    productQuantity: 1
-                },
-                success: function(response) {
-                    document.getElementById("cart-product-number").innerHTML = response;
-                    toast({
-                        title: "Đã thêm vào giỏ hàng",
-                        message:  ""
-                    });
-                }
-            });
-        }
-        
-        function showProductDetail(productId) {
-            console.log("clicked");
-                    window.location.href = "./product?productId=" + productId;
-        }
-    </script>
+    <link rel="shortcut icon" href="images/favicon.png" type="images/x-icon">
+    <title>B.C.D</title>
 </head>
 
 <body>
+    <!-- Header start -->
     <?php
     include "common/header.php"
     ?>
+    <!-- Header end -->
 
     <!-------------------------Poster----------------------------------------------------------------------->
     <section id="Slider">
@@ -122,7 +63,7 @@ $products = $product_table->get_all();
                 </div>
                 <div class="banner-item-title">
                     <p>Bộ Sưu Tập <br> 2022</p>
-                    <a href="#">MUA NGAY</a>
+                    <a href="shop">MUA NGAY</a>
                 </div>
             </div>
         </div>
@@ -133,7 +74,7 @@ $products = $product_table->get_all();
                 </div>
                 <div class="banner-item-title">
                     <p>Phụ kiện</p>
-                    <a href="#">MUA NGAY</a>
+                    <a href="shop?category_id=6">MUA NGAY</a>
                 </div>
             </div>
         </div>
@@ -144,19 +85,18 @@ $products = $product_table->get_all();
                 </div>
                 <div class="banner-item-title">
                     <p>Đồ nữ <br> 2022</p>
-                    <a href="#">MUA NGAY</a>
+                    <a href="shop?category_id=2">MUA NGAY</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-------------------------Product----------------------------------------------------------------------->
-
     <section class="product">
         <div class="option-product">
-            <li id="best-sellers">Best Sellers</li>
-            <li id="new-arrivals">New Arrivals</li>
-            <li id="hot-sales">Hot Sales</li>
+            <li id="best-sellers">Bán chạy nhất</li>
+            <li id="new-arrivals">Hàng mới về</li>
+            <li id="hot-sales">Giảm giá</li>
         </div>
         <div class="product-content">
             <div id="product-content-best-seller">
@@ -199,11 +139,10 @@ $products = $product_table->get_all();
         </div>
         <div class="sale-product-item">
             <img src="images/product-sale.png" alt="Product Sale">
-            <p> Sale Of <span>$29.99</span></p>
         </div>
         <div class="sale-product__category-deal-countdown">
-            <p>DEAL OF WEEK</p><br>
-            <p>Multi-pocket Chest Bag Black</p><br>
+            <p>NỔI BẬT</p><br>
+            <p>Túi xách nhiều ngăn</p><br>
             <div class="sale-product__category-deal-countdown__time">
                 <span id="dd">00</span> : <span id="hh">00</span> : <span id="mm">00</span> : <span id="ss">00</span>
             </div>
@@ -224,7 +163,6 @@ $products = $product_table->get_all();
         </div>
         <div class="instagram-text">
             <h2>Instagram</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <h3>#Male_Fashion</h3>
         </div>
     </section>
@@ -233,38 +171,38 @@ $products = $product_table->get_all();
 
     <section class="new-trends">
         <div class="new-trends-title">
-            <span>LATEST NEWS</span>
-            <h2>Fashion New Trends</h2>
+            <span>THÔNG TIN MỚI NHẤT</span>
+            <h2>Xu hướng thời trang</h2>
         </div>
         <div class="new-trends-list">
             <div class="new-trends-list__item">
                 <img src="images/blog/blog-1.jpg" alt="blog 1">
                 <div class="new-trends-list__item-text">
                     <span>
-                        <img src="images/icon/calendar.png" alt=""> 16 February 2022
+                        <img src="images/icon/calendar.png" alt=""> 16 Tháng Hai 2022
                     </span>
-                    <h5>What Culling Irons Are The Best Ones</h5>
-                    <a href="#">READ MORE</a>
+                    <h5>Hãng thời trang nào đang được ưa chuộng nhất</h5>
+                    <a href="#">ĐỌC THÊM</a>
                 </div>
             </div>
             <div class="new-trends-list__item">
                 <img src="images/blog/blog-2.jpg" alt="blog 2">
                 <div class="new-trends-list__item-text">
                     <span>
-                        <img src="images/icon/calendar.png" alt=""> 21 February 2022
+                        <img src="images/icon/calendar.png" alt=""> 21 Tháng Hai 2022
                     </span>
-                    <h5>Eternity Bands Do Last Forever</h5>
-                    <a href="#">READ MORE</a>
+                    <h5>Thời trang năng động</h5>
+                    <a href="#">ĐỌC THÊM</a>
                 </div>
             </div>
             <div class="new-trends-list__item">
                 <img src="images/blog/blog-3.jpg" alt="blog 3">
                 <div class="new-trends-list__item-text">
                     <span>
-                        <img src="images/icon/calendar.png" alt=""> 28 February 2022
+                        <img src="images/icon/calendar.png" alt=""> 6 Tháng Hai 2022
                     </span>
-                    <h5>The Health Benefits Of Sunglasses</h5>
-                    <a href="#">READ MORE</a>
+                    <h5>Lợi ích của việc đeo kính râm</h5>
+                    <a href="#">ĐỌC THÊM</a>
                 </div>
             </div>
         </div>
@@ -275,5 +213,4 @@ $products = $product_table->get_all();
     ?>
 </body>
 <script src="javascript/index.js"></script>
-
 </html>

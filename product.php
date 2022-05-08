@@ -3,6 +3,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/product
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/views/product_big.php";
 
 $related_products;
 if (isset($_GET['productId'])) {
@@ -27,21 +28,9 @@ if (isset($_GET['productId'])) {
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/product.css">
+    <link rel="shortcut icon" href="images/favicon.png" type="images/x-icon">
     <title>TEAM BCD - Male faction</title>
     <script>
-        $(document).ready(function() {
-            $.ajax({
-                type: 'post',
-                url: 'admin/ShoppingCartAction.php',
-                data: {
-                    action: 'count'
-                },
-                success: function(data) {
-                    document.getElementById("cart-product-number").innerHTML = data;
-                }
-            });
-        });
-
         function addToCart(productId, productSize, colorRadioGroupId, quantity) {
             console.log(productId);
 
@@ -71,7 +60,7 @@ if (isset($_GET['productId'])) {
             console.log(productId + " " + productSize + " " + productColor + " " + inputQuantity.value);
             $.ajax({
                 type: 'post',
-                url: 'admin/ShoppingCartAction.php',
+                url: 'app/database/shopping_cart.php',
                 data: {
                     action: 'add',
                     productId: productId,
@@ -186,6 +175,15 @@ if (isset($_GET['productId'])) {
                 <p>Sản phẩm liên quan</p>
                 <div class="related-product-list">
                 <!-----Thêm vào bằng ajax----------->
+                <?php
+                    for ($i = 0; $i < sizeof($related_products); ++$i) {
+                        $related_product = $related_products[$i];
+                        if ($product->id == $related_product->id) continue;
+                        if ($i > 4) break;
+
+                        product_big($related_product);
+                    }
+                ?>
                 </div>
             </div>
         </div>
@@ -196,38 +194,4 @@ if (isset($_GET['productId'])) {
 </body>
 
 <script src="javascript/detail-product.js"></script>
-<script>
-    <?php
-    for ($i = 0; $i < sizeof($related_products); ++$i) {
-        $related_product = $related_products[$i];
-
-        if ($product->id == $related_product->id) continue;
-        if ($i > 4) break;
-   ?>
-        $.ajax({
-            type: 'post',
-            url: 'admin/ProductToHTML.php',
-            data: {
-                productId: '<?php echo $related_product->id?>',
-                productImagePath: '<?php echo $related_product->image_path?>',
-                productColorArray: '<?php
-                                    $color_string = "";
-                                    for ($j = 0; $j < sizeof($related_product->color); ++$j) {
-                                        if (strlen($color_string) >= 30) break;
-                                        if ($j > 0) $color_string .= "; ";
-                                        $color_string .= $related_product->color[$j];
-                                    }
-                                    echo $color_string;?>',
-                productName: '<?php echo $related_product->name?>',
-                productPrice: '<?php echo $related_product->price?>'
-            },
-            success: function(data) {
-                document.querySelector(".related-product-list").innerHTML += data;
-            }
-        });
-    <?php
-    }
-    ?>
-</script>
-
 </html>

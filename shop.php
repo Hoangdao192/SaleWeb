@@ -42,12 +42,13 @@ $total_page = 1;
     <link rel="stylesheet" href="css/shop.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="shortcut icon" href="images/favicon.png" type="images/x-icon">
     <title>SHOP</title>
     <script type="text/javascript">
         $(document).ready(function() {
             $.ajax({
-                type: 'post',
-                url: 'admin/ShoppingCartAction.php',
+                type: 'get',
+                url: 'app/database/shopping_cart.php',
                 data: {
                     action: 'count'
                 },
@@ -115,7 +116,7 @@ $total_page = 1;
             console.log(productId + " " + productSize + " " + productColor);
             $.ajax({
                 type: 'post',
-                url: 'admin/ShoppingCartAction.php',
+                url: 'app/database/shopping_cart.php',
                 data: {
                     action: 'add',
                     productId: productId,
