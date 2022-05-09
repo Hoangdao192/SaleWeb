@@ -1,7 +1,7 @@
 <?php
 class Customer {
-    private $id;
-    private $name;
+    private $userId;
+    private $customerName;
 
     public function __get($propertyName)
     {

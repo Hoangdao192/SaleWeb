@@ -3,6 +3,10 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/produ
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $product_table = new ProductTable;
 $products = $product_table->get_all();
 

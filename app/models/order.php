@@ -1,7 +1,7 @@
 <?php
 class Order {
     public $order_number;
-    public $customer_number;
+    public $userId;
     public $order_date;
     private $total_price;
 

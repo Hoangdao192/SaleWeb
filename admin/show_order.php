@@ -4,6 +4,7 @@ include "slider.php";
 
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_table.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/customer_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
 ?>
 
 <?php
@@ -31,15 +32,17 @@ $customer_table = new CustomerTable();
             <tbody>
                 <?php
                 if ($orders) {
+                    $userTable = new UserTable();
                     for ($i = 0; $i < sizeof($orders); ++$i) {
                         $order = $orders[$i];
-                        $customer = $customer_table->get_customer($order->customer_number);
+                        $customer = $customer_table->get_customer(intval($order->userId));
+                        $user = $userTable->getUserById($order->userId);
                 ?>
                         <tr class="table-item">
                             <td><?php echo $i ?></td>
                             <td class="order-number"><?php echo $order->order_number ?></td>
-                            <td><?php echo $order->customer_number?></td>
-                            <td><?php echo $customer->name?></td>
+                            <td><?php echo $order->userId?></td>
+                            <td><?php echo $user->userName?></td>
                             <td><?php echo $order->order_date?></td>
                             <td><?php echo number_format($order->total_price, 0, ',', '.')?>đ</td>
                             <td>

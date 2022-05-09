@@ -6,7 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/order.p
 class OrderTable {
     public static $ORDER_TABLE_NAME = "orders";
     public static $COLUMN_ORDER_NUMBER = "orderNumber";
-    public static $COLUMN_CUSTOMER_NUMBER = "customerNumber";
+    public static $COL_USER_ID = "userId";
     public static $COLUMN_ORDER_DATE = "orderDate";
     public static $COLUMN_ORDER_PRICE = "totalPrice";
 
@@ -19,7 +19,7 @@ class OrderTable {
     public function parse_order($item) {
         $order = new Order();
         $order->order_number = intval($item[OrderTable::$COLUMN_ORDER_NUMBER]);
-        $order->customer_number = intval($item[OrderTable::$COLUMN_CUSTOMER_NUMBER]);
+        $order->userId = intval($item[OrderTable::$COL_USER_ID]);
         $order->order_date = $item[OrderTable::$COLUMN_ORDER_DATE];
         $order->total_price = $item[OrderTable::$COLUMN_ORDER_PRICE];
 
@@ -29,7 +29,7 @@ class OrderTable {
     public function insert($order) {
         $query = new Query();
         $content_array = [];
-        $content_array[OrderTable::$COLUMN_CUSTOMER_NUMBER] = $order->customer_number;
+        $content_array[OrderTable::$COL_USER_ID] = $order->userId;
         $content_array[OrderTable::$COLUMN_ORDER_DATE] = $order->order_date;
         $content_array[OrderTable::$COLUMN_ORDER_PRICE] = $order->total_price;
 
@@ -42,6 +42,21 @@ class OrderTable {
     public function get_all() {
         $query = new Query();
         $query->get_all(OrderTable::$ORDER_TABLE_NAME);
+        $result = $this->database->query($query->build());
+
+        $orders = [];
+        while ($item = $result->fetch_assoc()) {
+            $orders[] = $this->parse_order($item);
+        }
+
+        return $orders;
+    }
+
+    public function getAllFilterByUserId($userId) {
+        $query = new Query();
+        $query->get_all(OrderTable::$ORDER_TABLE_NAME)
+                ->filter_by(OrderTable::$COL_USER_ID . " = " . $userId);
+
         $result = $this->database->query($query->build());
 
         $orders = [];

@@ -1,3 +1,17 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user'])) {
+    header('Location: /SaleWeb_Assignment/login');
+} else {
+    $user = json_decode($_SESSION['user']);
+    if ($user->userName != "admin") {
+        header('Location: /SaleWeb_Assignment/login');
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

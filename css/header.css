@@ -52,7 +52,7 @@
 }
 
 .other {
-    align-items: center;
+    align-items:center ;
     text-align: right;
     display: flex;
     font-size: 15px;
@@ -158,4 +158,82 @@
 .toast__close-icon:hover {
     color: white;
     cursor: pointer;
+}
+
+.other__user {
+    display: flex;
+    position: relative;
+}
+
+.other__user i {
+    margin-top: 2px;
+}
+
+.other__user__username {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.other__login {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.other__login a {
+    display: flex;
+    white-space: nowrap;
+    cursor: pointer;
+    color: black;
+}
+
+.other__login a:hover {
+    text-decoration: underline;
+}
+
+.other__user__submenu {
+    display: none;
+    padding: 0 !important;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    transform: translateY(100%);
+    background-color: white;
+    border: 1px solid black;
+}
+
+
+.other__user:hover>.other__user__submenu {
+    display: block;
+} 
+
+.other__user__logout {
+    margin: 0;
+    width: 100%;
+    cursor: pointer;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.other__user__logout:hover {
+    color: white;
+    background-color: black;
+}
+
+.other__user__submenu__dashboard {
+    border: none;
+    margin: 0;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+.other__user__submenu__dashboard:hover {
+    
+    border: none;
+    background-color: black;
+    color: white;
 }

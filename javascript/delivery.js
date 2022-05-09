@@ -2,7 +2,7 @@
 //------------------On ready---------------------//
 ///////////////////////////////////////////////////
 if (document.readyState != 'loading'){
-    deliveryPageReady();
+    loadProvince();
 } else {
     document.addEventListener('DOMContentLoaded', function(){
         loadProvince();
@@ -129,12 +129,17 @@ buttonShowProduct.addEventListener("click", function() {
 
 const submitButton = document.getElementById("submit");
 submitButton.addEventListener('click', function(){
-    var request = new XMLHttpRequest();
-     request.open('GET', 'app/database/shopping_cart.php?action=order', true);
+    var phoneNumber = document.getElementById("phone").value;
+    phoneNumber = phoneNumber.trim();
 
-     request.onload = function() {
-         if (this.status >= 200 && this.status < 400) {
-         }
-     };
-     request.send();
+    var request = new XMLHttpRequest();
+    request.open('POST', 'app/database/shopping_cart.php', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.onload = function() {
+        console.log(this.response);
+        if (this.status >= 200 && this.status < 400) {
+            console.log(this.response);
+        }
+    };
+    request.send(`action=order&phone=${phoneNumber}`);
 })
