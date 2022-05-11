@@ -19,7 +19,7 @@ function addToCart(productId, productSize, colorradio_group_id, colorArray) {
     console.log(productId + " " + productSize + " " + productColor);
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'app/database/shopping_cart.php', true);
+    request.open('POST', 'app/database/ShoppingCart.php', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {

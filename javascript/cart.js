@@ -69,7 +69,7 @@ function calculateTotalMoney() {
 function deleteProduct(index) {
     console.log(index);
     var request = new XMLHttpRequest();
-     request.open('GET', `app/database/shopping_cart.php?action=delete&index=${index}`, true);
+     request.open('GET', `app/database/ShoppingCart.php?action=delete&index=${index}`, true);
 
      request.onload = function() {
          if (this.status >= 200 && this.status < 400) {
@@ -95,7 +95,7 @@ if (document.readyState != 'loading') {
 
 function loadCart() {
     var request = new XMLHttpRequest();
-    request.open('GET', 'app/database/shopping_cart.php?action=load', true);
+    request.open('GET', 'app/database/ShoppingCart.php?action=load', true);
 
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {

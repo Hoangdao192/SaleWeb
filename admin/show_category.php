@@ -1,7 +1,7 @@
 <?php
 include "header.php";
 include "slider.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CategoryTable.php";
 ?>
 
 <div class="admin-content-right">
@@ -18,8 +18,8 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/categ
             </thead>
             <tbody>
                 <?php
-                $category_table = new CategoryTable;
-                $categories = $category_table->get_all();
+                $categoryTable = new CategoryTable;
+                $categories = $categoryTable->getAll();
                 for ($i = 0; $i < sizeof($categories); $i++) {
                     $category = $categories[$i];
                 ?>
@@ -27,8 +27,8 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/categ
                         <td><?php echo $i ?></td>
                         <td><?php echo $category->id ?></td>
                         <td><?php echo $category->name ?></td>
-                        <td><a href="edit_category.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Sửa</a>
-                            |<a href="delete_category.php?<?php echo CategoryTable::$COLUMN_CATEGORY_ID ?>=<?php echo $category->id ?>">Xóa</a>
+                        <td><a href="edit_category.php?<?php echo CategoryTable::$COL_CATEGORY_ID ?>=<?php echo $category->id ?>">Sửa</a>
+                            |<a href="delete_category.php?<?php echo CategoryTable::$COL_CATEGORY_ID ?>=<?php echo $category->id ?>">Xóa</a>
                         </td>
                     </tr>
                 <?php

@@ -1,17 +1,17 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/product.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/Product.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTypeTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CategoryTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/views/product_big.php";
 
-$related_products;
+$relatedProducts;
 if (isset($_GET['productId'])) {
-    $product_id = $_GET['productId'];
-    $product_table = new ProductTable;
-    $product = $product_table->get_product($product_id);
+    $productId = $_GET['productId'];
+    $productTable = new ProductTable;
+    $product = $productTable->getProduct($productId);
 
-    $related_products = $product_table->get_all_filter_by_type($product->type_id);
+    $relatedProducts = $productTable->getAllFilterByType($product->typeId);
 }
 ?>
 
@@ -60,7 +60,7 @@ if (isset($_GET['productId'])) {
             console.log(productId + " " + productSize + " " + productColor + " " + inputQuantity.value);
             $.ajax({
                 type: 'post',
-                url: 'app/database/shopping_cart.php',
+                url: 'app/database/ShoppingCart.php',
                 data: {
                     action: 'add',
                     productId: productId,
@@ -104,7 +104,7 @@ if (isset($_GET['productId'])) {
         <div class="detail-product">
             <div class="detail-product-image">
                 <div class="detail-product-image-main">
-                    <img src="admin/database/<?php echo $product->image_path?>" alt="detail_product">
+                    <img src="admin/database/<?php echo $product->imagePath?>" alt="detail_product">
                 </div>
             </div>
             <div class="detail-product-infomation">
@@ -129,18 +129,18 @@ if (isset($_GET['productId'])) {
                     <p>Mã màu: <span>#233234</span></p>
                     <div id="product-color-select" class="product-color">
                         <?php
-                        $color_array = $product->color;
-                        for ($i = 0; $i < sizeof($color_array); $i++) {
-                            $radio_button_name = "2color" . $product->id;
-                            $radio_button_id = "2color" . $product->id . "-" . $i;
-                            $radio_checked = "";
+                        $colorArray = $product->color;
+                        for ($i = 0; $i < sizeof($colorArray); $i++) {
+                            $radioButtonName = "2color" . $product->id;
+                            $radioButtonId = "2color" . $product->id . "-" . $i;
+                            $radioChecked = "";
                             if ($i == 0) {
-                                $radio_checked = "checked";
+                                $radioChecked = "checked";
                             }
                         ?>
                             <div class="product-color-item">
-                                <input value="<?php echo $color_array[$i] ?>" type="radio" class="radio" name="<?php echo $radio_button_name ?>" <?php echo $radio_checked ?> id="<?php echo $radio_button_id ?>">
-                                <label style="background-color: <?php echo $color_array[$i] ?>" for="<?php echo $radio_button_id ?>" class="radio-label">
+                                <input value="<?php echo $colorArray[$i] ?>" type="radio" class="radio" name="<?php echo $radioButtonName ?>" <?php echo $radioChecked ?> id="<?php echo $radioButtonId ?>">
+                                <label style="background-color: <?php echo $colorArray[$i] ?>" for="<?php echo $radioButtonId ?>" class="radio-label">
                                     <i class="fa-xs fa-solid fa-check"></i>
                                 </label>
                             </div>
@@ -176,12 +176,12 @@ if (isset($_GET['productId'])) {
                 <div class="related-product-list">
                 <!-----Thêm vào bằng ajax----------->
                 <?php
-                    for ($i = 0; $i < sizeof($related_products); ++$i) {
-                        $related_product = $related_products[$i];
-                        if ($product->id == $related_product->id) continue;
+                    for ($i = 0; $i < sizeof($relatedProducts); ++$i) {
+                        $relatedProduct = $relatedProducts[$i];
+                        if ($product->id == $relatedProduct->id) continue;
                         if ($i > 4) break;
 
-                        product_big($related_product);
+                        product_big($relatedProduct);
                     }
                 ?>
                 </div>

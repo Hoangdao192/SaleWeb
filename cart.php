@@ -18,7 +18,7 @@
     <!-----------------------------------Header------------------------------------------------------------>
     <?php
     include "common/header.php";
-    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
     include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/views/product_big.php";
 
     if (session_status() === PHP_SESSION_NONE) {
@@ -66,7 +66,7 @@
                     </div>
                     <div>
                         <p>Tổng tiền hàng </p>
-                        <p><span class="total_money">1.770.000</span><sup>đ</sup></p>
+                        <p><span class="total_money">0</span><sup>đ</sup></p>
                     </div>
                 </div>
                 <div class="order_field">

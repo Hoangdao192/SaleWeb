@@ -131,9 +131,10 @@ const submitButton = document.getElementById("submit");
 submitButton.addEventListener('click', function(){
     var phoneNumber = document.getElementById("phone").value;
     phoneNumber = phoneNumber.trim();
+    console.log(phoneNumber);
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'app/database/shopping_cart.php', true);
+    request.open('POST', 'app/database/ShoppingCart.php', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.onload = function() {
         console.log(this.response);

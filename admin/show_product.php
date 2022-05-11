@@ -2,14 +2,14 @@
 include "header.php";
 include "slider.php";
 
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTypeTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CategoryTable.php";
 ?>
 
 <?php
 $product_table = new ProductTable;
-$products = $product_table->get_all();
+$products = $product_table->getAll();
 ?>
 
 <div class="admin-content-right">
@@ -35,36 +35,36 @@ $products = $product_table->get_all();
                     $i = 0;
                     for ($i = 0; $i < sizeof($products); ++$i) {
                         $product = $products[$i];
-                        $product_type_id = $product->type_id;
-                        $product_type_table = new ProductTypeTable;
-                        $product_type = $product_type_table->get_product_type($product_type_id);
+                        $productTypeId = $product->typeId;
+                        $productTypeTable = new ProductTypeTable;
+                        $productType = $productTypeTable->getProductType($productTypeId);
 
-                        $category_id = $product_type->category_id;
-                        $category_table = new CategoryTable;
-                        $category = $category_table->get_category($category_id);
+                        $categoryId = $productType->categoryId;
+                        $categoryTable = new CategoryTable;
+                        $category = $categoryTable->getCategory($categoryId);
 
                 ?>
                         <tr>
                             <td><?php echo $i ?></td>
                             <td><?php echo $product->id ?></td>
                             <td><?php echo $category->name?></td>
-                            <td><?php echo $product_type->name?></td>
+                            <td><?php echo $productType->name?></td>
                             <td><?php echo $product->name ?></td>
                             <td>
                                 <?php
-                                    $color_string = "";
+                                    $colorString = "";
                                     for ($j = 0; $j < sizeof($product->color); ++$j) {
-                                        if (strlen($color_string) >= 30) break;
-                                        if ($j > 0) $color_string .= "; ";
-                                        $color_string .= $product->color[$j];
+                                        if (strlen($colorString) >= 30) break;
+                                        if ($j > 0) $colorString .= "; ";
+                                        $colorString .= $product->color[$j];
                                     }
-                                    echo $color_string;
+                                    echo $colorString;
                                 ?>
                             </td>
                             <td><?php echo number_format($product->price, 0, ',', '.')?>đ</td>
-                            <td><?php echo $product->image_path ?></td>
-                            <td><a href="edit_product.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Sửa</a>|
-                                <a href="delete_product.php?<?php echo ProductTable::$COLUMN_PRODUCT_ID?>=<?php echo $product->id ?>">Xóa</a>
+                            <td><?php echo $product->imagePath ?></td>
+                            <td><a href="edit_product.php?<?php echo ProductTable::$COL_PRODUCT_ID?>=<?php echo $product->id ?>">Sửa</a>|
+                                <a href="delete_product.php?<?php echo ProductTable::$COL_PRODUCT_ID?>=<?php echo $product->id ?>">Xóa</a>
                             </td>
                         </tr>
                 <?php

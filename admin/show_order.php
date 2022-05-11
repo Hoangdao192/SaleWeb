@@ -2,16 +2,16 @@
 include "header.php";
 include "slider.php";
 
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/customer_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CustomerTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
 ?>
 
 <?php
-$order_table = new OrderTable;
-$orders = $order_table->get_all();
+$orderTable = new OrderTable;
+$orders = $orderTable->getAll();
 
-$customer_table = new CustomerTable();
+$customerTable = new CustomerTable();
 ?>
 
 <div class="admin-content-right">
@@ -35,18 +35,18 @@ $customer_table = new CustomerTable();
                     $userTable = new UserTable();
                     for ($i = 0; $i < sizeof($orders); ++$i) {
                         $order = $orders[$i];
-                        $customer = $customer_table->get_customer(intval($order->userId));
+                        $customer = $customerTable->getCustomer(intval($order->userId));
                         $user = $userTable->getUserById($order->userId);
                 ?>
                         <tr class="table-item">
                             <td><?php echo $i ?></td>
-                            <td class="order-number"><?php echo $order->order_number ?></td>
+                            <td class="order-number"><?php echo $order->orderNumber ?></td>
                             <td><?php echo $order->userId?></td>
                             <td><?php echo $user->userName?></td>
-                            <td><?php echo $order->order_date?></td>
-                            <td><?php echo number_format($order->total_price, 0, ',', '.')?>đ</td>
+                            <td><?php echo $order->orderDate?></td>
+                            <td><?php echo number_format($order->totalPrice, 0, ',', '.')?>đ</td>
                             <td>
-                                <a href="delete_product.php?<?php echo 1?>=<?php echo 2 ?>">Xóa</a>
+                                <a href="delete_order.php?<?php echo OrderTable::$COL_ORDER_NUMBER?>=<?php echo $order->orderNumber?>">Xóa</a>
                             </td>
                         </tr>
                 <?php

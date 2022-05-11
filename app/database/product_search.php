@@ -1,5 +1,5 @@
 <?php
-    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
     include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/views/product_big.php";
     //  This file take data from database and return it in HTML
 
@@ -9,7 +9,7 @@
         $categoryId = $_GET['categoryId'];
         $productTypeId = $_GET['productTypeId'];
         $target = $_GET['targetName'];
-        $products = $product_table->get_all_filter_by_name($target, $productTypeId, $categoryId);
+        $products = $product_table->getAllFilterByName($target, $productTypeId, $categoryId);
         showDataToHTML($products, 1);
         exit();
     //}

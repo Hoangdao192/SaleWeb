@@ -1,9 +1,9 @@
 <?php
 class Order {
-    public $order_number;
+    public $orderNumber;
     public $userId;
-    public $order_date;
-    private $total_price;
+    public $orderDate;
+    private $totalPrice;
 
     public function __get($propertyName)
     {

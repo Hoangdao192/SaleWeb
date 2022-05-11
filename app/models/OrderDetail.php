@@ -2,12 +2,12 @@
 
 
 class OrderDetail {
-    private $order_number;
-    private $product_id;
-    private $quantity_ordered;
-    private $price_each;
-    private $product_size;
-    private $product_color;
+    private $orderNumber;
+    private $productId;
+    private $quantityOrdered;
+    private $priceEach;
+    private $productSize;
+    private $productColor;
 
     public function __get($propertyName)
     {

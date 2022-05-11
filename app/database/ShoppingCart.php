@@ -1,12 +1,12 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/views/product_big.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/customer_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/order.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_detail_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CustomerTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/Order.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderDetailTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/order_detail.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/OrderDetail.php";
 
 class ShopingCart {
     public function __construct()
@@ -20,30 +20,34 @@ class ShopingCart {
         }
     }
 
+    /*Get all product in cart and show in HTML*/
     function loadCart() {
         $products = $_SESSION['cart'];
         $productTable = new ProductTable;
         for ($i = 0; $i < sizeof($products); ++$i) {
-            $product_id = $products[$i][0];
-            $product = $productTable->get_product($product_id);
+            $productId = $products[$i][0];
+            $product = $productTable->getProduct($productId);
             product_cart($product, $products[$i]);
         }
     }
 
+    /*Delete product in cart*/
     function deleteItem($index) {
         $products = $_SESSION['cart'];
         array_splice($products, $index, 1);
         $_SESSION['cart'] = $products;
     }
 
+    /*Return number of item in cart*/
     function countItem() {
         $products = $_SESSION['cart'];
         return sizeof($products);
     }
 
+    /*Create new order*/
     function createOrder() {
         if (sizeof($_SESSION['cart']) == 0) return;
-        $userPhoneNumber = $_POST["phone"];
+        $userPhoneNumber = $_GET["phone"];
 
         $userId = -1;
         if (isset($_SESSION['user'])) {
@@ -75,35 +79,36 @@ class ShopingCart {
             }
         }
 
-        $new_order = new Order();
-        $new_order->userId = $userId;
-        $new_order->order_date = date("Y-m-d");
-        $new_order->total_price = $this->get_total_price();
+        $newOrder = new Order();
+        $newOrder->userId = $userId;
+        $newOrder->orderDate = date("Y-m-d");
+        $newOrder->totalPrice = $this->getTotalPrice();
 
-        $order_table = new OrderTable();
-        $order_table->insert($new_order);
+        $orderTable = new OrderTable();
+        $orderTable->insert($newOrder);
 
-        $order_number = $order_table->last_insert_id();
+        $orderNumber = $orderTable->lastInsertId();
         //  Add order detail
         $products = $_SESSION['cart'];
-        $product_table = new ProductTable;
-        $order_detail_table = new OrderDetailTable();
+        $productTable = new ProductTable;
+        $orderDetailTable = new OrderDetailTable();
         for ($i = 0; $i < sizeof($products); ++$i) {
-            $product_id = $products[$i][0];
-            $product = $product_table->get_product($product_id);
+            $productId = $products[$i][0];
+            $product = $productTable->getProduct($productId);
 
-            $new_order_detail = new OrderDetail();
-            $new_order_detail->order_number = $order_number;
-            $new_order_detail->product_id = $products[$i][0];
-            $new_order_detail->product_size = $products[$i][1];
-            $new_order_detail->product_color = $products[$i][2];
-            $new_order_detail->quantity_ordered = $products[$i][3];
-            $new_order_detail->price_each = $product->price;
-            $order_detail_table->insert($new_order_detail);
+            $newOrderDetail = new OrderDetail();
+            $newOrderDetail->orderNumber = $orderNumber;
+            $newOrderDetail->productId = $products[$i][0];
+            $newOrderDetail->productSize = $products[$i][1];
+            $newOrderDetail->productColor = $products[$i][2];
+            $newOrderDetail->quantityOrdered = $products[$i][3];
+            $newOrderDetail->priceEach = $product->price;
+            $orderDetailTable->insert($newOrderDetail);
         }
         $_SESSION['cart'] = [];
     }
 
+    /*Add item to cart*/
     public function addToCart($productId, $productSize, $productColor, $productQuantity) {
         $product = [$productId, $productSize, $productColor, intval($productQuantity)];
         $all_products = $_SESSION['cart'];
@@ -125,16 +130,16 @@ class ShopingCart {
         return count($_SESSION['cart']);
     }
 
-    function get_total_price() {
+    function getTotalPrice() {
         $products = $_SESSION['cart'];
-        $product_table = new ProductTable;
-        $total_price = 0;
+        $productTable = new ProductTable;
+        $totalPrice = 0;
         for ($i = 0; $i < sizeof($products); ++$i) {
-            $product_id = $products[$i][0];
-            $product = $product_table->get_product($product_id);
-            $total_price += intval($product->price) * intval($products[$i][3]);
+            $productId = $products[$i][0];
+            $product = $productTable->getProduct($productId);
+            $totalPrice += intval($product->price) * intval($products[$i][3]);
         }
-        return $total_price;
+        return $totalPrice;
     }
 }
 

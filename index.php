@@ -1,9 +1,9 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/views/product_big.php";
 
-$product_table = new ProductTable;
-$products = $product_table->get_all();
+$productTable = new ProductTable;
+$products = $productTable->getAll();
 ?>
 
 <!DOCTYPE html>

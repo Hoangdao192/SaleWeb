@@ -2,35 +2,35 @@
 include "header.php";
 include "slider.php";
 
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_detail_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/customer_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderDetailTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CustomerTable.php";
 ?>
 
 <?php
-$order_number = intval($_GET['orderNumber']);
+$orderNumber = intval($_GET['orderNumber']);
 
-$order_detail_table = new OrderDetailTable();
-$order_details = $order_detail_table->get_all_filter_by_order_number($order_number);
+$orderDetailTable = new OrderDetailTable();
+$orderDetails = $orderDetailTable->getAllFilterByOrderNumber($orderNumber);
 
-$product_table = new ProductTable();
+$productTable = new ProductTable();
 
-$order_table = new OrderTable();
-$order = $order_table->get_order($order_number);
+$orderTable = new OrderTable();
+$order = $orderTable->getOrder($orderNumber);
 
-$customer_table = new CustomerTable();
-$customer = $customer_table->get_customer($order->customer_number);
+$customerTable = new CustomerTable();
+$customer = $customerTable->getCustomer($order->userId);
 ?>
 
 <div class="admin-content-right">
     <div class="admin-content-right-cartegory-list">
         <h1>Chi tiết đơn hàng</h1>
-        <h3>Mã đơn hàng: <?php echo $order->order_number?></h3>
-        <h3 style="display: inline-block;">Mã khách hàng: <?php echo $customer->id?>.</h3>
-        <h3 style="display: inline-block;">Tên khách hàng: <?php echo $customer->name?></h3>
-        <h3>Ngày đặt: <?php echo $order->order_date?></h3>
-        <h3>Tổng tiền: <?php echo number_format($order->total_price, 0, ',', '.')?>đ</h3>
+        <h3>Mã đơn hàng: <?php echo $order->orderNumber?></h3>
+        <h3 style="display: inline-block;">Mã khách hàng: <?php echo $customer->userId?>.</h3>
+        <h3 style="display: inline-block;">Tên khách hàng: <?php echo $customer->customerName?></h3>
+        <h3>Ngày đặt: <?php echo $order->orderDate?></h3>
+        <h3>Tổng tiền: <?php echo number_format($order->totalPrice, 0, ',', '.')?>đ</h3>
         <table class="content-table">
             <thead class="table-head">
                 <tr>
@@ -41,31 +41,27 @@ $customer = $customer_table->get_customer($order->customer_number);
                     <th>Màu sắc</th>
                     <th>Đơn giá</th>
                     <th>Số lượng</th>
-                    <th>Tùy chọn</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if ($order_details) {
-                    for ($i = 0; $i < sizeof($order_details); ++$i) {
-                        $order_detail = $order_details[$i];
-                        $product = $product_table->get_product($order_detail->product_id);
+                if ($orderDetails) {
+                    for ($i = 0; $i < sizeof($orderDetails); ++$i) {
+                        $orderDetail = $orderDetails[$i];
+                        $product = $productTable->getProduct($orderDetail->productId);
                 ?>
                         <tr class="table-item">
                             <td><?php echo $i ?></td>
                             <td><?php echo $product->name?></td>
                             <td class="image-container">
-                                <img class="product-image" src="database/<?php echo $product->image_path?>" alt="">
+                                <img class="product-image" src="database/<?php echo $product->imagePath?>" alt="">
                             </td>
-                            <td><?php echo $order_detail->product_size?></td>
+                            <td><?php echo $orderDetail->productSize?></td>
                             <td>
-                                <div class="color-item" style="background-color: <?php echo $order_detail->product_color?>;"></div>
+                                <div class="color-item" style="background-color: <?php echo $orderDetail->productColor?>;"></div>
                             </td>
-                            <td><?php echo number_format($order_detail->price_each, 0, ',', '.')?>đ</td>
-                            <td><?php echo $order_detail->quantity_ordered?></td>
-                            <td>
-                                <a href="delete_product.php?<?php echo 1?>=<?php echo 2 ?>">Xóa</a>
-                            </td>
+                            <td><?php echo number_format($orderDetail->priceEach, 0, ',', '.')?>đ</td>
+                            <td><?php echo $orderDetail->quantityOrdered?></td>
                         </tr>
                 <?php
                     }

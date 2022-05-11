@@ -2,12 +2,13 @@
 class Query {
     private $query = "";
 
-    public function insert($table_name, $content_array) {
-        $this->query = "INSERT INTO $table_name (";
+    /*Generate INSERT INTO query*/
+    public function insert($tableName, $contentArray /*[key] = value*/) {
+        $this->query = "INSERT INTO $tableName (";
         $i = 0;
-        foreach ($content_array as $column_name => $column_value) {
-            $this->query = $this->query . $column_name;
-            if ($i < sizeof($content_array) - 1) {
+        foreach ($contentArray as $columnName => $columnValue) {
+            $this->query = $this->query . $columnName;
+            if ($i < sizeof($contentArray) - 1) {
                 $this->query = $this->query . ", ";
             } else {
                 $this->query = $this->query . ") VALUES (";
@@ -16,14 +17,14 @@ class Query {
         }
 
         $i = 0;
-        foreach ($content_array as $column_name => $column_value) {
-            if (gettype($column_value) == "string") {
-                $this->query = $this->query . "'" . $column_value . "'";
+        foreach ($contentArray as $columnName => $columnValue) {
+            if (gettype($columnValue) == "string") {
+                $this->query = $this->query . "'" . $columnValue . "'";
             } else {
-                $this->query = $this->query .  $column_value;
+                $this->query = $this->query .  $columnValue;
             }
             
-            if ($i < sizeof($content_array) - 1) {
+            if ($i < sizeof($contentArray) - 1) {
                 $this->query = $this->query . ", ";
             } else {
                 $this->query = $this->query . ")";
@@ -32,12 +33,45 @@ class Query {
         }
     }
 
-    public function get_all($table_name) {
-        $this->query = $this->query . "SELECT * FROM $table_name ";
+    /*Generate UPDATE query*/
+    public function update($tableName, $contentArray, $condition = null) {
+        $this->query = "";
+        $this->query .= "UPDATE " . $tableName . " SET ";
+
+        $i = 0;
+        foreach ($contentArray as $columnName => $columnValue) {
+            $this->query .= $columnName . " = ";
+            if (gettype($columnValue) == "string") {
+                $this->query = $this->query . "'" . $columnValue . "'";
+            } else {
+                $this->query = $this->query .  $columnValue;
+            }
+            if ($i < sizeof($contentArray) - 1  ) {
+                $this->query .= ", ";
+            }
+            ++$i;
+        }
+
+        $this->query .= " ";
+        if ($condition != null) {
+            $this->filterBy($condition);
+        }
+    }
+
+    /*Generate SELECT query*/
+    public function getAll($tableName) {
+        $this->query = $this->query . "SELECT * FROM $tableName ";
         return $this;
     }
 
-    public function filter_by($condition) {
+    /*Generate DELETE query*/
+    public function delete($tableName, $condition) {
+        $this->query = "DELETE FROM " . $tableName . " ";
+        $this->filterBy($condition);
+    }
+
+    /*Generate WHERE query*/
+    public function filterBy($condition) {
         if (str_contains($this->query, 'WHERE')) {
             $this->query = $this->query . "AND $condition ";
         } else {
@@ -46,11 +80,13 @@ class Query {
         return $this;
     }
 
-    public function order_by($column_name, $type = "ASC") {
-        $this->query = $this->query . "ORDER BY $column_name $type";
+    /*Generate ORDER BY query*/
+    public function orderBy($columnName, $type = "ASC") {
+        $this->query = $this->query . "ORDER BY $columnName $type";
         return $this;
     }
 
+    /*Return query*/
     public function build() {
         return $this->query;
     }

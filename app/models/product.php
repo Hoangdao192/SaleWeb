@@ -1,12 +1,12 @@
 <?php
 class Product {
     private $id;
-    private $category_id;
-    private $type_id;
+    private $categoryId;
+    private $typeId;
     private $name;
     private $color;
     private $price;
-    private $image_path;
+    private $imagePath;
 
     public function __get($propertyName)
     {

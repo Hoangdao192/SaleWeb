@@ -1,7 +1,7 @@
 <?php
 class ProductType {
     private $id;
-    private $category_id;
+    private $categoryId;
     private $name;
 
     public function __get($propertyName)

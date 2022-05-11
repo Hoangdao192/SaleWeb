@@ -1,5 +1,6 @@
 <?php 
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CustomerTable.php";
 
 $regisSucces = true;
 $logCode = 0;
@@ -14,6 +15,7 @@ if (isset($_POST["userName"]) && isset($_POST["userPassword"])) {
 
     /*Check if username is exists.*/
     $userTable = new UserTable();
+    $customerTable = new CustomerTable();
     $user = $userTable->getUserByUsername($userName);
     if ($user != null) {
         $logCode = 1;
@@ -23,6 +25,12 @@ if (isset($_POST["userName"]) && isset($_POST["userPassword"])) {
         $user->userPassword = $userPassword;
         $user->userType = "customer";
         $userTable->insertUser($user);
+
+        $user = $userTable->getUserByUsername($userName);
+        $customer = new Customer();
+        $customer->userId = $user->userId;
+        $customer->customerName = $userName;
+        $customerTable->insertCustomer($customer);
         header('Location: login');
     }
 }

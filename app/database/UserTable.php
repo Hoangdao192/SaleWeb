@@ -1,7 +1,7 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/database.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/Database.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/User.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/query.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/Query.php";
 
 class UserTable {
     public static $USER_TABLE_NAME = "users";
@@ -17,7 +17,8 @@ class UserTable {
         $this->database = new Database();
     }
 
-    public function parseUser($item /*Cursor fetch_assoc() item*/) {
+    /*Convert mysqli_result to User model*/
+    public function parseUser($item /*mysqli_result fetch_assoc item*/) {
         $user = new User();
         $user->userId = $item[UserTable::$COL_USER_ID];
         $user->userName = $item[UserTable::$COL_USER_NAME];
@@ -26,10 +27,11 @@ class UserTable {
         return $user;
     }
 
+    /*Get user by id*/
     public function getUserById($userId) {
         $query = new Query();
-        $query->get_all(UserTable::$USER_TABLE_NAME)
-                ->filter_by(UserTable::$COL_USER_ID . " = '" . $userId . "'");
+        $query->getAll(UserTable::$USER_TABLE_NAME)
+                ->filterBy(UserTable::$COL_USER_ID . " = '" . $userId . "'");
     
         $result = $this->database->query($query->build());
         $item = $result->fetch_assoc();
@@ -40,10 +42,11 @@ class UserTable {
         return $this->parseUser($item);
     }
 
+    /*Get user by username*/
     public function getUserByUsername($userName) {
         $query = new Query();
-        $query->get_all(UserTable::$USER_TABLE_NAME)
-                ->filter_by(UserTable::$COL_USER_NAME . " = '" . $userName . "'");
+        $query->getAll(UserTable::$USER_TABLE_NAME)
+                ->filterBy(UserTable::$COL_USER_NAME . " = '" . $userName . "'");
     
         $result = $this->database->query($query->build());
         $item = $result->fetch_assoc();
@@ -54,6 +57,7 @@ class UserTable {
         return $this->parseUser($item);
     }
 
+    /*Insert new user*/
     public function insertUser($user) {
         $query = new Query();
         $contentArray = [];

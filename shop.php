@@ -1,29 +1,26 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/product_type_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/category_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ProductTypeTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CategoryTable.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$product_table = new ProductTable;
-$products = $product_table->get_all();
+$productTable = new ProductTable;
+$products = $productTable->getAll();
 
-$product_type_table = new ProductTypeTable;
+$productTypeTable = new ProductTypeTable;
 
-$category_table = new CategoryTable;
-$categories = $category_table->get_all();
+$categoryTable = new CategoryTable;
+$categories = $categoryTable->getAll();
 
-$category_id = 0;
-if (isset($_GET['category_id'])) {
-    $category_id = $_GET['category_id'];
+$categoryId = 0;
+if (isset($_GET['categoryId'])) {
+    $categoryId = $_GET['categoryId'];
 } else {
-    $category_id = $categories[0]->id;
+    $categoryId = $categories[0]->id;
 }
-
-$current_page = 1;
-$total_page = 1;
 ?>
 
 <!DOCTYPE html>
@@ -50,16 +47,6 @@ $total_page = 1;
     <title>SHOP</title>
     <script type="text/javascript">
         $(document).ready(function() {
-            $.ajax({
-                type: 'get',
-                url: 'app/database/shopping_cart.php',
-                data: {
-                    action: 'count'
-                },
-                success: function(data) {
-                    document.getElementById("cart-product-number").innerHTML = data;
-                }
-            });
             const menuHome = document.querySelector(".menu__shop");
             menuHome.classList.add("menu__item__underline");
             showProductByCategory();
@@ -70,7 +57,7 @@ $total_page = 1;
                 type: 'get',
                 url: 'app/database/product_view.php',
                 data: {
-                    id: <?php echo $category_id?>
+                    id: <?php echo $categoryId?>
                 },
                 success: function(response) {
                     var contentRight = document.querySelectorAll(".content-right-content")[0];
@@ -120,7 +107,7 @@ $total_page = 1;
             console.log(productId + " " + productSize + " " + productColor);
             $.ajax({
                 type: 'post',
-                url: 'app/database/shopping_cart.php',
+                url: 'app/database/ShoppingCart.php',
                 data: {
                     action: 'add',
                     productId: productId,
@@ -154,7 +141,7 @@ $total_page = 1;
                 url: 'app/database/product_search.php',
                 data: {
                     productTypeId: productTypeId,
-                    categoryId: <?php echo $category_id?>,
+                    categoryId: <?php echo $categoryId?>,
                     targetName: target,
                     page: 1
                 },
@@ -192,9 +179,9 @@ $total_page = 1;
                     for ($i = 0; $i < sizeof($categories); ++$i) {
                         $category = $categories[$i];
                     ?>
-                        <input style="display: none;" type="number" name="category_id" value="<?php echo $category->id ?>">
+                        <input style="display: none;" type="number" name="categoryId" value="<?php echo $category->id ?>">
                         <br>
-                        <a style="<?php if ($category_id == $category->id) echo "color:black" ?>" href="shop.php?category_id=<?php echo $category->id?>">
+                        <a style="<?php if ($categoryId == $category->id) echo "color:black" ?>" href="shop.php?categoryId=<?php echo $category->id?>">
                             <?php echo $category->name ?>
                         </a>
                     <?php
@@ -209,23 +196,23 @@ $total_page = 1;
                     <option value="-1">Hiển thị tất cả</option>
                     <?php
                     //  Get all product type from database and show it to selector
-                    $product_types = $product_type_table->get_all_filter_by_category($category_id);
-                    for ($i = 0; $i < sizeof($product_types); ++$i) {
-                        $product_type = $product_types[$i];
+                    $productTypes = $productTypeTable->getAllFilterByCategory(intval($categoryId));
+                    for ($i = 0; $i < sizeof($productTypes); ++$i) {
+                        $productType = $productTypes[$i];
                     ?>
-                        <option value="<?php echo $product_type->id ?>"><?php echo $product_type->name ?></option>
+                        <option value="<?php echo $productType->id ?>"><?php echo $productType->name ?></option>
                     <?php
                     }
                     ?>
                 </select>
                 <div class="content-right-head-sort">
-                    <p>Sắp xếp: </p>
+                    <!-- <p>Sắp xếp: </p>
                     <select name="sort-type" id="sort-type">
                         <option value="low-to-high">Giá thấp đến cao</option>
                         <option value="high-to-low">Giá cao đến thấp</option>
                         <option value="a-to-z">A đến Z</option>
                         <option value="z-to-a">Z đến A</option>
-                    </select>
+                    </select> -->
                 </div>
             </div>
             <div class="content-right-content">

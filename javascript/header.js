@@ -6,7 +6,7 @@ if (document.readyState != 'loading'){
 
 function headerReady() {
     var request = new XMLHttpRequest();
-    request.open('GET', 'app/database/shopping_cart.php?action=count', true);
+    request.open('GET', 'app/database/ShoppingCart.php?action=count', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
