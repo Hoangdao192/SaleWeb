@@ -6,6 +6,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/Order
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/Order.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderDetailTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CartTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/models/OrderDetail.php";
 
 class ShopingCart {
@@ -20,8 +21,39 @@ class ShopingCart {
         }
     }
 
+    function updateDatabase() {
+        $cartJSON = json_encode($_SESSION['cart']);
+        $cartTable = new CartTable();
+        $user = json_decode($_SESSION['user']);
+
+        $cart = new Cart();
+        $cart->userId = $user->userId;
+        $cart->cart = $cartJSON;
+
+        if ($cartTable->getCart($user->userId) != null) {
+            $cartTable->update($cart);
+        } else {
+            $cartTable->insert($cart);
+        }
+    }
+
+    function loadFromDatabase() {
+        $user = json_decode($_SESSION['user']);
+        $cartTable = new CartTable();
+        $cart = $cartTable->getCart($user->userId);
+        if ($cart != null) {
+            $_SESSION['cart'] = json_decode($cart->cart);
+        } else {
+            $_SESSION['cart'] = [];
+        }
+    }
+
     /*Get all product in cart and show in HTML*/
     function loadCart() {
+        if (isset($_SESSION['user'])) {
+            $this->loadFromDatabase();
+        }
+
         $products = $_SESSION['cart'];
         $productTable = new ProductTable;
         for ($i = 0; $i < sizeof($products); ++$i) {
@@ -36,6 +68,9 @@ class ShopingCart {
         $products = $_SESSION['cart'];
         array_splice($products, $index, 1);
         $_SESSION['cart'] = $products;
+        if (isset($_SESSION['user'])) {
+            $this->updateDatabase();
+        }
     }
 
     /*Return number of item in cart*/
@@ -123,6 +158,10 @@ class ShopingCart {
         }
         if (!$exist) {
             $_SESSION['cart'][] = $product;
+        }
+
+        if (isset($_SESSION['user'])) {
+            $this->updateDatabase();
         }
     }
 

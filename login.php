@@ -1,5 +1,6 @@
 <?php 
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/ShoppingCart.php";
 
 $loginSuccess = true;
 $loginCode = 0;
@@ -31,6 +32,8 @@ if (isset($_POST["userName"]) && isset($_POST["userPassword"])) {
                 "userType" => $user->userType
             ];
             $_SESSION['user'] = json_encode($userJSON);
+            $cart = new ShopingCart();
+            $cart->loadFromDatabase();
             header('Location: index.php');
             exit();
         } else {

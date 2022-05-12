@@ -75,23 +75,12 @@ function deleteProduct(index) {
          if (this.status >= 200 && this.status < 400) {
              // Success!
              loadCart();
+             headerReady();
          }
      };
      request.send();
 }
 
-document.querySelector(".order_field").addEventListener('click', function(){
-    let totalMoney = document.querySelector(".total_money");
-    console.log(calculateTotalMoney());
-    let location = "delivery.php?totalPurchase=" + calculateTotalMoney()
-    window.location.href = location;
-});
-
-if (document.readyState != 'loading') {
-    loadCart();
- } else {
-     document.addEventListener('DOMContentLoaded', loadCart());
- }
 
 function loadCart() {
     var request = new XMLHttpRequest();
@@ -108,3 +97,16 @@ function loadCart() {
     };
     request.send();
 }
+
+document.querySelector(".order_field").addEventListener('click', function(){
+    let totalMoney = document.querySelector(".total_money");
+    console.log(calculateTotalMoney());
+    let location = "delivery.php?totalPurchase=" + calculateTotalMoney()
+    window.location.href = location;
+});
+
+if (document.readyState != 'loading') {
+    loadCart();
+ } else {
+     document.addEventListener('DOMContentLoaded', loadCart());
+ }
