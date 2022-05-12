@@ -193,18 +193,28 @@ a {
 .telephone {
     width: calc(50% - 12px);
     border-radius: 3px;
-    border: 1px solid #e7e7e7;
     padding: 0 !important;
-    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.telephone__validate {
+    display: none ;
 }
 
 .telephone input {
     display: inline-block;
     width: 80% !important;
-    margin: 0 !important;
 }
 
 .telephone__authenication {
+    display: inline-block;
+    font-size: 15px !important;
+    margin-left: 10px !important;
+    color: red !important;
+    cursor: pointer !important;
+}
+
+.telephone__validate__ok {
     display: inline-block;
     font-size: 15px !important;
     margin-left: 10px !important;

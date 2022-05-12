@@ -51,9 +51,14 @@
                                 }
                                 ?>
                             </div>
-
+                            
                             <select name="province-city" id="province-city" onchange="provinceSelected()">
                             </select>
+                            <div class="telephone telephone__validate">
+                                <input type="text" required id="validate-code" name="validate-code" placeholder="Nhập mã xác minh">
+                                <p class="telephone__validate__ok" validated="0">OK</p>
+                            </div>
+                            
                             <select name="district" id="district" onchange="districtSelected()">
                                 <option value="-1">Quận/Huyện</option>
                             </select>

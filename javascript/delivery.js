@@ -140,7 +140,24 @@ submitButton.addEventListener('click', function(){
         console.log(this.response);
         if (this.status >= 200 && this.status < 400) {
             console.log(this.response);
+            window.location.href = 'shop';
         }
     };
     request.send(`action=order&phone=${phoneNumber}`);
+})
+
+const validateButton = document.querySelector(".telephone__authenication");
+const phoneInput = document.getElementById("phone");
+validateButton.addEventListener('click', function(){
+    if (!phoneInput.value) {
+        toast({title: "Bạn chưa nhập số điện thoại", description: "Bạn chưa nhập số điện thoại"});
+        return;
+    }
+    document.querySelector(".telephone__validate").style.display = "inline-block";
+})
+
+const phoneValidateOK = document.querySelector(".telephone__validate__ok");
+phoneValidateOK.addEventListener('click', function() {
+    toast({title: "Xác minh thành công", description: "Bạn chưa nhập số điện thoại"});
+    phoneValidateOK.setAttribute("validated", "1");
 })
