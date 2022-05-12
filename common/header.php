@@ -31,7 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
     <div class="other">
         <div>
-            <a href="#"><img src="images/icon/search.png"></a>
+            <a href="shop"><img src="images/icon/search.png"></a>
         </div>
         <div class="quantity">
             <a href="cart"><img src="images/icon/cart.png"><span id="cart-product-number"></span></a>

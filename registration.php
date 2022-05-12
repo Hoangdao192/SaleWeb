@@ -60,7 +60,9 @@ if (isset($_POST["userName"]) && isset($_POST["userPassword"])) {
             <form action="" method="POST">
                 <div class="form--item form__username">
                     <i class="fa-solid fa-user form--item__icon form__username__icon"></i>
-                    <input name="userName" class="form--item__input form__username__input" type="text" placeholder="Tên tài khoản">
+                    <input name="userName" pattern="[^\s]+" class="form--item__input form__username__input" 
+                        type="text" placeholder="Tên tài khoản"
+                        title="Không chứa dấu cách">
                 </div>
                 <div class="form--item form__password">
                     <i class="fa-solid fa-lock form--item__icon form__password__icon"></i>
