@@ -2,8 +2,8 @@
 include "header.php";
 include "slider.php";
 
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/order_table.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/customer_table.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/OrderTable.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/CustomerTable.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/UserTable.php";
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -41,9 +41,9 @@ $orders = $order_table->getAllFilterByUserId($user->userId);
                 ?>
                         <tr class="table-item">
                             <td><?php echo $i ?></td>                            
-                            <td style="display: none;" class="order-number"><?php echo $order->order_number ?></td>
-                            <td><?php echo $order->order_date?></td>
-                            <td><?php echo number_format($order->total_price, 0, ',', '.')?>đ</td>
+                            <td style="display: none;" class="order-number"><?php echo $order->orderNumber ?></td>
+                            <td><?php echo $order->orderDate?></td>
+                            <td><?php echo number_format($order->totalPrice, 0, ',', '.')?>đ</td>
                             <td>
                                 <a href="delete_product.php?<?php echo 1?>=<?php echo 2 ?>">Hủy đơn</a>
                             </td>

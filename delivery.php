@@ -41,7 +41,17 @@
                     <div class="detail-address">
                         <form action="" id="your-form">
                             <input type="text" required id="name" name="name" placeholder="Họ tên" title="Chứa từ 1-32 ký tự a-z, A-Z, khoảng trắng. VD: Lê Xuân Vinh">
-                            <input type="tel" required id="phone" name="phone" placeholder="Số điện thoại" pattern="[0-9]{10,13}" title="Số điện thoại chứa từ 10-13 chữ số VD: 0123-456-789">
+                            <div class="telephone">
+                                <input type="tel" required id="phone" name="phone" placeholder="Số điện thoại" pattern="[0-9]{10,13}" title="Số điện thoại chứa từ 10-13 chữ số VD: 0123-456-789">
+                                <?php
+                                if (!isset($_SESSION['user'])) {
+                                ?>
+                                <p class="telephone__authenication">Xác minh</p>
+                                <?php
+                                }
+                                ?>
+                            </div>
+
                             <select name="province-city" id="province-city" onchange="provinceSelected()">
                             </select>
                             <select name="district" id="district" onchange="districtSelected()">
