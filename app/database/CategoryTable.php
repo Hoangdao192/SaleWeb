@@ -65,9 +65,9 @@ class CategoryTable {
     }
 
     /*Delete category*/
-    public function deleteCategory($category_id) {
+    public function deleteCategory($categoryId) {
         $query = new Query();
-        $query->delete(CategoryTable::$CATEGORY_TABLE_NAME, CategoryTable::$COL_CATEGORY_ID . " = $category_id");
+        $query->delete(CategoryTable::$CATEGORY_TABLE_NAME, CategoryTable::$COL_CATEGORY_ID . " = $categoryId");
         $result = $this->database->query($query->build());
         return $result;
     }
