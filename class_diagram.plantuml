@@ -1,0 +1,354 @@
+@startuml class_diagram
+page 1x4
+top to bottom direction
+
+namespace App\Controller {
+    class UserAccountController extends BaseController {
+        + showLoginPage()
+        + showRegisterPage()
+        + login()
+        + register()
+        + logout()
+    }
+
+    abstract class BaseController {
+        + isUserExists()
+        + getUser()
+        + views(name, data[])
+    }
+
+    class Home extends BaseController {
+        + show()
+    }
+
+    class ShopController extends BaseController {
+        + showMainPage(variableName = "", variableValue = -1)
+        + getProductTypeByCategory()
+        + showProductByCategory()
+        + showProductByType()
+    }
+
+    class BlogController {
+        + showMainPage()
+    }
+
+    class ContactController{
+        + showMainPage()
+    }
+
+    class ShopingCart {
+        + __construct()
+        + showMainPage()
+        + showDeliveryPage()
+        + updateDatabase()
+        + loadFromDatabase()
+        + loadCart()
+        + getNumberOfItem()
+        + addToCart()
+        + deleteItem()
+        + getTotalPrice()
+        + createOrder()
+    }
+
+    class UserDashboardController {
+        + showOrder()
+        + showOrderDetail()
+        + deleteOrder()
+    }
+
+    class AdminController {
+        + showHomePage()
+        + showCategoryPage()
+        + showAddCategoryPage()
+        + showEditCategoryPage()
+        + addCategory()
+        + editCategory()
+        + deleteCategory()
+        + showAddProductTypePage()
+        + showEditProductTypePage() 
+        + showProductTypePage()
+        + addProductType()
+        + editProductType()
+        + deleteProductType()
+        + showProductPage()
+        + showAddProductPage()
+        + showEditProductPage()
+        + addProduct()
+        + editProduct()
+        + deleteProduct()
+        + showOrderPage()
+        + showOrderDetail()
+        + deleteOrder()
+    }
+
+    BaseController <|-l- UserDashboardController
+    BaseController <|-r- AdminController
+    BaseController <|-l- BlogController
+    ContactController <-[hidden]- BlogController
+    UserDashboardController <-[hidden]- BlogController
+    BaseController <|-l- ContactController
+    BaseController <|-l- ShopingCart
+    ShopingCart <-[hidden]- BlogController
+}
+
+namespace App\Model {
+    class Cart {
+        - userId
+        - cart
+        + getter()
+        + setter()
+    }
+
+    class Category {
+        - id
+        - name
+        + getter()
+        + setter()
+    }
+
+    class Customer {
+        - userId
+        - customerName
+        + getter()
+        + setter()
+    }
+
+    class Order {
+        - orderNumber
+        - userId
+        - orderDate
+        - totalPrice
+        + getter()
+        + setter()
+    }
+
+    class OrderDetail {
+        - orderNumber
+        - productId
+        - quantityOrdered
+        - priceEach
+        - productSize
+        - productColor
+        + getter()
+        + setter()
+    }
+
+    class Product {
+        - id
+        - categoryId
+        - typeId
+        - name
+        - color
+        - price
+        - imagePath
+        + getter()
+        + setter()
+    }
+
+    
+    class ProductType {
+        - id
+        - categoryId
+        - name
+        + getter()
+        + setter()
+    }
+
+    class User {
+        - userId
+        - userName
+        - userPassword
+        - userType
+        + getter()
+        + setter()
+    }
+}
+
+namespace App\Database\DAO {
+    abstract class BaseDAO {
+        # database : Database
+        + __construct()
+    }
+
+    class CartDAO {
+        + {static} CART_TABLE_NAME
+        + {static} COL_USER_ID
+        + {static} COL_USER_CART
+
+        + parseCart(item)
+        + getCart(userId)
+        + insert(cart)
+        + update(cart)
+    }
+
+    class CategoryDAO {
+        + {static} CATEGORY_TABLE_NAME
+        + {static} COL_CATEGORY_ID
+        + {static} COL_CATEGORY_NAME
+
+        + parseCategory(item)
+        + getAll()
+        + insertCategory(category)
+        + getCategory(categoryId)
+        + updateCategory(category)
+        + deleteCategory(categoryId)
+    }
+
+    class CustomerDAO{
+        + {static} CUSTOMER_TABLE_NAME
+        + {static} COL_USER_ID
+        + {static} COL_CUSTOMER_NAME
+
+        + parseCustomer(item)
+        + insertCustomer(customer)
+        + getCustomer(userId)
+        + lastInsertId()
+    }
+
+    class OrderDAO{
+        + {static} ORDER_TABLE_NAME
+        + {static} COL_ORDER_NUMBER
+        + {static} COL_USER_ID
+        + {static} COL_ORDER_DATE
+        + {static} COL_ORDER_PRICE
+
+        + parseOrder(item)
+        + insert(order)
+        + deleteOrder(orderNumber)
+        + getAll()
+        + getAllFilterByUserId(userId)
+        + getOrder(orderNumber)
+    }
+
+    class OrderDetailDAO {
+        + {static} ORDER_DETAIL_TABLE_NAME
+        + {static} COL_ORDER_NUMBER
+        + {static} COL_PRODUCT_ID
+        + {static} COL_QUANTITY_ORDERED
+        + {static} COL_PRICE_EACH
+        + {static} COL_PRODUCT_SIZE
+        + {static} COL_PRODUCT_COLOR
+
+        + parseOrderDetail(item)
+        + insert(orderDetail)
+        + getAllFilterByOrderNumber(orderNumber)
+    }
+
+    class ProductDAO {
+        + {static} PRODUCT_TABLE_NAME
+        + {static} COL_CATEGORY_ID
+        + {static} COL_PRODUCT_ID
+        + {static} COL_PRODUCT_TYPE_ID
+        + {static} COL_PRODUCT_NAME
+        + {static} COL_PRODUCT_COLOR
+        + {static} COL_PRODUCT_PRICE
+        + {static} COL_PRODUCT_IMAGE_PATH
+
+        + parseProduct(item)
+        + insertProduct(product)
+        + updateProduct(product)
+        + deleteProduct(productId)
+        + getProduct(productId)
+        + getAll()
+        + getAllFilterByType(typeId)
+        + getAllFilterByCategory(categoryId)
+        + getAllFilterByName(targetName, productTypeId, categoryId)
+    }
+
+    class ProductTypeDAO {
+        + {static} PRODUCT_TYPE_TABLE_NAME
+        + {static} COL_PRODUCT_TYPE_ID
+        + {static} COLUMN_CATEGORY_ID
+        + {static} COL_PRODUCT_TYPE_NAME
+
+        + parseProductType(item)
+        + insertProductType(productType)
+        + getProductType(productTypeId)
+        + updateProductType(productType)
+        + deleteProductType(productTypeId)
+        + getAll()
+        + getAllFilterByCategory(categoryId)
+    }
+
+    class UserDAO {
+        + {static} USER_TABLE_NAME
+        + {static} COL_USER_ID
+        + {static} COL_USER_NAME
+        + {static} COL_USER_PASSWORD
+        + {static} COL_USER_TYPE
+
+        + parseUser(item)
+        + getUserById(userId)
+        + getUserByUsername(userName)
+        + insertUser(user)
+        + lastInsertId()
+    }
+
+    BaseDAO <|-l- UserDAO
+    BaseDAO <|-u- ProductTypeDAO
+    BaseDAO <|-u- ProductDAO
+    BaseDAO <|-u- OrderDetailDAO
+    BaseDAO <|-d- OrderDAO
+    BaseDAO <|-r- CustomerDAO
+    BaseDAO <|-d- CartDAO
+    BaseDAO <|-d- CategoryDAO
+}
+
+namespace App\Database {
+
+    class Database {
+        + host
+        + user
+        + pass
+        + dbName
+        + link
+        + error
+        - {static} INSTANCE
+        + {static} getInstance()
+        - __construct()
+        + query(query)
+        - connect()
+    }
+
+    class Query {
+        - query
+        + insert(tableName, contentArray)
+        + update(tableName, contentArray, condition = null)
+        + getAll(tableName)
+        + delete(tableName, condition)
+        + filterBy(condition)
+        + orderBy(columnName, type = "ASC")
+        + build()
+    }
+}
+
+namespace App\View {
+    class View {
+        + {static} render(name, data[])
+    }
+}
+
+namespace Core {
+    class HTML {
+        + {static} getRootUrl()
+        + {static} style(cssFileName)
+        + {static} script(javascriptFileName)
+        + {static} image(imageFileName)
+    }
+
+    class Route {
+        - url
+        - params
+        - routes
+        + __construct()
+        - urlProcess()
+        + add(route, params)
+        + get(url)
+        + match(route)
+        + dispatch()
+        + convert(route)
+        + getUrl()
+        + {static} openPostRequest(url, params[])
+    }
+}
+@enduml
