@@ -1,0 +1,521 @@
+:root {
+    --main-text-font: "Nunito Sans", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3;
+}
+
+
+/*---------------------------- Header---------------------------------*/
+
+header {
+    min-width: 800px;
+}
+
+
+/*----------------------Headertop---------------*/
+
+div.headertop {
+    justify-content: space-between;
+    margin: 0 0px;
+    padding: 12px 50px;
+    width: 100%;
+    height: 10px;
+    background-color: black;
+    color: white;
+    align-items: center;
+    display: flex;
+}
+
+.toolsupport {
+    display: flex;
+    align-items: center;
+}
+
+.toolsupport>li {
+    padding: 0 12px;
+}
+
+.toolsupport>li:hover a {
+    color: antiquewhite;
+}
+
+.toolsupport a {
+    color: white;
+}
+
+.selectunitmoney {
+    display: inline-block;
+    position: relative;
+    color: white;
+    left: 1px;
+    bottom: 4px;
+    content: "\2304";
+    /*DOWN ARROWHEAD*/
+}
+
+.selectunitmoney:hover {
+    cursor: pointer;
+    color: antiquewhite;
+}
+
+.selectunit {
+    padding: 8px 12px 3px 20px;
+    position: absolute;
+    top: 30px;
+    right: 60px;
+    border-radius: 5%;
+    background-color: black;
+    visibility: hidden;
+}
+
+.selectunit a {
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.unitmoney:hover .selectunit {
+    visibility: visible;
+    transition: 0.3s;
+    top: 20px;
+}
+
+.selectunit a:hover {
+    color: antiquewhite;
+}
+
+
+/*----------------------Headerbottom-------------------*/
+
+div.headerbottom {
+    justify-content: space-between;
+    margin: 0 0px;
+    padding: 12px 50px;
+    height: 70px;
+    align-items: center;
+    display: flex;
+}
+
+.logo {
+    flex: 2;
+}
+
+.logo img {
+    width: 100%;
+    min-width: 160px;
+    max-width: 240px;
+}
+
+.menu {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    font-weight: bolder;
+}
+
+.menu>li {
+    padding: 0 12px;
+}
+
+.menu>li:hover :not(.dropdown>li>a, .dropdown>li, .dropdown) {
+    color: red;
+    transition: 0.5s;
+    border-bottom: 3px solid red;
+}
+
+.dropdown {
+    position: absolute;
+    background-color: antiquewhite;
+    visibility: hidden;
+    top: 100px;
+    transition: 0.3s;
+    border-radius: 5%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 9999;
+}
+
+.dropdown li {
+    margin: 12px 12px 12px 0px;
+    padding: 5px;
+    color: white;
+}
+
+.dropdown li a {
+    color: white;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.dropdown li a:hover {
+    color: bisque;
+}
+
+li:hover .dropdown {
+    visibility: visible;
+    background-color: black;
+    top: 80px;
+}
+
+.orther {
+    flex: 1;
+    display: flex;
+    font-weight: bold;
+}
+
+.orther>li {
+    padding: 0px 12px;
+}
+
+.quantity {
+    position: relative;
+    display: flex;
+}
+
+.quantity>p,
+.quantity>img {
+    position: absolute;
+}
+
+.quantity>p {
+    left: 20%;
+    top: 10%;
+    font-size: 13px;
+}
+
+.quantity>img {
+    top: 0;
+    left: 0;
+}
+
+
+/*----------------------------  poster---------------------------------*/
+
+#Slider {
+    padding-bottom: 30px;
+    border-bottom: 2px solid black;
+    overflow: hidden;
+}
+
+.aspect-ratio-169 {
+    display: block;
+    position: relative;
+    padding-top: 56.25%;
+    transition: 0.3s;
+}
+
+.aspect-ratio-169 img {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.dot-container {
+    position: absolute;
+    height: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot {
+    height: 1vw;
+    width: 1vw;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-right: 12px;
+    margin: 0.5vw;
+    cursor: pointer;
+}
+
+.dot-container .active {
+    background-color: #333;
+}
+
+.hero-text {
+    z-index: 9;
+    position: absolute;
+    top: 25%;
+    margin-left: 0%;
+    width: 30%;
+    min-width: 250px;
+    height: 70%;
+    overflow: hidden;
+    justify-items: center;
+    overflow: hidden;
+}
+
+.hero-text * {
+    margin: 12px;
+}
+
+.hero-text>h6 {
+    font-size: 1vw;
+    color: #E53637;
+}
+
+.hero-text>h2 {
+    font-size: 3vw;
+    color: #111;
+}
+
+.hero-text>p {
+    font-size: 1vw;
+    color: #3D3D3D;
+}
+
+.Slider__button {
+    display: block;
+    background-color: #111;
+    color: white;
+    font-size: 1vw;
+    font-weight: bold;
+    text-align: center;
+    width: 40%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.Slider__button i {
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+.Slider__toolkit {
+    position: absolute;
+    bottom: 0;
+    margin-left: -3%;
+}
+
+.Slider__toolkit i {
+    font-size: 1vw;
+}
+
+
+/*---------------------------- footer---------------------------------*/
+
+.footer {
+    box-sizing: border-box;
+    background: #111;
+    padding-top: 70px;
+    width: 100%;
+    display: block;
+    color: #B7B7B7;
+    left: 0px;
+    font: 15px;
+}
+
+.footer__container {
+    width: 100%;
+    padding: 0 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.footer__row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+    justify-content: center;
+}
+
+.footer__about {
+    max-width: 24%;
+    min-width: 350px;
+    margin-bottom: 30px;
+}
+
+.footer__about * {
+    margin: 12px 0;
+}
+
+.footer__about .footer__logo {
+    margin-top: -10px;
+}
+
+.footer__widget {
+    max-width: 24%;
+    min-width: 350px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+    margin-right: -40px;
+}
+
+.footer__widget * {
+    margin: 12px 0;
+}
+
+.footer__widget b {
+    margin: 0 0 20px 0;
+    color: #FFF;
+}
+
+.footer__widget li a {
+    color: #B7B7B7;
+}
+
+.footer__widget input {
+    color: #B7B7B7;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    padding: 5px 0;
+    border-bottom: 2px solid #FFF;
+}
+
+.footer__widget form {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.footer__widget button {
+    position: absolute;
+    display: inline-block;
+    transform: translateY(-20%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.footer__widget i {
+    color: #FFF;
+}
+
+.footer__copyright p {
+    text-align: center;
+}
+
+.footer__copyright i,
+.footer__copyright a {
+    color: red
+}
+
+
+/*--------------------------------------------------------------------*/
+
+
+/*---------------------------- Shop---------------------------------*/
+
+
+/*---------------------------- ---------------------------------------*/
+
+
+/*
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+*/
+
+.upder-category {
+    font: var(--main-text-font);
+    background: #f3f2ee;
+    width: 100%;
+    padding: 40px 15px;
+    display: block;
+}
+
+.upder-category h4 {
+    font-size: 24px;
+    padding: 0 0 0 3%;
+}
+
+.upder-category .upder-category__link {
+    padding: 0 0 0 3%;
+}
+
+.upder-category .upder-category__link a::after {
+    content: "\276F";
+    margin: 12px;
+}
+
+.upder-category .upder-category__link a {
+    font: var(--main-text-font);
+    color: #111;
+}
+
+.upder-category span {
+    color: #B7B7B7;
+}
+
+
+/*
+.category {
+    padding: 100px 0 0;
+}
+
+.category__left {
+    width: 20%;
+    margin: 10px;
+}
+
+.category__right {
+    width: 80%;
+    margin: 10px;
+}
+
+.category__right__up {}
+*/
+
+.category {
+    width: 100%;
+    padding: 100px;
+}
+
+.category__left {
+    float: left;
+    width: 20%;
+    overflow: hidden;
+}
+
+.category__right {
+    width: 80%;
+}
+
+.category__right__up {
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid black;
+    padding: 0 30px;
+    justify-content: space-between;
+}
+
+.category__right__content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.category__right__up__select {
+    display: none;
+}
+
+.category__right__content_item span::after {
+    content: "\2729\2729\2729\2729\2729";
+}

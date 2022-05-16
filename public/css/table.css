@@ -1,0 +1,53 @@
+.content-table {
+    background-color: white;
+    border-radius: 5px;
+    border: none;
+    border-collapse: collapse;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+}
+
+.admin-content-right {
+    padding: 20px 30px;
+}
+
+.content-table tr th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+}
+
+.content-table td {
+    padding: 6px 0px;
+}
+
+.content-table tr:nth-child(1) td {
+    padding-top: 10px;
+}
+
+.content-table tr:last-child td {
+    padding-bottom: 10px;
+}
+
+.table-head tr th{
+    background-color: #323246;
+    color: white;
+    font-weight: 500;
+}
+
+.table-item:hover {
+    background-color: lightblue;
+}
+
+.color-item {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    position: relative;
+    margin: 0 auto;
+}
+
+.product-image {
+    width: 50px;
+}

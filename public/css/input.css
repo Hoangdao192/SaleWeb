@@ -1,0 +1,14 @@
+.input-template {
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    padding: 0;
+    border-bottom: 1px solid darkgray;
+    padding-bottom: 5px;
+    font-size: 15px;
+    width: 200px;
+}
+
+.input-template::placeholder {
+    color: black;
+}
