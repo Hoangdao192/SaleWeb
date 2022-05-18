@@ -7,22 +7,32 @@ use Core\HTML;
 use App\View;
 
 $route = new Route();
+
+/*Test*/
+$route->add("/test", ["controller" => "UserAccountController", "action" => "test"]);
+
+/*Public*/
 $route->add("/home", ["controller" => "Home", "action" => "show"]);
 $route->add("/shop", ["controller" => "ShopController", "action" => "showMainPage"]);
 $route->add("/blog", ["controller" => "BlogController", "action" => "showMainPage"]);
 $route->add("/contact", ["controller" => "ContactController", "action" => "showMainPage"]);
-$route->add("/cart", ["controller" => "ShopingCart", "action" => "showMainPage"]);
-$route->add("/delivery", ['controller' => "ShopingCart", "action" => "showDeliveryPage"]);
 $route->add("/login", ["controller" => "UserAccountController", "action" => "showLoginPage"]);
 $route->add("/registration", ["controller" => "UserAccountController", "action" => "showRegisterPage"]);
-
 $route->add("/logininput", ["controller" => "UserAccountController", "action" => "login"]);
 $route->add("/registerinput", ["controller" => "UserAccountController", "action" => "register"]);
+$route->add("/productdetail", ['controller' => 'ShopController', 'action' => "showProductDetail"]);
 
 /*User*/
+$route->add("/cart", ["controller" => "ShopingCart", "action" => "showMainPage"]);
+$route->add("/delivery", ['controller' => "ShopingCart", "action" => "showDeliveryPage"]);
 $route->add("/user/dashboard", ['controller' => 'UserDashboardController', 'action' => 'showOrder']);
 $route->add("/user/orderdetail", ['controller' => 'UserDashboardController', 'action' => 'showOrderDetail']);
 $route->add("/user/deleteorder", ['controller' => 'UserDashboardController', 'action' => 'deleteOrder']);
+$route->add("/user/payment", ['controller' => 'PaymentController', 'action' => "showMainPage"]);
+$route->add("/user/atm-payment", ['controller' => 'PaymentController', 'action' => "ATMPayment"]);
+$route->add("/user/visa-payment", ['controller' => 'PaymentController', 'action' => "creditCardPayment"]);
+$route->add("/user/complete-order", ['controller' => 'ShopingCart', 'action' => 'showCompleteOrder']);
+$route->add("/user/addshippingaddress", ['controller' => 'DeliveryController', 'action' => 'addShippingAddress']);
 
 /*Admin*/
 $route->add("/admin/home", ["controller" => "AdminController", "action" => "showHomePage"]);
@@ -60,11 +70,31 @@ $route->add("/ajax/shopingcart/delete", ["controller" => "ShopingCart", "action"
 $route->add("/ajax/shopingcart/createorder", ['controller' => "ShopingCart", "action" => "createOrder"]);
 $route->add("/ajax/shop/show_product_by_category", ["controller" => "ShopController", "action" => "showProductByCategory"]);
 $route->add("/ajax/shop/show_product_by_type", ["controller" => "ShopController", "action" => "showProductByType"]);
+$route->add("/ajax/shop/search_product", ["controller" => "ShopController", "action" => "searchProduct"]);
 $route->add("/ajax/logout", ["controller" => "UserAccountController", "action" => "logout"]);
+$route->add("/ajax/delivery/showallshippingaddress", ['controller' => 'DeliveryController', 'action' => 'showAllShippingAddress']);
+
+$route->add("/404", ['controller' => 'AdminController', 'action' => 'showErrorPage']);
 
 // $route->add("", ["controller" => "Home", "action" => "show"]);
-
-if ($route->match($route->convert("/ajax/shopingcart/add"))) {
+if ($route->match($route->convert("/admin"))) {
+    if (!isset($_SESSION['user'])) {
+        echo "YES";
+        header('Location: http://localhost/saleweb/404');
+    } else {
+        $user = json_decode($_SESSION['user']);
+        if ($user->userName != 'admin') {
+            header('Location: http://localhost/saleweb/404');
+        }
+        else {
+            $route->dispatch();
+        }
+    } 
+}
+else if ($route->match($route->convert("/user")) && !isset($_SESSION['user'])) {
+    header('Location: http://localhost/saleweb/404');
+}
+else if ($route->match($route->convert("/ajax/shopingcart/add"))) {
     if (isset($_SESSION['user'])) {
         $route->dispatch();
     } else {
@@ -75,7 +105,7 @@ if ($route->match($route->convert("/ajax/shopingcart/add"))) {
         echo json_encode($response);
     }
 } 
-else if ($route->match($route->convert("/cart")) && !isset($_SESSION['user'])) {
+else if (($route->match($route->convert("/cart")) || $route->match($route->convert("/delivery"))) && !isset($_SESSION['user'])) {
     $response = [
         "status" => "fail",
         "message" => "Cần đăng nhập để xem giỏ hàng"

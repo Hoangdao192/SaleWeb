@@ -37,6 +37,15 @@ class ShopingCart extends BaseController {
         $this->views("layout.user", $data);
     }
 
+    public function showCompleteOrder() {
+        $this->createOrder();
+        $data = ['page' => 'Pages/complete-order', 'totalPurchase' => $this->getTotalPrice()];
+        if ($this->isUserExists()) {
+            $data['user'] = $this->getUser();
+        }
+        $this->views("layout.user", $data);
+    }
+
     function updateDatabase() {
         $cartJSON = json_encode($_SESSION['cart']);
         $cartDAO = new CartDAO();

@@ -25,6 +25,22 @@ use App\View;
     </script>
 </head>
 <script>
+    function openPostRequest(url, data) {
+        var form = document.createElement('form');
+        form.action = url;
+        form.method = "POST";
+        form.style.display = "none";
+        Object.entries(data).forEach(entry => {
+            const [key, value] = entry;
+            var input = document.createElement('input');
+            input.type = "hidden";
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        form.submit();
+    }
     function logOut() {
         var request = new XMLHttpRequest();
         request.open('POST', 'http://localhost/saleweb/ajax/logout', true);

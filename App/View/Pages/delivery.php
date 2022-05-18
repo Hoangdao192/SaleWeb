@@ -21,7 +21,19 @@ $totalPurchase = $data['totalPurchase'];
             </div>
             <div class="address">
                 <h3>Địa chỉ giao hàng</h3>
-                <div class="detail-address">
+                <div class="all-address">
+                    <input class="address-radio" type="radio" style="display: none;" value="id" name="shpping-address" id="shipping-address-id">
+                    <label class="shipping-address-label" for="shipping-address-id">
+                        <div class="ring"></div>
+                        <div class="label-detail">
+                            <p>Người nhận: </p>
+                            <p>Số điện thoại</p>
+                            <p>Địa chỉ</p>
+                        </div>
+                    </label>
+                </div>
+                <button class="create-address secondary-button">ĐỊA CHỈ MỚI</button>
+                <div class="detail-address new-address">
                     <form action="" id="your-form">
                         <input type="text" required id="name" name="name" placeholder="Họ tên" title="Chứa từ 1-32 ký tự a-z, A-Z, khoảng trắng. VD: Lê Xuân Vinh">
                         <div class="telephone">
@@ -41,7 +53,8 @@ $totalPurchase = $data['totalPurchase'];
                         <select name="wards" id="wards">
                             <option value="-1">Xã/Phường</option>
                         </select>
-                        <input type="text" required name="address" id="address" placeholder="Địa chỉ">
+                        <input type="text" required name="address" id="address" placeholder="Thôn/Bản/Tổ dân phố/Đường/Số nhà">
+                        <button class="save-address secondary-button">LƯU</button>
                     </form>
                 </div>
                 <div class="button-show-product"><a href="http://localhost/saleweb/cart">QUAY LẠI GIỎ HÀNG</a></div>

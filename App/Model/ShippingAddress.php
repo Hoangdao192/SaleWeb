@@ -1,15 +1,12 @@
 <?php
 namespace App\Model;
 
-class Customer {
+class ShippingAddress {
+    private $id;
     private $userId;
-    private $customerName = "";
-    private $age = 0;
-    private $email = "";
-    private $gender = "";
-    private $phoneNumber = "";
-    private $address = "";
-    private $dateOfBirth = "0-0-0";
+    private $address;
+    private $receiverName;
+    private $receiverPhoneNumber;
 
     public function __get($propertyName)
     {
@@ -21,3 +18,4 @@ class Customer {
         $this->$propertyName = $propertyValue;
     }
 }
+?>

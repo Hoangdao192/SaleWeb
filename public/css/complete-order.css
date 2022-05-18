@@ -1,0 +1,107 @@
+:root {
+    --main-text-font: "Nunito Sans", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3;
+}
+
+/*----------------------------complete-order----------------------------------------------------------------------------------------------------------------------------------*/
+
+.container {
+    margin: 100px 7%;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+}
+
+.icon-item {
+    width: 100%;
+}
+
+.icon-item * {
+    /* border: 1px solid black; */
+}
+
+.icon-item .image {
+    width: 100%;
+    font-size: 8vw;
+    justify-content: center;
+    padding: 0% 50%;
+}
+
+.icon-item .image i {
+    transform: translateX(-50%);
+}
+
+.container .content {
+    width: 100%;
+}
+
+.container .content>* {
+    width: 100%;
+    text-align: center;
+    /* border: 1px solid black; */
+}
+
+.content>p {
+    width: 100%;
+    padding: 15px 30%;
+}
+
+.content .continue {
+    display: flex;
+    justify-content: center;
+}
+
+.content .continue>* {
+    border: 1px solid black;
+    width: 15%;
+    display: flex;
+    text-align: center;
+    margin: 1vw 2%;
+    padding: 0.7vw;
+    border-radius: 10px 0;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.content .continue a {
+    color: #111;
+}
+
+.content .continue div:first-child:hover {
+    background: black;
+}
+
+.content .continue div:first-child:hover a {
+    color: #FFF;
+}
+
+.content .continue div:last-child {
+    background: black;
+}
+
+.content .continue div:last-child a {
+    color: #FFF;
+}
+
+.content .continue div:last-child:hover {
+    background: white;
+}
+
+.content .continue div:last-child:hover a {
+    color: black;
+}

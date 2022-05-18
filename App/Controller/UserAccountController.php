@@ -4,7 +4,9 @@ namespace App\Controller;
 use App\Controller\BaseController;
 use App\Database\DAO\UserDAO;
 use App\Database\DAO\CustomerDAO;
+use App\Database\DAO\ShippingAddressDAO;
 use App\Model\Customer;
+use App\Model\ShippingAddress;
 use App\Model\User;
 use Core\Route;
 
@@ -73,7 +75,14 @@ class UserAccountController extends BaseController {
         if (isset($_POST["userName"]) && isset($_POST["userPassword"])) {
             $userName = $_POST["userName"];
             $userPassword = $_POST["userPassword"];
-        
+            $userAge = $_POST['age'];
+            $userFullname = $_POST['fullname'];
+            $userGender = $_POST['gender'];
+            $userDateOfBirth = $_POST['dateOfbirth'];
+            $userAddress = $_POST['address'];
+            $userPhoneNumber = $_POST['phone'];
+            // $userEmail = $_POST['email'];
+
             /*Check if username is exists.*/
             $userDAO = new UserDAO();
             $customerDAO = new CustomerDAO();
@@ -95,8 +104,22 @@ class UserAccountController extends BaseController {
                 $user = $userDAO->getUserByUsername($userName);
                 $customer = new Customer();
                 $customer->userId = $user->userId;
-                $customer->customerName = $userName;
+                $customer->customerName = $userFullname;
+                $customer->age = intval($userAge);
+                // $customer->email = $userEmail;
+                $customer->phoneNumber = $userPhoneNumber;
+                $customer->address = $userAddress;
+                $customer->gender = $userGender;
+                $customer->dateOfBirth = $userDateOfBirth;
                 $customerDAO->insertCustomer($customer);
+
+                $shippingAddressDAO = new ShippingAddressDAO();
+                $shippingAddress = new ShippingAddress();
+                $shippingAddress->userId = $user->userId;
+                $shippingAddress->address = $userAddress;
+                $shippingAddress->receiverName = $userFullname;
+                $shippingAddress->receiverPhoneNumber = $userPhoneNumber;
+                $shippingAddressDAO->insert($shippingAddress);
                 header('Location: http://localhost/saleweb/login');
             }
         }
@@ -106,6 +129,14 @@ class UserAccountController extends BaseController {
         if (isset($_SESSION['user'])) {
             unset($_SESSION['user']);
         }
+    }
+
+    public function test() {
+        $data = ["page" => "Pages/test"];
+        if (isset($_POST['message'])) {
+            $data['message'] = $_POST['message'];
+        }
+        $this->views("layout.account", $data);
     }
 }
 ?>

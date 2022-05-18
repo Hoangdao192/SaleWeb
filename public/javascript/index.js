@@ -2,13 +2,9 @@ const menuHome = document.querySelector(".menu__home");
 menuHome.classList.add("menu__item__underline");
 
 function addToCart(productId, productSize, colorradio_group_id, colorArray) {
-    console.log(productId);
-
     //  Get selected color
     var radioGroup = document.getElementById(colorradio_group_id);
-    console.log(radioGroup);
     var radioArray = radioGroup.querySelectorAll(".radio");
-    console.log(radioArray);
     var productColor;
     for (let i = 0; i < radioArray.length; i++) {
         if (radioArray[i].checked) {
@@ -16,15 +12,13 @@ function addToCart(productId, productSize, colorradio_group_id, colorArray) {
         }
     }
 
-    console.log(productId + " " + productSize + " " + productColor);
-
+    //  Ajax
     var request = new XMLHttpRequest();
     request.open('POST', 'http://localhost/saleweb/ajax/shopingcart/add', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
             var decodeJSON = JSON.parse(this.response);
-            console.log(decodeJSON);
             // Success!
             if (decodeJSON.status == "success") {
                 document.getElementById("cart-product-number").innerHTML = decodeJSON.numberOfItem;
@@ -45,8 +39,9 @@ function addToCart(productId, productSize, colorradio_group_id, colorArray) {
 }
 
 function showProductDetail(productId) {
-    console.log("clicked");
-    window.location.href = "./product?productId=" + productId;
+    openPostRequest("http://localhost/saleweb/productdetail", {
+        productId : productId
+    })
 }
 
 //---------------------------------------------------Change poster-------------------------------------------------------------------

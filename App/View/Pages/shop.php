@@ -99,8 +99,9 @@ $productTypes = $data['productTypes'];
     }
 
     function showProductDetail(productId) {
-        console.log("clicked");
-        window.location.href = "./product.php?productId=" + productId;
+        openPostRequest("http://localhost/saleweb/productdetail", {
+            productId : productId
+        })
     }
 
     function searchProduct() {
@@ -110,8 +111,8 @@ $productTypes = $data['productTypes'];
         var productTypeId = productTypeSelector.options[productTypeSelector.selectedIndex].value;
         var target = searchBox.value;
         $.ajax({
-            type: 'get',
-            url: 'app/database/product_search.php',
+            type: 'post',
+            url: 'http://localhost/saleweb/ajax/shop/search_product',
             data: {
                 productTypeId: productTypeId,
                 categoryId: <?php echo $categoryId ?>,

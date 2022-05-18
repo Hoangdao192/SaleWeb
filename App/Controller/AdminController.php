@@ -14,6 +14,10 @@ use App\Model\Category;
 use App\Model\ProductType;
 
 class AdminController extends BaseController {
+    public function showErrorPage() {
+        $this->views("layout.404");
+    }
+
     public function showHomePage() {
         $this->views("layout.admin");
     }

@@ -64,5 +64,34 @@ class ShopController extends BaseController {
             ]);
         }
     }
+
+    public function searchProduct() {
+        $targetName = $_POST['targetName'];
+        $categoryId = $_POST['categoryId'];
+        $productTypeId = $_POST['productTypeId'];
+        $productDAO = new ProductDAO();
+        $products = $productDAO->getAllFilterByName($targetName, $productTypeId, $categoryId);
+        for ($i = 0; $i < sizeof($products); ++$i) {
+            $this->views("Product.product_thumbnail", [
+                "product" => $products[$i]
+            ]);
+        }
+    }
+
+    public function showProductDetail() {
+        $productId = $_POST['productId'];
+        $productDAO = new ProductDAO();
+        $product = $productDAO->getProduct($productId);
+        $relatedProducts = $productDAO->getAllFilterByType($product->typeId);
+        $data = [
+            'page' => 'Pages/product_detail',
+            'product' => $product,
+            'relatedProducts' => $relatedProducts
+        ];
+        if ($this->isUserExists()) {
+            $data['user'] = $this->getUser();
+        }
+        $this->views('layout.user', $data);
+    }
 }
 ?>

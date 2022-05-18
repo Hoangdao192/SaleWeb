@@ -8,6 +8,8 @@ require_once "./App/Controller/ContactController.php";
 require_once "./App/Controller/UserAccountController.php";
 require_once "./App/Controller/AdminController.php";
 require_once "./App/Controller/UserDashboardController.php";
+require_once "./App/Controller/PaymentController.php";
+require_once "./App/Controller/DeliveryController.php";
 require_once "./Core/Route.php";
 require_once "./App/View/View.php";
 require_once "./Core/HTML.php";
@@ -25,6 +27,7 @@ require_once "./App/Database/CartDAO.php";
 require_once "./App/Database/CustomerDAO.php";
 require_once "./App/Database/OrderDAO.php";
 require_once "./App/Database/OrderDetailDAO.php";
+require_once "./App/Database/ShippingAddressDAO.php";
 
 /*Model*/
 require_once "./App/Model/Cart.php";
@@ -35,4 +38,5 @@ require_once "./App/Model/OrderDetail.php";
 require_once "./App/Model/Product.php";
 require_once "./App/Model/ProductType.php";
 require_once "./App/Model/User.php";
+require_once "./App/Model/ShippingAddress.php";
 ?>

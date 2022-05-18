@@ -1,85 +1,4 @@
-// Select main image-----------------------------------------------------------------------------------------------------------------------
-
-// const mainImg = document.querySelector(".detail-product-image-main img")
-// const imgItem = document.querySelectorAll(".detail-product-image-category li img")
-// let indexImg = 0
-
-// imgItem.forEach(function(image, indexImg) {
-//     image.addEventListener("click", function() {
-//         mainImg.src = image.src;
-//     })
-// })
-
-// const arrowUp = document.querySelector(".detail-product-image-category .arrow-up")
-// const arrowDown = document.querySelector(".detail-product-image-category .arrow-down")
-// const listImg = document.querySelectorAll(".detail-product-image-category li")
-
-// let indexImgUp = 0
-// let indexImgDown = 2
-// let sizeListImg = listImg.length
-
-// arrowUp.addEventListener("click", function(arrow) {
-//     console.log("Up")
-//     if (indexImgUp > 0) {
-//         indexImgUp -= 1
-//         indexImgDown -= 1
-//         listImg[indexImgUp].classList.add("view")
-//         listImg[indexImgDown + 1].classList.remove("view")
-//     }
-// })
-
-// arrowDown.addEventListener("click", function(arrow) {
-//     console.log("Down")
-//     if (indexImgDown < sizeListImg - 1) {
-//         indexImgUp += 1
-//         indexImgDown += 1
-//         listImg[indexImgUp - 1].classList.remove("view")
-//         listImg[indexImgDown].classList.add("view")
-//     }
-// })
-
-
-
-// Color item-----------------------------------------------------------------------------------------------------------------------
-
-const labelItem = document.querySelectorAll(".detail-product__color__input label")
-const inputItem = document.querySelectorAll(".detail-product__color__input input")
-const nameColor = document.querySelector(".detail-product__color span")
-let index = 0
-const blue = document.querySelector(".label__blue");
-const black = document.querySelector(".label__black");
-const gray = document.querySelector(".label__gray");
-
-
-labelItem.forEach(function(label, index) {
-    inputItem[index].addEventListener("click", function() {
-        selectColor(index)
-    })
-})
-
-function selectColor(index) {
-    const doActive = document.querySelector(".select-color")
-    if (doActive != null) {
-        doActive.classList.remove("select-color")
-    }
-
-    labelItem[index].classList.add("select-color")
-
-    if (labelItem[index] == blue) {
-        document.querySelector(".detail-product__color span").innerHTML = "Xanh da trời"
-    }
-
-    if (labelItem[index] == black) {
-        document.querySelector(".detail-product__color span").innerHTML = "Đen"
-    }
-
-    if (labelItem[index] == gray) {
-        document.querySelector(".detail-product__color span").innerHTML = "Xám"
-    }
-}
-
-//---------------------------------------------------Select size-------------------------------------------------------------------
-
+/* Select size */
 const sizeItem = document.querySelectorAll(".detail-product__size span")
     // const inputItem = document.querySelectorAll(".detail-product__color__input input")
 let indexSize = 0
@@ -98,8 +17,7 @@ function selectSize(indexSize) {
     sizeItem[indexSize].classList.add("select-size")
 }
 
-//---------------------------------------------------Select quantity-------------------------------------------------------------------
-
+/* Select quantity */
 const increaseItem = document.querySelector(".number-increase")
 const decreaseItem = document.querySelector(".number-decrease")
 const numberInput = document.querySelector(".number input")
@@ -110,7 +28,10 @@ increaseItem.addEventListener("click", function() {
         x++;
         numberInput.setAttribute("value", x);
     } else {
-        alert("Số lượng không thể vượt quá 10")
+        toast({
+            title: "Số lượng không thể vượt quá 10",
+            description: ""
+        })
     }
 })
 
@@ -120,72 +41,88 @@ decreaseItem.addEventListener("click", function() {
         x--;
         numberInput.setAttribute("value", x);
     } else {
-        alert("Số lượng không thể nhỏ hơn 1")
+        toast({
+            title: "Số lượng không thể nhỏ hơn 1",
+            description: ""
+        })
     }
 })
 
-//---------------------------------------------------Detail product menu-------------------------------------------------------------------
-
-const tapItem = document.querySelectorAll(".detail-product__tap-header .tap-item")
-const tapContent = document.querySelectorAll(".detail-product__tap-body .tap-content")
-const arrowMenu = document.querySelector(".detail-product__tap-body .arrow")
-let indexTapItem = 0
-let indexContentItem = 0;
-
-tapItem.forEach(function(tap, indexTapItem) {
-    tapItem[indexTapItem].addEventListener("click", function() {
-        selectTap(indexTapItem)
-    })
-})
-
-function selectTap(indexTapItem) {
-    const doActive = document.querySelector(".select-tap")
-    const doActive2 = document.querySelector(".shown")
-    if (doActive != null && doActive2 != null) {
-        doActive.classList.remove("select-tap")
-        doActive2.classList.remove("shown")
+function addToCart(productId, productSize, colorRadioGroupId, quantity) {
+    //  Get selected color
+    var radioGroup = document.getElementById(colorRadioGroupId);
+    var radioArray = radioGroup.querySelectorAll(".radio");
+    var productColor;
+    for (let i = 0; i < radioArray.length; i++) {
+        if (radioArray[i].checked) {
+            productColor = radioArray[i].value;
+        }
     }
-    tapItem[indexTapItem].classList.add("select-tap")
-    indexContentItem = indexTapItem;
-    tapContent[indexContentItem].classList.add("shown")
-    arrowMenu.classList.remove("arrow-reverse")
+
+    console.log(productId + " " + productSize + " " + productColor + " " + quantity);
+    $.ajax({
+        type: 'post',
+        url: 'http://localhost/saleweb/ajax/shopingcart/add',
+        data: {
+            action: 'add',
+            productId: productId,
+            productSize: productSize,
+            productColor: productColor,
+            productQuantity: quantity
+        },
+        success: function(response) {
+            console.log(response);
+            var decodeJSON = JSON.parse(response);
+            console.log(decodeJSON);
+            // Success!
+            if (decodeJSON.status == "success") {
+                document.getElementById("cart-product-number").innerHTML = decodeJSON.numberOfItem;
+                toast({
+                    title: "Đã thêm vào giỏ hàng",
+                    message:  ""
+                });
+            } else {
+                var message = decodeJSON.message;
+                toast({
+                    title: message,
+                    message:  ""
+                });
+            }
+        }
+    });
 }
 
-//Show Content
-
-// arrowMenu.addEventListener("click", function() {
-//     const doActive = document.querySelector(".shown")
-//     const doActive2 = document.querySelector(".select-tap")
-//     if (doActive != null) {
-//         console.log("Not Null")
-//         doActive.classList.remove("shown")
-//         doActive2.classList.remove("select-tap")
-//         arrowMenu.classList.add("arrow-reverse")
-//     } else {
-//         console.log("Null")
-//         tapContent[indexContentItem].classList.add("shown")
-//         tapItem[indexContentItem].classList.add("select-tap")
-//         arrowMenu.classList.remove("arrow-reverse")
-//     }
-// })
-
-//---------------------------------------------------Change color related product-------------------------------------------------------------------
-
-
-const labelRelatedProduct = document.querySelectorAll(".product-item__text label")
-const inputRelatedProduct = document.querySelectorAll(".product-item__text input")
-let indexColorItem = 0
-
-labelRelatedProduct.forEach(function(label, indexColorItem) {
-    inputRelatedProduct[indexColorItem].addEventListener("click", function() {
-        changeColor(indexColorItem)
+function showProductDetail(productId) {
+    openPostRequest("http://localhost/saleweb/productdetail", {
+        productId : productId
     })
-})
+}
 
-function changeColor(indexColorItem) {
-    const doActive = document.querySelector(".active")
-    if (doActive != null) {
-        doActive.classList.remove("active")
-    }
-    labelRelatedProduct[indexColorItem].classList.add("active")
+function buyNow(productId, productSize, colorRadioGroupId, quantity) {
+    //  Get size
+    var allSizeElement = document.querySelectorAll(".detail-product__size span");
+        for (let i = 0; i < allSizeElement.length; ++i) {
+            if (allSizeElement[i].classList.contains("select-size")) {
+                productSize = allSizeElement[i].innerHTML;
+            }
+        }
+
+    //  Quantity
+    var inputQuantity = document.querySelector(".detail-product__quantity input");
+    addToCart(productId, productSize, colorRadioGroupId, parseInt(inputQuantity.value));
+    window.location.href = "http://localhost/saleweb/cart";
+}
+
+function addToCartMain(productId, productSize, colorRadioGroupId, quantity) {
+    //  Get size
+    var allSizeElement = document.querySelectorAll(".detail-product__size span");
+        for (let i = 0; i < allSizeElement.length; ++i) {
+            if (allSizeElement[i].classList.contains("select-size")) {
+                productSize = allSizeElement[i].innerHTML;
+            }
+        }
+
+    //  Quantity
+    var inputQuantity = document.querySelector(".detail-product__quantity input");
+    addToCart(productId, productSize, colorRadioGroupId, parseInt(inputQuantity.value));
 }
