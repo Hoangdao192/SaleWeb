@@ -25,7 +25,9 @@ $route->add("/productdetail", ['controller' => 'ShopController', 'action' => "sh
 /*User*/
 $route->add("/cart", ["controller" => "ShopingCart", "action" => "showMainPage"]);
 $route->add("/delivery", ['controller' => "ShopingCart", "action" => "showDeliveryPage"]);
-$route->add("/user/dashboard", ['controller' => 'UserDashboardController', 'action' => 'showOrder']);
+$route->add("/user/order", ['controller' => 'UserDashboardController', 'action' => 'showOrder']);
+$route->add("/user/profile", ['controller' => 'UserDashboardController', 'action' => 'showProfilePage']);
+$route->add("/user/dashboard", ['controller' => 'UserDashboardController', 'action' => 'showProfilePage']);
 $route->add("/user/orderdetail", ['controller' => 'UserDashboardController', 'action' => 'showOrderDetail']);
 $route->add("/user/deleteorder", ['controller' => 'UserDashboardController', 'action' => 'deleteOrder']);
 $route->add("/user/payment", ['controller' => 'PaymentController', 'action' => "showMainPage"]);
@@ -33,6 +35,9 @@ $route->add("/user/atm-payment", ['controller' => 'PaymentController', 'action' 
 $route->add("/user/visa-payment", ['controller' => 'PaymentController', 'action' => "creditCardPayment"]);
 $route->add("/user/complete-order", ['controller' => 'ShopingCart', 'action' => 'showCompleteOrder']);
 $route->add("/user/addshippingaddress", ['controller' => 'DeliveryController', 'action' => 'addShippingAddress']);
+$route->add("/user/saveshippingaddress", ['controller' => 'DeliveryController', 'action' => 'saveSelectedShippingAddress']);
+$route->add("/user/updateinformation", ['controller' => 'UserDashboardController', 'action' => 'updateCustomerInformation']);
+$route->add("/user/showshippingaddress", ['controller' => 'UserDashboardController', 'action' => 'showShippingAddress']);
 
 /*Admin*/
 $route->add("/admin/home", ["controller" => "AdminController", "action" => "showHomePage"]);
@@ -61,6 +66,16 @@ $route->add("/admin/deleteproduct", ["controller" => "AdminController", "action"
 $route->add("/admin/order", ['controller' => 'AdminController', 'action' => 'showOrderPage']);
 $route->add("/admin/orderdetail", ['controller' => 'AdminController', 'action' => 'showOrderDetail']);
 $route->add("/admin/deleteorder", ['controller' => 'AdminController', 'action' => 'deleteOrder']);
+//  Customer
+$route->add("/admin/customer", ['controller' => 'AdminController', 'action' => 'showCustomer']);
+$route->add("/admin/deletecustomer", ['controller' => 'AdminController', 'action' => 'deleteCustomer']);
+$route->add("/admin/profilecustomer", ['controller' => 'AdminController', 'action' => 'customerProfile']);
+$route->add("/admin/ajax/customer/all", ['controller' => 'AdminController', 'action' => 'getAllCustomer']);
+$route->add("/admin/analytic", ['controller' => 'AdminController', 'action' => 'showAnalytic']);
+$route->add("/admin/getanalytic", ['controller' => 'AdminAnalyticController', 'action' => 'showStatisticByYear']);
+$route->add("/admin/getproductanalytic", ['controller' => 'AdminAnalyticController', 'action' => 'showProductStastiticByYear']);
+$route->add("/admin/getanalyticbymonth", ['controller' => 'AdminAnalyticController', 'action' => 'showStatisticByMonth']);
+$route->add("/admin/getmonthproductanalytic", ['controller' => 'AdminAnalyticController', 'action' => 'showProductStatisticByMonth']);
 
 /*Ajax*/
 $route->add("/ajax/shopingcart/count", ["controller" => "ShopingCart", "action" => "countItemInCart"]);
@@ -73,6 +88,8 @@ $route->add("/ajax/shop/show_product_by_type", ["controller" => "ShopController"
 $route->add("/ajax/shop/search_product", ["controller" => "ShopController", "action" => "searchProduct"]);
 $route->add("/ajax/logout", ["controller" => "UserAccountController", "action" => "logout"]);
 $route->add("/ajax/delivery/showallshippingaddress", ['controller' => 'DeliveryController', 'action' => 'showAllShippingAddress']);
+$route->add("/ajax/delivery/showallshippingaddress2", ['controller' => 'DeliveryController', 'action' => 'showAllShippingAddressVer2']);
+$route->add("/ajax/delivery/deleteshippingaddress", ['controller' => 'DeliveryController', 'action' => 'deleteShippingAddress']);
 
 $route->add("/404", ['controller' => 'AdminController', 'action' => 'showErrorPage']);
 
@@ -110,7 +127,7 @@ else if (($route->match($route->convert("/cart")) || $route->match($route->conve
         "status" => "fail",
         "message" => "Cần đăng nhập để xem giỏ hàng"
     ];
-    Route::openPostRequest("http://localhost/saleweb/login", $response);
+    Route::openPostRequest(HTML::getUrl("login"), $response);
 } else {
     $route->dispatch();
 }

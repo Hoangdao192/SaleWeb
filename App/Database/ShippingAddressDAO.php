@@ -40,7 +40,11 @@ class ShippingAddressDAO extends BaseDAO {
         $query->getAll(ShippingAddressDAO::$TABLE_NAME)
                 ->filterBy(ShippingAddressDAO::$COL_USER_ID . " = $userId");
         $result = $this->database->query($query->build());
-        return $this->parseShippingAddress($result->fetch_assoc());
+        $shoppingAddressArray = [];
+        while ($item = $result->fetch_assoc()) {
+            $shoppingAddressArray[] = $this->parseShippingAddress($item);
+        }
+        return $shoppingAddressArray;
     }
 
     public function insert($shippingAddress) {
@@ -51,6 +55,12 @@ class ShippingAddressDAO extends BaseDAO {
         $contentArray[ShippingAddressDAO::$COL_RECEIVER_PHONE_NUMBER] = $shippingAddress->receiverPhoneNumber;
         $query = new Query();
         $query->insert(ShippingAddressDAO::$TABLE_NAME, $contentArray);
+        $this->database->query($query->build());
+    }
+
+    public function delete($shippingAddressId) {
+        $query = new Query();
+        $query->delete(ShippingAddressDAO::$TABLE_NAME, ShippingAddressDAO::$COL_ID . " = $shippingAddressId");
         $this->database->query($query->build());
     }
 }

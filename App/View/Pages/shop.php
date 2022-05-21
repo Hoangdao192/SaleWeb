@@ -17,7 +17,7 @@ $productTypes = $data['productTypes'];
     function showProductByCategory() {
         $.ajax({
             type: 'post',
-            url: 'http://localhost/saleweb/ajax/shop/show_product_by_category',
+            url: `${getDomainUrl()}/ajax/shop/show_product_by_category`,
             data: {
                 categoryId: <?php echo $categoryId ?>
             },
@@ -38,7 +38,7 @@ $productTypes = $data['productTypes'];
         }
         $.ajax({
             type: 'post',
-            url: 'http://localhost/saleweb/ajax/shop/show_product_by_type',
+            url: `${getDomainUrl()}/ajax/shop/show_product_by_type`,
             data: {
                 productTypeId: productTypeId,
                 page: 1
@@ -69,7 +69,7 @@ $productTypes = $data['productTypes'];
         console.log(productId + " " + productSize + " " + productColor);
         $.ajax({
             type: 'post',
-            url: 'http://localhost/saleweb/ajax/shopingcart/add',
+            url: `${getDomainUrl()}/ajax/shopingcart/add`,
             data: {
                 action: 'add',
                 productId: productId,
@@ -99,7 +99,7 @@ $productTypes = $data['productTypes'];
     }
 
     function showProductDetail(productId) {
-        openPostRequest("http://localhost/saleweb/productdetail", {
+        openPostRequest(`${getDomainUrl()}/productdetail`, {
             productId : productId
         })
     }
@@ -112,7 +112,7 @@ $productTypes = $data['productTypes'];
         var target = searchBox.value;
         $.ajax({
             type: 'post',
-            url: 'http://localhost/saleweb/ajax/shop/search_product',
+            url: `${getDomainUrl()}/ajax/shop/search_product`,
             data: {
                 productTypeId: productTypeId,
                 categoryId: <?php echo $categoryId ?>,
@@ -152,7 +152,7 @@ $productTypes = $data['productTypes'];
                 ?>
                     <input style="display: none;" type="number" name="categoryId" value="<?php echo $category->id ?>">
                     <br>
-                    <a style="<?php if ($categoryId == $category->id) echo "color:black" ?>" href="http://localhost/saleweb/shop/categoryId/<?php echo $category->id ?>">
+                    <a style="<?php if ($categoryId == $category->id) echo "color:black" ?>" href="<?php echo HTML::getUrl("shop/categoryId/$category->id")?>">
                         <?php echo $category->name ?>
                     </a>
                 <?php

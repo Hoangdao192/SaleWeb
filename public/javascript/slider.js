@@ -13,5 +13,18 @@ for (let i = 0; i < moreButtons.length; i++) {
 const orderButton = document.getElementById("order-button");
 orderButton.addEventListener('click', function() {
     console.log("click");
-    window.location.href = "http://localhost/saleweb/admin/order";
+    window.location.href = `${getDomainUrl()}/admin/order`;
 })
+
+const customerButton = document.getElementById("customer-button");
+customerButton.addEventListener('click', function(){
+    console.log("click");
+    window.location.href = `${getDomainUrl()}/admin/customer`;
+})
+
+const statiticButton = document.getElementById("statitics-button");
+statiticButton.addEventListener('click', function(){
+    console.log("click");
+    window.location.href = `${getDomainUrl()}/admin/analytic`;
+})
+

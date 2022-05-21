@@ -31,6 +31,7 @@ class ShopingCart extends BaseController {
 
     public function showDeliveryPage() {
         $data = ['page' => 'Pages/delivery', 'totalPurchase' => $this->getTotalPrice()];
+        $user = json_decode($_SESSION['user']);
         if ($this->isUserExists()) {
             $data['user'] = $this->getUser();
         }
@@ -155,7 +156,6 @@ class ShopingCart extends BaseController {
 
     function createOrder() {
         if (sizeof($_SESSION['cart']) == 0) return;
-        echo "YES";
 
         $userId = -1;
         if (isset($_SESSION['user'])) {
@@ -163,10 +163,13 @@ class ShopingCart extends BaseController {
             $userId = $user->userId;
         }
 
+        $shippingAddressId = $_SESSION['shippingAddressId'];
+
         $newOrder = new Order();
         $newOrder->userId = $userId;
         $newOrder->orderDate = date("Y-m-d");
         $newOrder->totalPrice = $this->getTotalPrice();
+        $newOrder->shippingAddressId = $shippingAddressId;
 
         $orderDAO = new OrderDAO();
         $orderDAO->insert($newOrder);

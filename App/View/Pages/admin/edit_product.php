@@ -1,5 +1,6 @@
 <?php
 use App\Database\DAO\ProductDAO;
+use Core\HTML;
 
 $product = $data['product'];
 $productTypes = $data['productTypes']
@@ -7,7 +8,7 @@ $productTypes = $data['productTypes']
 <div class="admin-content-right">
             <div class="admin-content-right-cartegory-add">
                 <h1 class="content-title">Sửa sản phẩm</h1>
-                <form action="http://localhost/saleweb/admin/updateproduct" method="POST" class="submit_form" enctype="multipart/form-data">
+                <form action="<?php echo HTML::getUrl("admin/updateproduct")?>" method="POST" class="submit_form" enctype="multipart/form-data">
                     <input type="hidden" name="<?php echo ProductDAO::$COL_PRODUCT_ID?>" value="<?php echo $product->id?>">
                     <select required name="<?php echo ProductDAO::$COL_PRODUCT_TYPE_ID?>" id="loaisp">
                         <option value="#">Chọn danh mục</option>

@@ -14,7 +14,7 @@ function addToCart(productId, productSize, colorradio_group_id, colorArray) {
 
     //  Ajax
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost/saleweb/ajax/shopingcart/add', true);
+    request.open('POST', `${getDomainUrl()}/ajax/shopingcart/add`, true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
@@ -39,7 +39,7 @@ function addToCart(productId, productSize, colorradio_group_id, colorArray) {
 }
 
 function showProductDetail(productId) {
-    openPostRequest("http://localhost/saleweb/productdetail", {
+    openPostRequest(`${getDomainUrl()}/productdetail`, {
         productId : productId
     })
 }

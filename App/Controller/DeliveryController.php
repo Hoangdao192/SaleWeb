@@ -26,13 +26,36 @@ class DeliveryController extends BaseController {
     }
 
     public function showAllShippingAddress() {
+        $userId = $_POST['userId'];
         $shippingAddressDAO = new ShippingAddressDAO();
-        $allShippingAddress = $shippingAddressDAO->getAll();
+        $allShippingAddress = $shippingAddressDAO->getAllFilterByUserId($userId);
         for ($i = 0; $i < sizeof($allShippingAddress); ++$i) {
             $this->views('address_item', [
                 'shippingAddress' => $allShippingAddress[$i]
             ]);
         }
+    }
+
+    public function showAllShippingAddressVer2() {
+        $userId = $_POST['userId'];
+        $shippingAddressDAO = new ShippingAddressDAO();
+        $allShippingAddress = $shippingAddressDAO->getAllFilterByUserId($userId);
+        for ($i = 0; $i < sizeof($allShippingAddress); ++$i) {
+            $this->views('address_item_2', [
+                'shippingAddress' => $allShippingAddress[$i]
+            ]);
+        }
+    }
+
+    public function saveSelectedShippingAddress() {
+        $shippingAddressId = $_POST['shippingAddressId'];
+        $_SESSION['shippingAddressId'] = intval($shippingAddressId);
+    }
+
+    public function deleteShippingAddress() {
+        $shippingAddressId = $_POST['shippingAddressId'];
+        $shippingAddressDAO = new ShippingAddressDAO();
+        $shippingAddressDAO->delete($shippingAddressId);
     }
 }
 ?>

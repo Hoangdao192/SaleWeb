@@ -6,6 +6,7 @@ class Order {
     public $userId;
     public $orderDate;
     private $totalPrice;
+    private $shippingAddressId;
 
     public function __get($propertyName)
     {

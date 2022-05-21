@@ -41,7 +41,7 @@ $products = $data["products"];
             </div>
             <div class="banner-item-title">
                 <p>Bộ Sưu Tập <br> 2022</p>
-                <a href="http://localhost/saleweb/shop">MUA NGAY</a>
+                <a href="<?php echo HTML::getUrl("shop")?>">MUA NGAY</a>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@ $products = $data["products"];
             </div>
             <div class="banner-item-title">
                 <p>Phụ kiện</p>
-                <a href="http://localhost/saleweb/shop/category/6">MUA NGAY</a>
+                <a href="<?php echo HTML::getUrl("shop/category/6")?>">MUA NGAY</a>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@ $products = $data["products"];
             </div>
             <div class="banner-item-title">
                 <p>Đồ nữ <br> 2022</p>
-                <a href="http://localhost/saleweb/shop/category/2">MUA NGAY</a>
+                <a href="<?php echo HTML::getUrl("shop/category/2")?>">MUA NGAY</a>
             </div>
         </div>
     </div>
@@ -124,7 +124,7 @@ $products = $data["products"];
         <div class="sale-product__category-deal-countdown__time">
             <span id="dd">00</span> : <span id="hh">00</span> : <span id="mm">00</span> : <span id="ss">00</span>
         </div>
-        <a href="shop">MUA NGAY</a>
+        <a href="<?php echo HTML::getUrl("shop")?>">MUA NGAY</a>
     </div>
 </section>
 

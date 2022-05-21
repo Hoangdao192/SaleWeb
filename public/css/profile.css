@@ -1,0 +1,76 @@
+.profile__input {
+    height: fit-content;
+}
+
+.admin-content-right {
+    height: fit-content;
+    background-color: white;
+    max-width: 75%;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 50px;
+    border-radius: 5px;
+}
+
+table {
+    border-spacing: 0;
+    width: 100%;
+    position: relative;
+}
+
+input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+}
+
+select {
+    font-size: 16px;
+}
+
+#gender {
+    display: none;
+}
+
+.profile--item td {
+    padding: 10px 0;
+    border-bottom: 2px solid #e7e7e7;
+}
+
+.profile--item {
+    font-size: 16px;
+}
+
+.profile--item td:first-child {
+    font-weight: bold;
+    width: fit-content;
+}
+
+.profile--item td:last-child {
+    padding-left: 100px;
+    width: 80%;
+}
+
+.button {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: blue;
+    cursor: pointer;
+}
+
+.save-button {
+    display: none;
+}
+
+.profile-table {
+    position: relative;
+}
+
+.profile__button {
+    margin-top: 20px;
+}

@@ -10,6 +10,7 @@ require_once "./App/Controller/AdminController.php";
 require_once "./App/Controller/UserDashboardController.php";
 require_once "./App/Controller/PaymentController.php";
 require_once "./App/Controller/DeliveryController.php";
+require_once "./App/Controller/AdminAnalyticController.php";
 require_once "./Core/Route.php";
 require_once "./App/View/View.php";
 require_once "./Core/HTML.php";

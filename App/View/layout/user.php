@@ -17,14 +17,17 @@ use App\View;
     <link rel="stylesheet" href="<?php echo HTML::style("header.css")?>">
     <link rel="stylesheet" href="<?php echo HTML::style("footer.css")?>">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="<?php echo HTML::script("header.js")?>"></script>
     <link rel="shortcut icon" href="<?php echo HTML::image("favicon.png")?>" type="images/x-icon">
     <title>B.C.D</title>
     <script>
         console.log(document.location.pathname);
     </script>
 </head>
+<input type="hidden" id="domain-url" value="<?php echo HTML::getRootUrl()?>">
 <script>
+    function getDomainUrl() {
+        return document.getElementById("domain-url").value;
+    }
     function openPostRequest(url, data) {
         var form = document.createElement('form');
         form.action = url;
@@ -43,7 +46,7 @@ use App\View;
     }
     function logOut() {
         var request = new XMLHttpRequest();
-        request.open('POST', 'http://localhost/saleweb/ajax/logout', true);
+        request.open('POST', `${getDomainUrl()}/ajax/logout`, true);
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         request.onload = function() {
             if (this.status >= 200 && this.status < 400) {
@@ -54,32 +57,33 @@ use App\View;
         request.send();
     }
 </script>
+<script src="<?php echo HTML::script("header.js")?>"></script>
 
 <body>
     <!--Header start-->
     <section class="header">
         <div class="logo">
-            <a href="index"><img src="<?php echo HTML::image("logo.png")?>"></a>
+            <a href="<?php echo HTML::getUrl("home")?>"><img src="<?php echo HTML::image("logo.png")?>"></a>
         </div>
         <div class="menu">
-            <li><a class="menu__home" href="http://localhost/saleweb/home">Trang chủ</a></li>
-            <li><a class="menu__shop" href="http://localhost/saleweb/shop">Cửa hàng</a></li>
-            <li><a class="menu__blog" href="http://localhost/saleweb/blog">Blog</a></li>
-            <li><a class="menu__contact" href="http://localhost/saleweb/contact">Liên lạc</a></li>
+            <li><a class="menu__home" href="<?php echo HTML::getUrl("home")?>">Trang chủ</a></li>
+            <li><a class="menu__shop" href="<?php echo HTML::getUrl("shop")?>">Cửa hàng</a></li>
+            <li><a class="menu__blog" href="<?php echo HTML::getUrl("blog")?>">Blog</a></li>
+            <li><a class="menu__contact" href="<?php echo HTML::getUrl("contact")?>">Liên lạc</a></li>
         </div>
         <div class="other">
             <div>
                 <a href="shop"><img src="<?php echo HTML::image("icon/search.png")?>"></a>
             </div>
             <div class="quantity">
-                <a href="http://localhost/saleweb/cart"><img src="<?php echo HTML::image("icon/cart.png")?>"><span id="cart-product-number"></span></a>
+                <a href="<?php echo HTML::getUrl("cart")?>"><img src="<?php echo HTML::image("icon/cart.png")?>"><span id="cart-product-number"></span></a>
             </div>
             <?php
             if (isset($data['user'])) {
                 $user = json_decode($data['user']);
-                $dashboardUrl = "http://localhost/saleweb/user/dashboard";
+                $dashboardUrl = HTML::getUrl("user/profile");
                 if ($user->userName == "admin") {
-                    $dashboardUrl = "http://localhost/saleweb/admin/home";
+                    $dashboardUrl = HTML::getUrl("admin/home");
                 }
             ?>
                 <div class="other__user">

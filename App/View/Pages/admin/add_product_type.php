@@ -1,6 +1,7 @@
 <?php
 use App\Database\DAO\ProductTypeDAO;
 use App\Database\DAO\CategoryDAO;
+use Core\HTML;
 
 $categories = $data['categories'];
 ?>
@@ -8,7 +9,7 @@ $categories = $data['categories'];
 <div class="admin-content-right">
     <div class="admin-content-right-cartegory-add">
         <h1 class="content-title">Thêm loại sản phẩm</h1>
-        <form action="http://localhost/saleweb/admin/producttypeinput" method="POST" class="submit_form">
+        <form action="<?php echo HTML::getUrl("admin/producttypeinput")?>" method="POST" class="submit_form">
             <select name="<?php echo CategoryDAO::$COL_CATEGORY_ID ?>" id="danhmuc">
                 <option value="#">Chọn danh mục</option>
                 <?php

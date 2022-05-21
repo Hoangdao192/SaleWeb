@@ -18,6 +18,7 @@ use App\View;
     <link rel="stylesheet" href="<?php echo HTML::style("button_template.css")?>">
     <script src="https://kit.fontawesome.com/a914f93d25.js" crossorigin="anonymous"></script>
     <title>Admin</title>
+    
     <script>
         function openPostRequest(url, data) {
             var form = document.createElement('form');
@@ -35,44 +36,59 @@ use App\View;
             document.body.appendChild(form);
             form.submit();
         }
+        function getDomainUrl() {
+            return document.getElementById("domain-url").value;
+        }
     </script>
 </head>
 <body>
+    <input type="hidden" id="domain-url" value="<?php echo HTML::getRootUrl()?>">
     <section class="header">
         <h1>Quản trị viên</h1>
     </section>
     <section class="admin-content">
         <div class="admin-content-left">
             <div class="content-left-item category">
-                <img src="<?php echo HTML::image("categories.png")?>" alt="">
+                <!-- <img src="<?php echo HTML::image("categories.png")?>" alt=""> -->
+                <i class="fa-solid fa-table-cells-large"></i>
                 <span>Danh mục</span>
                 <i class="fa-xs fa-solid fa-chevron-right more"></i>
                 <div class="content-left-sub-menu category-sub-menu">
-                    <li><a href="http://localhost/saleweb/admin/addcategory">Thêm mới</a></li>
-                    <li><a href="http://localhost/saleweb/admin/category">Xem tất cả</a></li>
+                    <li><a href="<?php echo HTML::getUrl("admin/addcategory")?>">Thêm mới</a></li>
+                    <li><a href="<?php echo HTML::getUrl("admin/category")?>">Xem tất cả</a></li>
                 </div>
             </div>
             <div class="content-left-item product_type">
-                <img src="<?php echo HTML::image("menu.png")?>" alt="">
+                <i class="fa-solid fa-bars"></i>
+                <!-- <img src="<?php echo HTML::image("menu.png")?>" alt=""> -->
                 <span>Loại sản phẩm</span>
                 <i class="fa-xs fa-solid fa-chevron-right more"></i>
                 <div class="content-left-sub-menu">
-                    <li><a href="http://localhost/saleweb/admin/addproducttype">Thêm mới</a></li>
-                    <li><a href="http://localhost/saleweb/admin/producttype">Xem tất cả</a></li>
+                    <li><a href="<?php echo HTML::getUrl("admin/addproducttype")?>">Thêm mới</a></li>
+                    <li><a href="<?php echo HTML::getUrl("admin/producttype")?>">Xem tất cả</a></li>
                 </div>
             </div>
             <div class="content-left-item product">
-                <img src="<?php echo HTML::image("shopping-bag.png")?>" alt="">
+                <!-- <img src="<?php echo HTML::image("shopping-bag.png")?>" alt=""> -->
+                <i class="fa-solid fa-shirt"></i>
                 <span>Sản phẩm</span>
                 <i class="fa-xs fa-solid fa-chevron-right more"></i>
                 <div class="content-left-sub-menu">
-                    <li><a href="http://localhost/saleweb/admin/addproduct">Thêm mới</a></li>
-                    <li><a href="http://localhost/saleweb/admin/product">Xem tất cả</a></li>
+                    <li><a href="<?php echo HTML::getUrl("admin/addproduct")?>">Thêm mới</a></li>
+                    <li><a href="<?php echo HTML::getUrl("admin/product")?>">Xem tất cả</a></li>
                 </div>
             </div>
-
+            <div id="statitics-button" class="content-left-item statitics-button" style="cursor:pointer">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Thống kê</span>
+            </div>
+            <div id="customer-button" class="content-left-item customer-button" style="cursor:pointer">
+                <i class="fa-solid fa-user"></i>
+                <span>Khách hàng</span>
+            </div>
             <div id="order-button" class="content-left-item order-button" style="cursor:pointer">
-                <img src="<?php echo HTML::image("shopping-cart.png")?>" alt="">
+                <!-- <img src="<?php echo HTML::image("shopping-cart.png")?>" alt=""> -->
+                <i class="fa-solid fa-cart-shopping"></i>
                 <span>Đơn hàng</span>
             </div>
         </div>

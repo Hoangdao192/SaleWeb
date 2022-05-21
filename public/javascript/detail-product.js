@@ -62,7 +62,7 @@ function addToCart(productId, productSize, colorRadioGroupId, quantity) {
     console.log(productId + " " + productSize + " " + productColor + " " + quantity);
     $.ajax({
         type: 'post',
-        url: 'http://localhost/saleweb/ajax/shopingcart/add',
+        url: `${getDomainUrl()}/ajax/shopingcart/add`,
         data: {
             action: 'add',
             productId: productId,
@@ -93,7 +93,7 @@ function addToCart(productId, productSize, colorRadioGroupId, quantity) {
 }
 
 function showProductDetail(productId) {
-    openPostRequest("http://localhost/saleweb/productdetail", {
+    openPostRequest(`${getDomainUrl()}/productdetail`, {
         productId : productId
     })
 }
@@ -110,7 +110,7 @@ function buyNow(productId, productSize, colorRadioGroupId, quantity) {
     //  Quantity
     var inputQuantity = document.querySelector(".detail-product__quantity input");
     addToCart(productId, productSize, colorRadioGroupId, parseInt(inputQuantity.value));
-    window.location.href = "http://localhost/saleweb/cart";
+    window.location.href = `${getDomainUrl()}/cart`;
 }
 
 function addToCartMain(productId, productSize, colorRadioGroupId, quantity) {

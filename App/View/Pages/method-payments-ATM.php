@@ -29,7 +29,7 @@ use Core\HTML;
                 </div>
             </div>
             <div class="pay-button">
-                <div><a href="http://localhost/saleweb/user/complete-order">Thanh toán</a></div>
+                <div><a href="<?php echo HTML::getUrl("user/complete-order")?>">Thanh toán</a></div>
             </div>
         </div>
         <div class="detail-product">

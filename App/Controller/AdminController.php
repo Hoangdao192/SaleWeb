@@ -8,10 +8,12 @@ use App\Database\DAO\OrderDAO;
 use App\Database\DAO\OrderDetailDAO;
 use App\Database\DAO\ProductTypeDAO;
 use App\Database\DAO\ProductDAO;
+use App\Database\DAO\ShippingAddressDAO;
 use App\Database\DAO\UserDAO;
 use App\Model\Product;
 use App\Model\Category;
 use App\Model\ProductType;
+use Core\HTML;
 
 class AdminController extends BaseController {
     public function showErrorPage() {
@@ -54,7 +56,8 @@ class AdminController extends BaseController {
         $category = new Category;
         $category->name = $_POST[CategoryDAO::$COL_CATEGORY_NAME];
         $categoryDAO->insertCategory($category);
-        header("Location: http://localhost/saleweb/admin/addcategory");
+        $url = HTML::getUrl("admin/addcategory");
+        header("Location: $url");
     }
 
     public function editCategory() {
@@ -63,14 +66,16 @@ class AdminController extends BaseController {
         $category->name = $_POST[CategoryDAO::$COL_CATEGORY_NAME];
         $categoryDAO = new CategoryDAO();
         $categoryDAO->updateCategory($category);
-        header('Location: http://localhost/saleweb/admin/category');
+        $url = HTML::getUrl("admin/category");
+        header("Location: $url");
     }
 
     public function deleteCategory() {
         $categoryId = intval($_POST['categoryId']);
         $categoryDAO = new CategoryDAO();
         $categoryDAO->deleteCategory($categoryId);
-        header('Location: http://localhost/saleweb/admin/category');
+        $url = HTML::getUrl("admin/category");
+        header("Location: $url");
     }
 
     public function showAddProductTypePage() {
@@ -114,7 +119,8 @@ class AdminController extends BaseController {
         $productTypeDAO = new ProductTypeDAO();
         $productTypeDAO->insertProductType($productType);
 
-        header("Location: http://localhost/saleweb/admin/addproducttype");
+        $url = HTML::getUrl("admin/addproducttype");
+        header("Location: $url");
     }
 
     public function editProductType() {
@@ -129,14 +135,17 @@ class AdminController extends BaseController {
 
         $productTypeDAO = new ProductTypeDAO();
         $productTypeDAO->updateProductType($productType);
-        header("Location: http://localhost/saleweb/admin/producttype");
+        $url = HTML::getUrl("admin/producttype");
+        header("Location: $url");
     }
 
     public function deleteProductType() {
         $productTypeId = $_POST[ProductTypeDAO::$COL_PRODUCT_TYPE_ID];
         $productTypeDAO = new ProductTypeDAO();
         $productTypeDAO->deleteProductType($productTypeId);
-        header("Location: http://localhost/saleweb/admin/producttype");
+
+        $url = HTML::getUrl("admin/producttype");
+        header("Location: $url");
     }
 
     public function showProductPage() {
@@ -187,7 +196,8 @@ class AdminController extends BaseController {
 
         $productDAO->insertProduct($product, $_FILES);
 
-        header('Location: http://localhost/saleweb/admin/addproduct');
+        $url = HTML::getUrl("admin/addproduct");
+        header("Location: $url");
     }
 
     public function editProduct() {
@@ -203,14 +213,18 @@ class AdminController extends BaseController {
 
         $productDAO = new ProductDAO;
         $productDAO->updateProduct($product, $_FILES);
-        header('Location: http://localhost/saleweb/admin/product');
+
+        $url = HTML::getUrl("admin/product");
+        header("Location: $url");
     }
 
     public function deleteProduct() {
         $productId = $_POST[ProductDAO::$COL_PRODUCT_ID];
         $productDAO = new ProductDAO;
         $productDAO->deleteProduct($productId);
-        header('Location: http://localhost/saleweb/admin/product');
+
+        $url = HTML::getUrl("admin/product");
+        header("Location: $url");
     }
 
     public function showOrderPage() {
@@ -250,7 +264,57 @@ class AdminController extends BaseController {
         $orderNumber = $_POST['orderNumber'];
         $orderDAO = new OrderDAO();
         $orderDAO->deleteOrder($orderNumber);
-        header('Location: http://localhost/saleweb/admin/order');
+
+        $url = HTML::getUrl("admin/order");
+        header("Location: $url");
+    }
+
+    public function showCustomer() {
+        $customerDAO = new CustomerDAO();
+        $data = [
+            'page' => "Pages/admin/show_customer",
+            'customers' => $customerDAO->getAll()
+        ];
+        $this->views('layout.admin', $data);
+    }
+
+    public function deleteCustomer() {
+        $userId = $_POST['userId'];
+        $userDAO = new UserDAO();
+        $userDAO->deleteUser($userId);
+    }
+
+    public function getAllCustomer() {
+        $customerDAO = new CustomerDAO();
+        $customers = $customerDAO->getAll();
+        for ($i = 0; $i < sizeof($customers); ++$i) {
+            $data = [
+                'customer' => $customers[$i],
+                'index' => $i
+            ];
+            $this->views('Pages/admin/customer_item', $data);
+        }
+    }
+
+    public function customerProfile() {
+        $userId = $_POST['userId'];
+        $customerDAO = new CustomerDAO();
+        $shippingAddressDAO = new ShippingAddressDAO();
+        $orderDAO = new OrderDAO();
+        $data = [
+            'orders' => $orderDAO->getAllFilterByUserId($userId),
+            'customer' => $customerDAO->getCustomer($userId),
+            'shippingAddressArray' => $shippingAddressDAO->getAllFilterByUserId($userId),
+            'page' => 'Pages/admin/user_profile'
+        ];
+        $this->views('layout.admin', $data);
+    }
+
+    public function showAnalytic() {
+        $data = [
+            'page' => "Pages/admin/analytic"
+        ];
+        $this->views('layout.admin', $data);
     }
 }
 ?>

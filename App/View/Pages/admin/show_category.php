@@ -54,12 +54,12 @@ $categories = $data['categories'];
     var categoryItems = document.querySelectorAll(".category-item");
     for (let i = 0; i < categoryItems.length; ++i) {
         categoryItems[i].querySelector(".category_delete").addEventListener('click', function(){
-            openPostRequest("http://localhost/saleweb/admin/deletecategory", {
+            openPostRequest(`${getDomainUrl()}/admin/deletecategory`, {
                 categoryId : categoryItems[i].querySelector(".category-id").innerHTML
             });
         })
         categoryItems[i].querySelector(".category_edit").addEventListener('click', function(){
-            openPostRequest("http://localhost/saleweb/admin/editcategory", {
+            openPostRequest(`${getDomainUrl()}/admin/editcategory`, {
                 categoryId : categoryItems[i].querySelector(".category-id").innerHTML
             });
         })

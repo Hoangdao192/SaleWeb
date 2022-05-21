@@ -88,12 +88,12 @@ $categoryDAO = $data['categoryDAO'];
     var productTypeItems = document.querySelectorAll(".product-item");
     for (let i = 0; i < productTypeItems.length; ++i) {
         productTypeItems[i].querySelector(".product_delete").addEventListener('click', function(){
-            openPostRequest("http://localhost/saleweb/admin/deleteproduct", {
+            openPostRequest(`${getDomainUrl()}/admin/deleteproduct`, {
                 productId : productTypeItems[i].querySelector(".product-id").innerHTML
             });
         })
         productTypeItems[i].querySelector(".product_edit").addEventListener('click', function(){
-            openPostRequest("http://localhost/saleweb/admin/editproduct", {
+            openPostRequest(`${getDomainUrl()}/admin/editproduct`, {
                 productId : productTypeItems[i].querySelector(".product-id").innerHTML
             });
         })

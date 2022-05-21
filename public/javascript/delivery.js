@@ -131,22 +131,6 @@ buttonShowProduct.addEventListener("click", function() {
     }
 })
 
-/*Create order*/
-const submitButton = document.getElementById("submit");
-submitButton.addEventListener('click', function(){
-    // var request = new XMLHttpRequest();
-    // request.open('POST', 'http://localhost/saleweb/ajax/shopingcart/createorder', true);
-    // request.onload = function() {
-    //     console.log(this.response);
-    //     if (this.status >= 200 && this.status < 400) {
-    //         console.log(this.response);
-    //         window.location.href = "http://localhost/saleweb/shop";
-    //     }
-    // };
-    // request.send();
-    openPostRequest("http://localhost/saleweb/user/payment", {});
-})
-
 const createAddressButton = document.querySelector(".create-address");
 const createAddressForm = document.querySelector(".new-address");
 createAddressButton.addEventListener('click', function(){
@@ -174,12 +158,13 @@ saveAddressButton.addEventListener('click', function(){
     var address = province + ", " + district + ", " + ward + ", " + detailAddress;
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost/saleweb/user/addshippingaddress', true);
+    request.open('POST', `${getDomainUrl()}/user/addshippingaddress`, true);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onload = function() {
         console.log(this.response)
         if (this.status >= 200 && this.status < 400) {
             createAddressForm.style.display = "none";
+            createAddressButton.style.display = "block";
         }
     };
     request.send(`receiverName=${receiverName}&receiverPhoneNumber=${receiverPhone}&address=${address}`);
@@ -188,9 +173,10 @@ saveAddressButton.addEventListener('click', function(){
 
 function loadShippingAddress() {
     var addressContainer = document.querySelector(".all-address");
+    let userId = document.getElementById("user-id-input").value;
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost/saleweb/ajax/delivery/showallshippingaddress', true);
+    request.open('POST', `${getDomainUrl()}/ajax/delivery/showallshippingaddress`, true);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     request.onload = function() {
         console.log(this.response)
@@ -198,7 +184,7 @@ function loadShippingAddress() {
             addressContainer.innerHTML = this.response;
         }
     };
-    request.send();
+    request.send(`userId=${parseInt(userId)}`);
 }
 
 function validate() {
@@ -232,3 +218,28 @@ function validate() {
     }
     return true;
 }
+
+/*Create order*/
+const submitButton = document.getElementById("submit");
+submitButton.addEventListener('click', function(){
+    // openPostRequest("http://localhost/saleweb/user/payment", {});
+    var addressSelected = document.querySelector('input[name="shipping-address"]:checked');
+    var addressSelectedLabel = document.querySelector('input[name="shipping-address"]:checked + label');
+    if (addressSelected == null) {
+        toast({
+            title: 'Bạn chưa chọn địa chỉ giao hàng',
+            description: ''
+        })
+    } else {
+        var request = new XMLHttpRequest();
+        request.open('POST', `${getDomainUrl()}/user/saveshippingaddress`, true);
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.onload = function() {
+            console.log(this.response)
+            if (this.status >= 200 && this.status < 400) {
+                openPostRequest(`${getDomainUrl()}/user/payment`, {});
+            }
+        };
+        request.send(`shippingAddressId=${addressSelectedLabel.querySelector(".shipping-id").value}`);
+    }
+})

@@ -20,7 +20,7 @@ $cartSize = $data["cartSize"];
             </div>
             <div class="product-list">
                 <div class="product-list-tilte">
-                    <p>Giỏ hàng của bạn <span><?php echo $cartSize?></span><span> Sản Phẩm</span></p>
+                    <p>Giỏ hàng của bạn có <span class="total_product_number"><?php echo $cartSize?></span><span> Sản Phẩm</span></p>
                 </div>
                 <div class="product-list-content">
                     <table>
@@ -31,18 +31,17 @@ $cartSize = $data["cartSize"];
                             <th>TỔNG TIỀN</th>
                         </tr>
                         <tbody id="product-container">
-
                         </tbody>
                     </table>
                 </div>
-                <div><a href="http://localhost/saleweb/shop">Tiếp tục mua hàng</a></div>
+                <div><a href="<?php echo HTML::getUrl('shop')?>">Tiếp tục mua hàng</a></div>
             </div>
         </div>
         <div class="container-right">
             <div class="cart-summary">
                 <h3>Tổng tiền giỏ hàng</h3>
                 <div>
-                    <p><span class="total_product">Tổng sản phẩm</span></p><span><?php echo $cartSize?></span>
+                    <p><span class="total_product">Tổng sản phẩm</span></p><span class="total_product_number"><?php echo $cartSize?></span>
                 </div>
                 <div>
                     <p>Tổng tiền hàng </p>

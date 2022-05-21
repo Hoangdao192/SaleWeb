@@ -69,7 +69,7 @@ function calculateTotalMoney() {
 function deleteProduct(index) {
     console.log(index);
     var request = new XMLHttpRequest();
-     request.open('POST', 'http://localhost/saleweb/ajax/shopingcart/delete', true);
+     request.open('POST', `${getDomainUrl()}/ajax/shopingcart/delete`, true);
 
      request.onload = function() {
          if (this.status >= 200 && this.status < 400) {
@@ -81,10 +81,9 @@ function deleteProduct(index) {
      request.send(`itemIndex=${index}`);
 }
 
-
 function loadCart() {
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost/saleweb/ajax/shopingcart/load', true);
+    request.open('POST', `${getDomainUrl()}/ajax/shopingcart/load`, true);
 
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
@@ -93,16 +92,33 @@ function loadCart() {
             productContainer.innerHTML = this.response;
             productItemEventHandle();
             calculateTotalMoney();
+            let totalProduct = document.querySelectorAll(".total_product_number");
+             for (let i = 0; i < totalProduct.length; ++i) {
+                 console.log("s");
+                 totalProduct[i].innerHTML = getNumberOfItem();
+             }
         }
     };
     request.send();
 }
 
+function getNumberOfItem() {
+    let allProduct = document.querySelectorAll(".content-item");
+    return allProduct.length;
+}
+
 document.querySelector(".order_field").addEventListener('click', function(){
-    let totalMoney = document.querySelector(".total_money");
-    console.log(calculateTotalMoney());
-    let location = "http://localhost/saleweb/delivery";
-    window.location.href = location;
+    if (getNumberOfItem() == 0) {
+        toast({
+            title: "Bạn chưa thêm sản phẩm nào",
+            description: ""
+        })
+    } else {
+        let totalMoney = document.querySelector(".total_money");
+        console.log(calculateTotalMoney());
+        let location = `${getDomainUrl()}/delivery`;
+        window.location.href = location;
+    }
 });
 
 if (document.readyState != 'loading') {

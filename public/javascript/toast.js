@@ -1,22 +1,3 @@
-if (document.readyState != 'loading'){
-    headerReady();
-} else {
-    document.addEventListener('DOMContentLoaded', headerReady());
-}
-
-function headerReady() {
-    var request = new XMLHttpRequest();
-    request.open('POST', `${getDomainUrl()}/ajax/shopingcart/count`, true);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.onload = function() {
-        if (this.status >= 200 && this.status < 400) {
-            // Success!
-            document.getElementById("cart-product-number").innerHTML = this.response;
-        }
-    };
-    request.send();
-}
-
 function toast({
     title, message
 }) {

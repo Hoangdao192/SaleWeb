@@ -8,6 +8,7 @@ use App\Database\DAO\ShippingAddressDAO;
 use App\Model\Customer;
 use App\Model\ShippingAddress;
 use App\Model\User;
+use Core\HTML;
 use Core\Route;
 
 class UserAccountController extends BaseController {
@@ -41,7 +42,9 @@ class UserAccountController extends BaseController {
                     "status" => "fail",
                     "message" => "Tài khoản không tồn tại"
                 ];
-                Route::openPostRequest("http://localhost/saleweb/login", $response);
+
+                $url = HTML::getUrl("login");
+                Route::openPostRequest($url, $response);
             } else {
                 if ($userPassword == $user->userPassword) {
                     /*Login successful.*/
@@ -57,7 +60,9 @@ class UserAccountController extends BaseController {
                     $_SESSION['user'] = json_encode($userJSON);
                     // $cart = new ShopingCart();
                     // $cart->loadFromDatabase();
-                    header('Location: http://localhost/saleweb/home');
+
+                    $url = HTML::getUrl("home");
+                    header("Location: $url");
                     exit();
                 } else {
                     //  Wrong password
@@ -65,7 +70,9 @@ class UserAccountController extends BaseController {
                         "status" => "fail",
                         "message" => "Sai mật khẩu"
                     ];
-                    Route::openPostRequest("http://localhost/saleweb/login", $response);
+
+                    $url = HTML::getUrl("login");
+                    Route::openPostRequest($url, $response);
                 }
             }
         }
@@ -93,7 +100,9 @@ class UserAccountController extends BaseController {
                     "status" => "fail",
                     "message" => "Tài khoản đã tồn tại"
                 ];
-                Route::openPostRequest("http://localhost/saleweb/registration", $response);
+
+                $url = HTML::getUrl("registration");
+                Route::openPostRequest($url, $response);
             } else {
                 $user = new User();
                 $user->userName = $userName;
@@ -120,7 +129,9 @@ class UserAccountController extends BaseController {
                 $shippingAddress->receiverName = $userFullname;
                 $shippingAddress->receiverPhoneNumber = $userPhoneNumber;
                 $shippingAddressDAO->insert($shippingAddress);
-                header('Location: http://localhost/saleweb/login');
+
+                $url = HTML::getUrl("login");
+                header("Location: $url");
             }
         }
     }

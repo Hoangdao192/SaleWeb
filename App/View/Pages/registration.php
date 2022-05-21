@@ -15,7 +15,7 @@ use Core\HTML;
     }
 ?>
 <div class="form account-form">
-    <form action="http://localhost/saleweb/registerinput" method="POST" onsubmit="return validate()">
+    <form action="<?php echo HTML::getUrl("registerinput")?>" method="POST" onsubmit="return validate()">
         <div class="form__account">
             <div class="form--item form__username">
                 <i class="fa-solid fa-user form--item__icon form__username__icon"></i>
@@ -31,7 +31,7 @@ use Core\HTML;
             </div>
             <button class="form__next form__submitbtn">Tiếp tục</button>
             <div class="form__more">
-                Bạn đã có tài khoản ? <a class="form__more__signup" href="http://localhost/saleweb/login">Đăng nhập</a>
+                Bạn đã có tài khoản ? <a class="form__more__signup" href="<?php echo HTML::getUrl("login")?>">Đăng nhập</a>
             </div>
         </div>
         <div class="form__information">

@@ -35,9 +35,14 @@ use Core\HTML;
                 toastContainer.removeChild(toastItem);
             }, 4000);
         }
+
+        function getDomainUrl() {
+            return document.getElementById("domain-url").value;
+        }
     </script>
 </head>
 
+<input type="hidden" id="domain-url" value="<?php echo HTML::getRootUrl()?>">
 <body>
     <div id="toast">
     </div>

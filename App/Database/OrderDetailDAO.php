@@ -57,4 +57,31 @@ class OrderDetailDAO extends BaseDAO {
         }
         return $orderDetails;
     }
+
+    public function getStatisticByYear($year = 2022) {
+        $query = "select month(orderDate) as month, sum(quantityOrdered) as total
+                    from orders
+                    join orderdetails where orders.orderNumber = orderdetails.orderNumber
+                    group by month(orderDate)";
+        $result = $this->database->query($query);
+        $statistic = [];
+        while ($item = $result->fetch_assoc()) {
+            $statistic[$item['month']] = $item['total'];
+        }
+        return json_encode($statistic);
+    }
+
+    public function getStatisticByMonth($year = 2022, $month = 1) {
+        $query = "select day(orderDate) as day, sum(quantityOrdered) as total
+                    from orders
+                    join orderdetails on orders.orderNumber = orderdetails.orderNumber
+                    where month(orderDate) = $month and year(orderDate) = $year
+                    group by day(orderDate)";
+        $result = $this->database->query($query);
+        $statistic = [];
+        while ($item = $result->fetch_assoc()) {
+            $statistic[$item['day']] = $item['total'];
+        }
+        return json_encode($statistic);
+    }
 }

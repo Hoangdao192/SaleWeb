@@ -13,10 +13,10 @@ use Core\HTML;
         <p>Đơn hàng của bạn đã được đặt thành công.</p>
         <div class="continue">
             <div class="continue-button">
-                <a href="http://localhost/saleweb/shop">TIẾP TỤC MUA SẮM</a>
+                <a href="<?php echo HTML::getUrl("shop")?>">TIẾP TỤC MUA SẮM</a>
             </div>
             <div class="follow-button">
-                <a href="http://localhost/saleweb/home">QUAY VỀ TRANG CHỦ</a>
+                <a href="<?php echo HTML::getUrl("home")?>">QUAY VỀ TRANG CHỦ</a>
             </div>
         </div>
     </div>

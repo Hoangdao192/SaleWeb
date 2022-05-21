@@ -3,11 +3,14 @@
 use Core\HTML;
 
 $totalPurchase = $data['totalPurchase'];
+$user= json_decode($data['user']);
+$userId = $user->userId;
 ?>
 
 <link rel="stylesheet" href="<?php echo HTML::style("font.css")?>">
 <link rel="stylesheet" href="<?php echo HTML::style("delivery.css")?>">
 <!-------------------------Content----------------------------------------------------------------------->
+<input type="hidden" id="user-id-input" value="<?php echo $userId?>">
 <div class="container">
     <div class="row">
         <div class="container-left">
@@ -57,7 +60,7 @@ $totalPurchase = $data['totalPurchase'];
                         <button class="save-address secondary-button">LƯU</button>
                     </form>
                 </div>
-                <div class="button-show-product"><a href="http://localhost/saleweb/cart">QUAY LẠI GIỎ HÀNG</a></div>
+                <div class="button-show-product"><a href="<?php echo HTML::getUrl("cart")?>">QUAY LẠI GIỎ HÀNG</a></div>
             </div>
         </div>
         <div class="container-right">
@@ -76,7 +79,7 @@ $totalPurchase = $data['totalPurchase'];
                     </div>
                 </div>
                 <div>
-                    <input type="text" id="submit" name="submit" form="your-form" value="HOÀN THÀNH">
+                    <input type="text" id="submit" name="submit" value="HOÀN THÀNH">
                 </div>
             </div>
         </div>

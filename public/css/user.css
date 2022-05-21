@@ -42,6 +42,7 @@ ul {
 
 .admin-content-left {
     background-color: white;
+    max-width: 40%;
     padding: 40px 50px;
     font-size: 18px;
     height: 100vh;
@@ -62,6 +63,7 @@ ul {
 .content-left-item span {
     flex: 2;
     margin-left: 10px;
+    white-space: nowrap;
 }
 
 .content-left-item i {

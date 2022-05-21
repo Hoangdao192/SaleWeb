@@ -67,14 +67,14 @@ $customerDAO = $data['customerDAO'];
     for (let i = 0; i < orderDetailItems.length; ++i) {
         orderDetailItems[i].querySelector('.delete-item').addEventListener('click', function(){
             var orderNumber = parseInt(orderDetailItems[i].querySelector(".order-number").innerHTML);
-            openPostRequest("http://localhost/saleweb/admin/deleteorder", {
+            openPostRequest(`${getDomainUrl()}/admin/deleteorder`, {
                 orderNumber : orderNumber
             })
         })
 
         orderDetailItems[i].querySelector('.view-item').addEventListener('click', function() {
             var orderNumber = parseInt(orderDetailItems[i].querySelector(".order-number").innerHTML);
-            openPostRequest("http://localhost/saleweb/admin/orderdetail", {
+            openPostRequest(`${getDomainUrl()}/admin/orderdetail`, {
                 orderNumber : orderNumber
             })
         }) 

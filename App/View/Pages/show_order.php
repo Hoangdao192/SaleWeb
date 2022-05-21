@@ -56,14 +56,14 @@ $orders = $data['orders'];
     for (let i = 0; i < orderDetailItems.length; ++i) {
         orderDetailItems[i].querySelector(".view-order").addEventListener('click', function(){
             var orderNumber = parseInt(orderDetailItems[i].querySelector(".order-number").innerHTML);
-            openPostRequest("http://localhost/saleweb/user/orderdetail", {
+            openPostRequest(`${getDomainUrl()}/user/orderdetail`, {
                 orderNumber : orderNumber
             })
         })
 
         orderDetailItems[i].querySelector(".delete-order").addEventListener('click', function(){
             var orderNumber = parseInt(orderDetailItems[i].querySelector(".order-number").innerHTML);
-            openPostRequest("http://localhost/saleweb/user/deleteorder", {
+            openPostRequest(`${getDomainUrl()}/user/deleteorder`, {
                 orderNumber : orderNumber
             })
         })

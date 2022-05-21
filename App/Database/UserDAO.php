@@ -53,6 +53,12 @@ class UserDAO extends BaseDAO {
         return $this->parseUser($item);
     }
 
+    public function deleteUser($userId) {
+        $query = new Query();
+        $query->delete(UserDAO::$USER_TABLE_NAME, UserDAO::$COL_USER_ID . " = $userId");
+        $this->database->query($query->build());
+    }
+
     /*Insert new user*/
     public function insertUser($user) {
         $query = new Query();

@@ -1,4 +1,6 @@
 <?php
+use Core\HTML;
+
 $orderDetails = $data['orderDetails'];
 $productDAO = $data['productDAO'];
 $order = $data['order'];
@@ -33,7 +35,7 @@ $order = $data['order'];
                             <td><?php echo $i ?></td>
                             <td><?php echo $product->name?></td>
                             <td class="image-container">
-                                <img class="product-image" src="../admin/database/<?php echo $product->imagePath?>" alt="">
+                                <img class="product-image" src="<?php echo HTML::image("database/$product->imagePath")?>" alt="">
                             </td>
                             <td><?php echo $orderDetail->productSize?></td>
                             <td>
