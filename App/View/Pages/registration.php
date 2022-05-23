@@ -82,9 +82,18 @@ use Core\HTML;
         var passwordInput = document.querySelector(".form__password__input");
         var passwordCheck = document.querySelector(".form__password__check");
 
+        if (passwordInput.value == "" || passwordCheck.value == "") {
+            toast({
+                title: 'Không được để trống',
+                description: ""
+            })
+            return false;
+        }
+
         if (passwordInput.value === passwordCheck.value) {
             return true;
         }
+
         toast({
             title: 'Mật khẩu không giống nhau',
             description: ""

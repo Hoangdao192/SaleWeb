@@ -1,8 +1,27 @@
 @startuml class_diagram
-page 1x4
-top to bottom direction
 
 namespace App\Controller {
+    class PaymentController extends BaseController {
+        + showMainPage()
+        + ATMPayment()
+        + creditCardPayment()
+    }
+
+    class DeliveryController extends BaseController {
+        + addShippingAddress()
+        + showAllShippingAddress() 
+        + showAllShippingAddressVer2()
+        + saveSelectedShippingAddress()
+        + deleteShippingAddress()
+    }
+
+    class AdminAnalyticController extends BaseController {
+        + showStatisticByYear()
+        + showProductStastiticByYear()
+        + showStatisticByMonth()
+        + showProductStatisticByMonth()
+    }
+
     class UserAccountController extends BaseController {
         + showLoginPage()
         + showRegisterPage()
@@ -51,9 +70,12 @@ namespace App\Controller {
     }
 
     class UserDashboardController {
-        + showOrder()
+         + showOrder()
         + showOrderDetail()
+        + showProfilePage()
         + deleteOrder()
+        + updateCustomerInformation()
+        + showShippingAddress() 
     }
 
     class AdminController {
@@ -109,6 +131,12 @@ namespace App\Model {
     class Customer {
         - userId
         - customerName
+        - age
+        - gender
+        - phoneNumber
+        - address
+        - dateOfBirth
+
         + getter()
         + setter()
     }
@@ -118,6 +146,7 @@ namespace App\Model {
         - userId
         - orderDate
         - totalPrice
+        - shippingAddressId
         + getter()
         + setter()
     }
@@ -162,6 +191,27 @@ namespace App\Model {
         + getter()
         + setter()
     }
+
+    class ShippingAddress {
+        - id
+        - userId
+        - address
+        - receiverName
+        - receiverPhoneNumber
+
+        + getter()
+        + setter()
+    }
+
+    OrderDetail -- Order
+    ShippingAddress -- Order
+    Cart -- Product
+    Product -- Category
+    Product -- ProductType
+    Category -- ProductType
+    User -- Customer
+    Customer -- Cart
+    Customer -- Order
 }
 
 namespace App\Database\DAO {
@@ -284,6 +334,21 @@ namespace App\Database\DAO {
         + lastInsertId()
     }
 
+    class ShippingAddressDAO extends BaseDAO {
+        + {static} TABLE_NAME
+        + {static} COL_ID
+        + {static} COL_USER_ID
+        + {static} COL_ADDRESS
+        + {static} COL_RECEIVER_NAME
+        + {static} COL_RECEIVER_PHONE_NUMBER
+
+        + parseShippingAddress(item)
+        + getAll()
+        + getAllFilterByUserId(userId)
+        + insert(shippingAddress)
+        + delete(shippingAddressId)
+    }
+
     BaseDAO <|-l- UserDAO
     BaseDAO <|-u- ProductTypeDAO
     BaseDAO <|-u- ProductDAO
@@ -351,4 +416,6 @@ namespace Core {
         + {static} openPostRequest(url, params[])
     }
 }
+
+
 @enduml
