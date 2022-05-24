@@ -1,0 +1,22 @@
+.admin-content-right {
+    background-color: white;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.stastitic-type p {
+    display: inline-block;
+}
+
+.stastitic-type p:nth-child(2) {
+    margin-left: 30px;
+}
+
+.chart {
+    margin-bottom: 0;
+}
+
+#myChart {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}

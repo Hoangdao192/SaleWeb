@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SaleWeb_Assignment/app/database/DatabaseConfig.php";
+namespace App\Database;
 
 class Database {
     public $host = DB_HOST;
@@ -10,7 +10,16 @@ class Database {
     public $link;
     public $error;
 
-    public function __construct()
+    private static $INSTANCE;
+
+    public static function getInstance() {
+        if (!Database::$INSTANCE) {
+            Database::$INSTANCE = new Database();
+        }
+        return Database::$INSTANCE;
+    }
+
+    private function __construct()
     {
         $this->connect();
     }
@@ -22,7 +31,7 @@ class Database {
     }
 
     private function connect() {
-        $this->link = new mysqli($this->host, $this->user, $this->pass, $this->dbName);
+        $this->link = new \mysqli($this->host, $this->user, $this->pass, $this->dbName);
         if (!$this->link) {
             $this->error = "Connection fail".$this->link->connect_error;
             return false;

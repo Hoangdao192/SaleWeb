@@ -1,0 +1,62 @@
+:root {
+    --main-text-font: "Nunito Sans", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3;
+}
+
+/*----------------------------content----------------------------------------------------------------------------------------------------------------------------------*/
+
+.container {
+    width: 90%;
+    margin: 100px 5%;
+    padding: 5%;
+    border: 1px solid black;
+    border-radius: 20px 0;
+}
+
+.container>div {
+    width: 100%;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px 0;
+    cursor: pointer;
+    background-color: #111;
+    position: relative;
+    height: 40px;
+}
+
+.container>div a {
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    width: 98%;
+    /* background-color: #B7B7B7; */
+}
+
+.container>div span {
+    font-size: 12px;
+}
+
+.container>div:hover {
+    background-color: #fff;
+}
+
+.container>div:hover a {
+    color: #111;
+    background-color: #fff;
+}

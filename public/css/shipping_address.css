@@ -1,0 +1,241 @@
+.admin-content-right {
+    background-color: white;
+    padding: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/*New*/
+.all-address {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.shipping-address-label {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.shipping-address-label p {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.shipping-address-label p:nth-child(2) {
+    margin-left: 20px;
+}
+
+.shipping-address-label p:nth-child(3) {
+    display: block;
+}
+
+.label-detail {
+    display: inline-block;
+    position: relative;
+    min-width: 60%;
+    border: 2px solid #e7e7e7;
+    margin-left: 15px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.ring {
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    display: inline-block;
+    border: 2px solid black;
+}
+
+.shipping-address-label > .label-detail:hover {
+    border: 2px solid black;
+}
+
+.shipping-address-label > .label-detail:hover > .tool {
+    display: block;
+}
+
+.secondary-button {
+    background-color: white;
+    font-size: 1vw;
+    font-weight: bolder;
+    text-align: center;
+    padding: 7px 15px;
+    border: 1px solid #111;
+    margin: 12px 0;
+    color: black;
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    background-color: black;
+    color: white;
+}
+
+.new-address {
+    display: none;
+    position: relative;
+}
+
+.save-address {
+    display: block;
+    align-self: flex-end;
+    position: relative;
+    margin: 0 0 0 auto;
+}
+
+.tool {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 15px;
+    display: none;
+    z-index: 1;
+}
+
+.tool__delete {
+    margin-left: 10px;
+}
+
+.tool--item {
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+.address {
+    width: 100%;
+    margin: 50px 0 50px 0;
+}
+
+.address h3 {
+    font-size: 1.5vw;
+}
+
+.address .user-sign-in {
+    /* border: 1px solid black; */
+    width: 100%;
+    display: flex;
+    margin: 12px 0;
+}
+
+.address .user-sign-in a {
+    width: 20%;
+    font-size: 1vw;
+    font-weight: bolder;
+    /* background-color: #111; */
+    text-align: center;
+    padding: 0.8vw;
+    border-radius: 1vw 0;
+    border: 1px solid #111;
+    margin: 0 12px 0 0;
+}
+
+.address .user-sign-in a:nth-child(1) {
+    background-color: #111;
+    color: white;
+}
+
+.address .user-sign-in a:nth-child(1):hover {
+    background-color: white;
+    color: #111;
+}
+
+.address .user-sign-in a:nth-child(2) {
+    color: #111;
+}
+
+.address .user-sign-in a:nth-child(2):hover {
+    background-color: #111;
+    color: white;
+}
+
+.address p {
+    font-size: 1vw;
+    margin: 12px 0;
+    color: #221f20;
+}
+
+.detail-address form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.detail-address form span {
+    font-weight: bolder;
+    width: 100%;
+}
+
+.detail-address form span::before {
+    content: "\2713";
+    color: white;
+    padding: 0.1vw 0.3vw;
+    border-radius: 50%;
+    background-color: #111;
+    margin-right: 0.5vw;
+}
+
+.detail-address form input {
+    width: calc(50% - 12px);
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+}
+
+.telephone {
+    width: calc(50% - 12px);
+    border-radius: 3px;
+    padding: 0 !important;
+    margin-bottom: 0;
+}
+
+.telephone__validate {
+    display: none ;
+}
+
+.telephone input {
+    display: inline-block;
+    width: 80% !important;
+}
+
+.telephone__authenication {
+    display: inline-block;
+    font-size: 15px !important;
+    margin-left: 10px !important;
+    color: red !important;
+    cursor: pointer !important;
+}
+
+.telephone__validate__ok {
+    display: inline-block;
+    font-size: 15px !important;
+    margin-left: 10px !important;
+    color: red !important;
+    cursor: pointer !important;
+}
+
+.detail-address form select {
+    width: calc(50% - 12px);
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 3px;
+    border: 1px solid #e7e7e7;
+}
+
+.default-select {
+    color: grey !important;
+}
+
+.detail-address form input:focus {
+    outline: 3px solid #6db9fb;
+}
+
+#address {
+    width: 100%;
+}

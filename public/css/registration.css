@@ -1,0 +1,55 @@
+
+.form__information {
+    display: none;
+}
+
+.form__information__left {
+    display: inline-block;
+}
+
+.form__age input {
+    width: 80%;
+}
+
+.form__gender input,
+.form__gender label,
+.form__gender p {
+    display: inline-block;
+    font-family: 'Arial', sans-serif;
+}
+
+.form__gender input {
+    margin-left: 20px;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+}
+
+.form__gender input:first-child {
+    margin-left: 0;
+}
+
+.form__gender p {
+    margin: 0;
+    padding: 0;
+    margin-left: 15px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #808080;
+}
+
+.radio-group {
+    margin-top: 10px;
+    display: flex
+}
+
+.form__birth {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #808080;
+}
+
+.form__birth p {
+    margin: 0;
+    display: inline-block;
+    margin-left: 15px;
+}
