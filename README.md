@@ -10,7 +10,7 @@
 * Mô hình MVC
 
 ### Các thành viên
-- 20020390 - Nguyễn Đăng Hoàng Đạo : Trưởng nhóm, Lập trình Backend, Triển khai CSDL, Chỉnh sửa và bổ sung Frontend
-- 20020366 - Trần Thị Kim Bắc : Thành viên, Xây dựng và thu thập CSDL, Viết báo cáo
-- 20020376 - Trần Đình Cường : Thành viên, Lập trình Frontend
+- Nguyễn Đăng Hoàng Đạo : Trưởng nhóm, Lập trình Backend, Triển khai CSDL, Chỉnh sửa và bổ sung Frontend
+- Trần Thị Kim Bắc : Thành viên, Xây dựng và thu thập CSDL, Viết báo cáo
+- Trần Đình Cường : Thành viên, Lập trình Frontend
 
